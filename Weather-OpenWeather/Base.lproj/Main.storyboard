@@ -7,27 +7,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController id="BYZ-38-t0r" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="download" translatesAutoresizingMaskIntoConstraints="NO" id="f4w-yn-xDv">
-                                <rect key="frame" x="-66" y="218" width="488" height="231"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-513" y="134"/>
-        </scene>
         <!--Weather View Controller-->
         <scene sceneID="hix-f8-Dyq">
             <objects>
@@ -36,22 +15,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="City" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5K-z5-Qum">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5K-z5-Qum">
                                 <rect key="frame" x="136" y="49" width="103" height="87"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="87" id="qxr-ry-Y9U"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Temperatur" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSn-wp-71J">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temperatur" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSn-wp-71J">
                                 <rect key="frame" x="136" y="163" width="103" height="87"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="iSn-wp-71J" firstAttribute="top" secondItem="d5K-z5-Qum" secondAttribute="bottom" constant="27" id="0AS-fD-Afr"/>
+                            <constraint firstItem="d5K-z5-Qum" firstAttribute="leading" secondItem="Ggg-P4-NVW" secondAttribute="leading" constant="136" id="5jB-L4-tFu"/>
+                            <constraint firstItem="Ggg-P4-NVW" firstAttribute="bottom" secondItem="iSn-wp-71J" secondAttribute="bottom" constant="417" id="Im6-8H-fNa"/>
+                            <constraint firstItem="d5K-z5-Qum" firstAttribute="centerX" secondItem="Duk-GL-eUe" secondAttribute="centerX" id="Ual-Nz-myb"/>
+                            <constraint firstItem="d5K-z5-Qum" firstAttribute="leading" secondItem="iSn-wp-71J" secondAttribute="leading" id="gEd-v3-rof"/>
+                            <constraint firstItem="d5K-z5-Qum" firstAttribute="top" secondItem="Ggg-P4-NVW" secondAttribute="top" constant="5" id="hHr-7k-bJ2"/>
+                            <constraint firstItem="d5K-z5-Qum" firstAttribute="trailing" secondItem="iSn-wp-71J" secondAttribute="trailing" id="mWO-fn-jLK"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Ggg-P4-NVW"/>
                     </view>
                     <navigationItem key="navigationItem" id="KSN-U6-aog"/>
@@ -79,7 +68,4 @@
             <point key="canvasLocation" x="1008.8" y="133.5832083958021"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="download" width="310" height="163"/>
-    </resources>
 </document>

@@ -16,20 +16,23 @@ protocol WeatherInteractorProtocol {
 protocol WeatherInteractorDataStoreProtocol {
     var datasStoreWeatherInteractor: [Weather]? {get}
 }
-// MARK: - Interactor implementation
+// MARK: - Interactor implementation ask and manage
 class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStoreProtocol {
     var presenter: WeatherPresenterProtocol?
     var datasStoreWeatherInteractor: [Weather]?
-    
     var weatherWorker = WeatherWorker()
-    
     
     func actionChangeColor() {
         let color = UIColor.brown
         self.presenter?.presentChangeColor(color)
     }
+    //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞
     func getWeather(request: WeatherModels.GetWeather.Request) {
-        self.getDataCity()
+        print("██░░░ L\(#line) 🚧🚧 get settingData 🚧🚧 [ \(type(of: self))  \(#function) ]")
+        weatherWorker.weatherCoreData.fetchSettingEntity { (isDownloaded) in
+            print(isDownloaded as Any)
+        }
+        
         // connection data base
         // verify if field download is true in the persistent data
         if (!true) {
@@ -42,15 +45,4 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
         }
     }
     
-    private func getDataCity() {
-        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
-        
-        
-        // translate
-        // delete
-        // insert
-        
-    }
-    
 }
-

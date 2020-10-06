@@ -11,15 +11,15 @@ import Foundation
 
 struct Weather: Equatable {
     // setup var here
-    var firstName: String
-    var lastName: String
-    var date: Date
+    var name: String
+//    var lastName: String
+//    var date: Date
 }
 
 func == (lhs: Weather, rhs: Weather) -> Bool {
-    return lhs.firstName == rhs.firstName
-        && lhs.lastName == rhs.lastName
-        && lhs.date.timeIntervalSince(rhs.date) < 1.0
+    return lhs.name == rhs.name
+//        && lhs.lastName == rhs.lastName
+//        && lhs.date.timeIntervalSince(rhs.date) < 1.0
 }
 
 //// *** Other Struct exemple given ***

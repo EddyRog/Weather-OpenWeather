@@ -1,5 +1,5 @@
 //
-//  WeatherWorker.swift
+//  WeatherWorker.swift // chef protocol
 //  Weather-OpenWeather
 //
 //  Created by Eddy R on 05/10/2020.
@@ -9,25 +9,22 @@
 import Foundation
 import CoreData
 
-
 protocol WeatherCoreDataProtocol {
-    func saveData(jsonFormatted: [[String:Any]]?, completionHandler: @escaping  ()->Void )
+    // MARK: - CityEntity
+    func translateJsonToDic() -> [[String:String]]?
+    // MARK: - CRUD CityEntity
+    func insertData(jsonFormatted: [[String:String]]?, completionHandler: @escaping  ()->Void )
+    // MARK: - CRUD SettingEntity
+    func fetchSettingEntity(completionHandler: @escaping  (Bool?)->Void)
+    func createSetting()
 }
 
 // bon je veux que quelqu'un me save les data c'est moi le chef
 class WeatherWorker {
     var weatherCoreData: WeatherCoreDataProtocol = WeatherCoreData()
     init() {
-        print("init")
-        start()
-    }
-    
-    func start(){
-        // core data a dispatcher apres
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
-        weatherCoreData.saveData(jsonFormatted: nil) {
-        }
+        print("██░░░ L\(#line) 🚧🚧 initialise la class 🚧🚧 [ \(type(of: self))  \(#function) ]")
     }
 }
-
 

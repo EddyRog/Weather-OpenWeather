@@ -42,8 +42,7 @@ class WeatherViewController: UIViewController ,WeatherViewControllerProtocol {
         
         
         let request = WeatherModels.GetWeather.Request()
-        self.interactor?.getWeather(request: request)
-        
+        self.interactor?.getWeather(request: request)// STOP HERE 🚦🌁🏝☀️🏖🐬🏝🏞🏜🚦
     }
     
     // MARK: - Builder when the object is unfrozen from IB
@@ -89,24 +88,3 @@ extension WeatherViewController {
         self.navigationController!.navigationBar.isHidden = true
     }
 }
-
-
-
-/*
- ** NSObjectProtocol **   has :
- var hash: Int { get }
- var superclass: AnyClass? { get }
- 
- func isEqual(_ object: Any?) -> Bool
- func `self`() -> Self
- func perform(_ aSelector: Selector!) -> Unmanaged<AnyObject>!
- func perform(_ aSelector: Selector!, with object: Any!) -> Unmanaged<AnyObject>!
- func perform(_ aSelector: Selector!, with object1: Any!, with object2: Any!) -> Unmanaged<AnyObject>!
- func isProxy() -> Bool
- func isKind(of aClass: AnyClass) -> Bool
- func isMember(of aClass: AnyClass) -> Bool
- func conforms(to aProtocol: Protocol) -> Bool
- func responds(to aSelector: Selector!) -> Bool
- var description: String { get }
- optional var debugDescription: String { get }
- */
