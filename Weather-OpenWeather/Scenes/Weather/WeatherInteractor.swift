@@ -26,19 +26,15 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
         self.presenter?.presentChangeColor(color)
     }
     
-    //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞
-    func getWeather(completionHandler: () -> Void) {
-        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
-        // for debug
-//        weatherWorker.weatherCoreData.deleteAllSettingEntity()
-        
+    /** import data form json. */
+    fileprivate func importDataCity() {
         // read data base SettingEntity
         var resultFetch :SettingEntity! = nil
         weatherWorker.weatherCoreData.readSettingIsDownloaded { (resultArray) in
             guard let result = resultArray?.first else { return}
             resultFetch = result
         }
-
+        
         // check is setting is nil
         if resultFetch == nil {
             print("██░░░ L\(#line) 🚧📕 A 🚧🚧 [ \(type(of: self))  \(#function) ]")
@@ -52,47 +48,22 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
             }
             // insert data city in core data with batch operation
             weatherWorker.weatherCoreData.createCitiesRows(jsonDictionnary) { (reponse) in
-                print(reponse)
+                
             }
         }
+    }
+    
+    func getWeather(completionHandler: () -> Void) {
+        importDataCity() // ✔︎ // import data
         
         
-        
-        
-        
-//         if (fetchDataSetting == nil)  {
-//
-//            translate data json
-//            import in data base
-//            insert isDownload a true
+         // ✘
+//         if getlocation == nil {
+//            demander la autorisation location
 //         } else {
-//             sinon rien
-//            if fetchDataSetting.isDownloadled == false {
-//                 translate data json
-//                 import in data base
-//                 insert isDownload a true
-//            } else {
-//                 continue
-//            }
+//            // continue a deja location
 //         }
-         /**
-         ---------
-         
-         if getlocation == nil {
-            demander la autorisation location
-         } else {
-            // continue a deja location
-         }
-         
-         ???
-         get location ....
-         
-         */
-        
-        // verifi si import a déja ete effectué
-        //fetchDataSetting
-        // import DataCity in database
-        
+//         get location ....
         if (!true) {
             // download data
             // getLocation

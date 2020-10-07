@@ -23,6 +23,9 @@ class WeatherViewController: UIViewController ,WeatherViewControllerProtocol {
         indicator.hidesWhenStopped = true
         return indicator
     }()
+    @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var loadingImage: UIImageView!
+    
     
     
     
@@ -38,8 +41,10 @@ class WeatherViewController: UIViewController ,WeatherViewControllerProtocol {
     // MARK: - View cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if spinner.superview == nil, let superView = view.superview {
-            view.addSubview(spinner)
+//        if spinner.superview == nil, let superView = view.superview {
+        if spinner.superview == nil, let superView = loadingView.superview {
+            loadingView.addSubview(spinner)
+//            view.addSubview(spinner)
             spinner.translatesAutoresizingMaskIntoConstraints = false
             spinner.centerXAnchor.constraint(equalTo: superView.centerXAnchor).isActive = true
             spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor).isActive = true
@@ -116,8 +121,13 @@ extension WeatherViewController {
 extension WeatherViewController {
     func busyIn() {
         spinner.startAnimating()
+//        self.loadingView.isHidden = false
+//        self.loadingImage.isHidden = false
     }
     func busyOut() {
         spinner.stopAnimating()
+        self.loadingImage.isHidden = true
+        self.loadingView.isHidden = true
+        
     }
 }

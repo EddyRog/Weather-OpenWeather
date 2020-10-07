@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5K-z5-Qum">
-                                <rect key="frame" x="136" y="49" width="103" height="87"/>
+                                <rect key="frame" x="136" y="5" width="103" height="87"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="87" id="qxr-ry-Y9U"/>
                                 </constraints>
@@ -25,17 +25,40 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temperatur" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSn-wp-71J">
-                                <rect key="frame" x="136" y="163" width="103" height="87"/>
+                                <rect key="frame" x="136" y="119" width="103" height="131"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wuI-js-NLx" userLabel="LoadingView" propertyAccessControl="all">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Loading" translatesAutoresizingMaskIntoConstraints="NO" id="Mci-KY-NAi" userLabel="LoadingImage" propertyAccessControl="all">
+                                        <rect key="frame" x="138" y="234" width="99" height="99"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="99" id="TEu-pH-3OB"/>
+                                            <constraint firstAttribute="height" constant="99" id="rA0-kG-t2P"/>
+                                        </constraints>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="Mci-KY-NAi" firstAttribute="centerY" secondItem="wuI-js-NLx" secondAttribute="centerY" constant="-50" id="AbF-1q-R8a"/>
+                                    <constraint firstItem="Mci-KY-NAi" firstAttribute="centerX" secondItem="wuI-js-NLx" secondAttribute="centerX" id="Fkw-K4-5Wf"/>
+                                    <constraint firstItem="Mci-KY-NAi" firstAttribute="leading" secondItem="wuI-js-NLx" secondAttribute="leading" constant="138" id="eeJ-mo-P1q"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="iSn-wp-71J" firstAttribute="top" secondItem="d5K-z5-Qum" secondAttribute="bottom" constant="27" id="0AS-fD-Afr"/>
+                            <constraint firstItem="wuI-js-NLx" firstAttribute="bottom" secondItem="Ggg-P4-NVW" secondAttribute="bottom" id="2Zm-1h-q5W"/>
                             <constraint firstItem="d5K-z5-Qum" firstAttribute="leading" secondItem="Ggg-P4-NVW" secondAttribute="leading" constant="136" id="5jB-L4-tFu"/>
+                            <constraint firstItem="wuI-js-NLx" firstAttribute="top" secondItem="Ggg-P4-NVW" secondAttribute="top" id="BLQ-mf-0E8"/>
                             <constraint firstItem="Ggg-P4-NVW" firstAttribute="bottom" secondItem="iSn-wp-71J" secondAttribute="bottom" constant="417" id="Im6-8H-fNa"/>
+                            <constraint firstItem="wuI-js-NLx" firstAttribute="leading" secondItem="Ggg-P4-NVW" secondAttribute="leading" id="L6m-MS-Kjt"/>
                             <constraint firstItem="d5K-z5-Qum" firstAttribute="centerX" secondItem="Duk-GL-eUe" secondAttribute="centerX" id="Ual-Nz-myb"/>
                             <constraint firstItem="d5K-z5-Qum" firstAttribute="leading" secondItem="iSn-wp-71J" secondAttribute="leading" id="gEd-v3-rof"/>
                             <constraint firstItem="d5K-z5-Qum" firstAttribute="top" secondItem="Ggg-P4-NVW" secondAttribute="top" constant="5" id="hHr-7k-bJ2"/>
@@ -44,6 +67,10 @@
                         <viewLayoutGuide key="safeArea" id="Ggg-P4-NVW"/>
                     </view>
                     <navigationItem key="navigationItem" id="KSN-U6-aog"/>
+                    <connections>
+                        <outlet property="loadingImage" destination="Mci-KY-NAi" id="0p8-cZ-GcB"/>
+                        <outlet property="loadingView" destination="wuI-js-NLx" id="Dcx-jp-Hnt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XRu-QP-1id" sceneMemberID="firstResponder"/>
             </objects>
@@ -52,10 +79,9 @@
         <!--Navigation Controller-->
         <scene sceneID="Fn2-1s-KkK">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cSt-Qr-lfw" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="cSt-Qr-lfw" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="G8a-LB-Ii8">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -68,4 +94,7 @@
             <point key="canvasLocation" x="1008.8" y="133.5832083958021"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Loading" width="250" height="250"/>
+    </resources>
 </document>
