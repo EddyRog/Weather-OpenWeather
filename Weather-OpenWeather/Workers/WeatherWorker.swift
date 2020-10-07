@@ -22,10 +22,13 @@ protocol WeatherCoreDataProtocol {
     func createCitiesRows(_ dictCity: [[String:String]], completionHandler: (String)-> Void)
     func deleteAllCityEntity()
 }
+protocol WeatherApiProtocol {
+    func getLocation()
+}
 
 // bon je veux que quelqu'un me save les data c'est moi le chef
 class WeatherWorker {
     var weatherCoreData: WeatherCoreDataProtocol = WeatherCoreData()
-    init() {}
+    var weatherApi: WeatherApiProtocol = WeatherApi()
 }
 

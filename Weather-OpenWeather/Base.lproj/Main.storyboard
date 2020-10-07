@@ -16,16 +16,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5K-z5-Qum">
-                                <rect key="frame" x="136" y="5" width="103" height="87"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="87" id="qxr-ry-Y9U"/>
-                                </constraints>
+                                <rect key="frame" x="172.5" y="182" width="30.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temperatur" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSn-wp-71J">
-                                <rect key="frame" x="136" y="119" width="103" height="131"/>
+                                <rect key="frame" x="143.5" y="229.5" width="88" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -53,16 +50,14 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="iSn-wp-71J" firstAttribute="top" secondItem="d5K-z5-Qum" secondAttribute="bottom" constant="27" id="0AS-fD-Afr"/>
                             <constraint firstItem="wuI-js-NLx" firstAttribute="bottom" secondItem="Ggg-P4-NVW" secondAttribute="bottom" id="2Zm-1h-q5W"/>
-                            <constraint firstItem="d5K-z5-Qum" firstAttribute="leading" secondItem="Ggg-P4-NVW" secondAttribute="leading" constant="136" id="5jB-L4-tFu"/>
                             <constraint firstItem="wuI-js-NLx" firstAttribute="top" secondItem="Ggg-P4-NVW" secondAttribute="top" id="BLQ-mf-0E8"/>
-                            <constraint firstItem="Ggg-P4-NVW" firstAttribute="bottom" secondItem="iSn-wp-71J" secondAttribute="bottom" constant="417" id="Im6-8H-fNa"/>
+                            <constraint firstItem="d5K-z5-Qum" firstAttribute="centerX" secondItem="wuI-js-NLx" secondAttribute="centerX" id="Hwq-cK-1m8"/>
                             <constraint firstItem="wuI-js-NLx" firstAttribute="leading" secondItem="Ggg-P4-NVW" secondAttribute="leading" id="L6m-MS-Kjt"/>
-                            <constraint firstItem="d5K-z5-Qum" firstAttribute="centerX" secondItem="Duk-GL-eUe" secondAttribute="centerX" id="Ual-Nz-myb"/>
-                            <constraint firstItem="d5K-z5-Qum" firstAttribute="leading" secondItem="iSn-wp-71J" secondAttribute="leading" id="gEd-v3-rof"/>
-                            <constraint firstItem="d5K-z5-Qum" firstAttribute="top" secondItem="Ggg-P4-NVW" secondAttribute="top" constant="5" id="hHr-7k-bJ2"/>
-                            <constraint firstItem="d5K-z5-Qum" firstAttribute="trailing" secondItem="iSn-wp-71J" secondAttribute="trailing" id="mWO-fn-jLK"/>
+                            <constraint firstItem="Ggg-P4-NVW" firstAttribute="bottom" secondItem="iSn-wp-71J" secondAttribute="bottom" constant="417" id="ZyY-kc-iyx"/>
+                            <constraint firstItem="iSn-wp-71J" firstAttribute="top" secondItem="d5K-z5-Qum" secondAttribute="bottom" constant="27" id="a1K-Fn-Ucc"/>
+                            <constraint firstItem="iSn-wp-71J" firstAttribute="leading" secondItem="Ggg-P4-NVW" secondAttribute="leading" constant="143.5" id="qrU-ag-Cel"/>
+                            <constraint firstItem="iSn-wp-71J" firstAttribute="centerX" secondItem="d5K-z5-Qum" secondAttribute="centerX" id="soD-5F-Jwc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ggg-P4-NVW"/>
                     </view>

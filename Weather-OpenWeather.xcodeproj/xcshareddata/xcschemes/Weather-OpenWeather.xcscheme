@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Weather-OpenWeather.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "93729EB0252889640078478A"
+               BuildableName = "Weather-OpenWeatherTests.xctest"
+               BlueprintName = "Weather-OpenWeatherTests"
+               ReferencedContainer = "container:Weather-OpenWeather.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -64,6 +78,16 @@
                BlueprintIdentifier = "93729EBB252889640078478A"
                BuildableName = "Weather-OpenWeatherUITests.xctest"
                BlueprintName = "Weather-OpenWeatherUITests"
+               ReferencedContainer = "container:Weather-OpenWeather.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "93CDD12E252E354F00029122"
+               BuildableName = "Weather-OpenWeatherTests-WeatherApi.xctest"
+               BlueprintName = "Weather-OpenWeatherTests-WeatherApi"
                ReferencedContainer = "container:Weather-OpenWeather.xcodeproj">
             </BuildableReference>
          </TestableReference>

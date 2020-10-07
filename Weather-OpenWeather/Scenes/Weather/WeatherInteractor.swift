@@ -55,23 +55,26 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
     
     func getWeather(completionHandler: () -> Void) {
         importDataCity() // ✔︎ // import data
-        
+        weatherWorker.weatherApi.getLocation()
         
          // ✘
+        
+        
+        
 //         if getlocation == nil {
 //            demander la autorisation location
 //         } else {
 //            // continue a deja location
 //         }
 //         get location ....
-        if (!true) {
+//        if (!true) {
             // download data
             // getLocation
             // show Weather
-        } else {
+//        } else {
             // get Location
             // Show Weather
-        }
+//        }
         
         //        self.presenter.presentGetWeather() // object data en fonction de la localisation
         completionHandler()
