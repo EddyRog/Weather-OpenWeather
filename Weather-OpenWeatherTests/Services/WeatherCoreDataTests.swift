@@ -18,6 +18,8 @@ class WeatherCoreDataTests: XCTestCase {
     override func setUp() {
         super.setUp()
         sut = WeatherCoreData()
+//        sut.deleteAllSettingEntity()
+//        sut.deleteAllCityEntity()
     }
     
     override func tearDown() {
@@ -72,13 +74,11 @@ class WeatherCoreDataTests: XCTestCase {
         let expected = [["name":"Paris"],["name":"Nice"]]
         XCTAssertEqual(citiesResult, expected)
     }
-    
     func test_should_return_Different_Dict() {
         let citiesResult = sut.translateJsonToDict(nameFileJson: "aaa")
         let expected = [["name":"Paris"],["name":"Nice"]]
         XCTAssertNotEqual(citiesResult, expected, "should be different")
     }
-    
     func test_should_return_nil() {
         let assertExpected:[[String:String]]? = sut.translateJsonToDict(nameFileJson: "12é")
         XCTAssertNil(assertExpected, " should be nil")
@@ -87,7 +87,6 @@ class WeatherCoreDataTests: XCTestCase {
         let assertExpected:[[String:String]]? = sut.translateJsonToDict(nameFileJson: "test")
         XCTAssertNotNil(assertExpected, " should not be nil")
     }
-    // ---
     func test_should_return_Nil() {
         let cityResult = sut.translateJsonToDict(nameFileJson: "aaa")
 //        let expected = [["name":"Paris"],["name":"Nice"]]
@@ -105,7 +104,6 @@ class WeatherCoreDataTests: XCTestCase {
         let cityResult = sut.translateJsonToDict(nameFileJson: "aaa")
         XCTAssertNotEqual(cityResult?.count, 0)
     }
-    
     func test_should_return_DictOfValue_HasExpected() {
         let citiesResult = sut.translateJsonToDict(nameFileJson: "t2")
         let expected = [["name":"Paris"],["name":"Nice"]]
@@ -123,62 +121,20 @@ class WeatherCoreDataTests: XCTestCase {
         XCTAssertNil(citiesResult, "should be nil")
     }
     
+    // MARK: - translate json Data
+    func test_createCitiesRows_should_successInsert() {
 
+        //arrange
+        let expectationFor = expectation(description: "wait for createCitiesRows return")
+        // when
+        var result = ""
+        sut.createCitiesRows([["name":"Tokyo"]]) { (response) in
+            result = response
+            expectationFor.fulfill()
+        }
+        waitForExpectations(timeout: 0.02 , handler: nil)
+        XCTAssertEqual(result, "SUCCESS INSERT")
+    }
     
 }
     
-    
-    
-    
-    
-    
-    
-    
-    
-//    func test_deletion() {
-//        //arrange
-//        let expectationFor = expectation(description: "wait for testdeletio return")
-//
-//        sut.testDelete {
-//
-//        }
-        // when
-//        var result = ""
-//        sut.testInsert(completionHandler: {
-//            result = "ok"
-//            expectationFor.fulfill()
-//        })
-//        waitForExpectations(timeout: 1.0, handler: nil)
-//        XCTAssertEqual(result, "ok")
-//    }
-    
-//    func test_translateJsonToDic_Should_dictionnary(){
-//        let citiesResult = sut.translateJsonToDic()
-//        let expected = [["name":"Etrechy"],["name":"Etampes"]]
-//        XCTAssertEqual(citiesResult, expected)
-//    }
-    
-//    func test_shouldReturnNil_if_DatabaseIs_Empty(){
-//        let expectationFor = expectation(description: "wait for fetchSettingEntity() return")
-//        var result:Bool? = nil
-//        sut.fetchSettingEntity { (bool) in
-//            result = bool
-//            expectationFor.fulfill()
-//        }
-//        waitForExpectations(timeout: 2.0)
-//        XCTAssertNil(result, "Database settingEntity is empty => result nil") // doit marquer nil pour passer : text est le message erreur si fail
-//    }
-    
-//    func test_ShouldReturn_Not_Nil_If_DatabaseSettingIs_NotEmpty() {
-//        var result: Bool? = nil
-//        var expectationFor = expectation(description: "database SettingEntity is not empty")
-//        //when
-//        sut.createSettingEntityRow()
-//        sut.fetchSettingEntity { (bool) in
-//            result = bool
-//            expectationFor.fulfill()
-//        }
-//        waitForExpectations(timeout: 1.0, handler: nil)
-//        XCTAssertNotNil(result, "database is empty")
-//    }}
-

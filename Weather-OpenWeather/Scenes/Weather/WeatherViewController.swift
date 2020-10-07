@@ -65,7 +65,8 @@ class WeatherViewController: UIViewController ,WeatherViewControllerProtocol {
 //        let request = WeatherModels.GetWeather.Request()
         self.interactor?.getWeather {
             DispatchQueue.main.async {
-                
+                print("██░░░ L\(#line) 🚧📕 finish 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                self.busyOut()
             }
         }
     }

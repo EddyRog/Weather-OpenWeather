@@ -9,7 +9,6 @@ import UIKit
 
 enum WeatherModels {
     
-    
     enum GetWeather {
         struct Request {
             // stuff here

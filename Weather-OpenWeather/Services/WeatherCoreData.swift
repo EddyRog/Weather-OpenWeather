@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 import CoreData
 
+
+
+
+
 class WeatherCoreData: WeatherCoreDataProtocol {
     // persitent Store CoreData
     lazy var persitentContainer: NSPersistentContainer = {
@@ -69,12 +73,11 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         } catch { fatalError("Failing saving")}
     }
    
-    
+   // MARK: - Translate Json to Array
     func translateJsonToDict(nameFileJson:String) -> [[String: String]]? {
-
         // get url locally
         var  cityDict: [[String: String]] = []
-        var cityDict2 = [[String: String]]()
+        _ = [[String: String]]()
         
         guard let url = Bundle.main.url(forResource: nameFileJson, withExtension: "json") else {
             return nil
@@ -95,6 +98,43 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         return cityDict
     }
     
+    // MARK: - Cities import in CoreData
+    func createCitiesRows(_ dictCity: [[String : String]], completionHandler: (String) -> Void) {
+        let context = persitentContainer.viewContext
+        let createInsertRequest = NSBatchInsertRequest(entityName: CityEntity.description(), objects: dictCity)
+        createInsertRequest.resultType = .statusOnly
+        
+        do {
+            let resultInsert = try context.execute(createInsertRequest) as! NSBatchInsertResult // execute and save
+            
+            let successResult = Int(resultInsert.result as! NSBatchDeleteRequestResultType.RawValue) as NSNumber as! Bool
+            
+            
+            if (successResult) {
+                print("██░░░ L\(#line) 🚧📕 SUCCESS INSERT 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                completionHandler("SUCCESS INSERT")
+            } else {
+                print("██░░░ L\(#line) 🚧📕 FAILED INSERT 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                completionHandler("FAILED INSERT")
+            }
+            
+        } catch {
+            completionHandler("FAILED Request")
+        }
+    }
+    func deleteAllCityEntity() {
+        let context = persitentContainer.viewContext
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "CityEntity")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+        
+        do {
+            try context.execute(deleteRequest)
+            try context.save()
+            print("success")
+        } catch let error as NSError {
+            fatalError("error deletion Request \(error)")
+        }
+    }
     
     
     

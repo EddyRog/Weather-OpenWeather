@@ -28,8 +28,9 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
     
     //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞
     func getWeather(completionHandler: () -> Void) {
+        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
         // for debug
-        weatherWorker.weatherCoreData.deleteAllSettingEntity()
+//        weatherWorker.weatherCoreData.deleteAllSettingEntity()
         
         // read data base SettingEntity
         var resultFetch :SettingEntity! = nil
@@ -42,17 +43,19 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
         if resultFetch == nil {
             print("██░░░ L\(#line) 🚧📕 A 🚧🚧 [ \(type(of: self))  \(#function) ]")
             // delete and create setting row
-//            weatherWorker.weatherCoreData.deleteAllSettingEntity()
+            weatherWorker.weatherCoreData.deleteAllCityEntity()
             weatherWorker.weatherCoreData.createSettingRow() // ✔︎
             //            translate data City to Json
-            weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "_")
-            //            import in data base
-            //            insert isDownload a true
-            
-            print("██░░░ L\(#line) 🚧📕 create 🚧🚧 [ \(type(of: self))  \(#function) ]")
-        } else {
-            print("██░░░ L\(#line) 🚧📕 B 🚧🚧 [ \(type(of: self))  \(#function) ]")
+            guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "test") else {
+                print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                return
+            }
+            // insert data city in core data with batch operation
+            weatherWorker.weatherCoreData.createCitiesRows(jsonDictionnary) { (reponse) in
+                print(reponse)
+            }
         }
+        
         
         
         

@@ -17,6 +17,10 @@ protocol WeatherCoreDataProtocol {
     
     // MARK: - Translate Json to Array
     func translateJsonToDict(nameFileJson:String) -> [[String: String]]?
+    
+    // MARK: - Cities CRUD
+    func createCitiesRows(_ dictCity: [[String:String]], completionHandler: (String)-> Void)
+    func deleteAllCityEntity()
 }
 
 // bon je veux que quelqu'un me save les data c'est moi le chef
