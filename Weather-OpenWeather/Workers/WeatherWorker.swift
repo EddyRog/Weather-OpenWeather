@@ -10,21 +10,18 @@ import Foundation
 import CoreData
 
 protocol WeatherCoreDataProtocol {
-    // MARK: - CityEntity
-    func translateJsonToDic() -> [[String:String]]?
-    // MARK: - CRUD CityEntity
-    func insertData(jsonFormatted: [[String:String]]?, completionHandler: @escaping  ()->Void )
-    // MARK: - CRUD SettingEntity
-    func fetchSettingEntity(completionHandler: @escaping  (Bool?)->Void)
-    func createSetting()
+    // MARK: - setting entity
+    func readSettingIsDownloaded(completionHandler: @escaping ([SettingEntity]?)->Void )
+    func createSettingRow()
+    func deleteAllSettingEntity()
+    
+    // MARK: - Translate Json to Array
+    func translateJsonToDict(nameFileJson:String) -> [[String: String]]?
 }
 
 // bon je veux que quelqu'un me save les data c'est moi le chef
 class WeatherWorker {
     var weatherCoreData: WeatherCoreDataProtocol = WeatherCoreData()
-    init() {
-        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
-        print("██░░░ L\(#line) 🚧🚧 initialise la class 🚧🚧 [ \(type(of: self))  \(#function) ]")
-    }
+    init() {}
 }
 
