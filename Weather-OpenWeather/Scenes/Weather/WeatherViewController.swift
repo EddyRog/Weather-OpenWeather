@@ -10,9 +10,10 @@ import UIKit
 // MARK: - ViewController Protocol
 protocol WeatherViewControllerProtocol: class {
     func displayChangeColor(_ color: UIColor)
+    func displayAskLocationAutorization(_ : String)
 }
 // MARK: - ViewController implementation
-class WeatherViewController: UIViewController ,WeatherViewControllerProtocol {
+class WeatherViewController: UIViewController {
     // ViewController knows :
     var interactor: WeatherInteractorProtocol?
     var router: (NSObjectProtocol & WeatherRouterProtocol & WeatherRouterDataPassing)?  // NSObjectProtocol use to perfom func in an object for handling.
@@ -25,9 +26,7 @@ class WeatherViewController: UIViewController ,WeatherViewControllerProtocol {
     }()
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var loadingImage: UIImageView!
-    
-    
-    
+    @IBOutlet weak var autorisationPendingView: UIView!
     
     // MARK: - Initialization
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -47,13 +46,13 @@ class WeatherViewController: UIViewController ,WeatherViewControllerProtocol {
 //            view.addSubview(spinner)
             spinner.translatesAutoresizingMaskIntoConstraints = false
             spinner.centerXAnchor.constraint(equalTo: superView.centerXAnchor).isActive = true
-            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor).isActive = true
+//            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor).isActive = true
+            spinner.topAnchor.constraint(equalTo: superView.topAnchor, constant: 20).isActive = true
         }
-
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        busyIn()
+//        busyIn()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -62,18 +61,17 @@ class WeatherViewController: UIViewController ,WeatherViewControllerProtocol {
     
     // MARK: - Start Action with func or IBAction
     func start() {
-        // remove bar navigation
-        configNavigationController()
-        self.interactor?.actionChangeColor() //test
+        configNavigationController() // remove bar navigation
+        self.interactor?.actionChangeColor() //test VIP cycle
+        self.interactor?.askLocationAutorization() // ask permission Location
         
-        // STOP HERE 🚦🌁🏝☀️🏖🐬🏝🏞🏜🚦
-//        let request = WeatherModels.GetWeather.Request()
-        self.interactor?.getWeather {
-            DispatchQueue.main.async {
-                print("██░░░ L\(#line) 🚧📕 finish 🚧🚧 [ \(type(of: self))  \(#function) ]")
-                self.busyOut()
-            }
-        }
+        // Recuper la current location et l'afficher avec le presenter
+//        self.interactor?.getWeather {
+//            DispatchQueue.main.async {
+//                print("██░░░ L\(#line) 🚧📕 finish 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//                self.busyOut()
+//            }
+//        }
     }
     
     // MARK: - Builder when the object is unfrozen from IB
@@ -110,9 +108,40 @@ class WeatherViewController: UIViewController ,WeatherViewControllerProtocol {
     }
 }
 
-extension WeatherViewController {
+extension WeatherViewController: WeatherViewControllerProtocol {
     func displayChangeColor(_ color: UIColor) {
         self.view.backgroundColor = color
+    }
+    func displayAskLocationAutorization(_ code : String) {
+        
+        print("██░░░ L\(#line) 🚧🚧 ---------Status autorisation : \(code) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+        switch code {
+            case "Pending":
+                self.view.backgroundColor = UIColor.orange
+                print("Pending = not determined")
+                break
+            case "Denied":
+                self.view.backgroundColor = UIColor.red
+                autorisationPendingView.isHidden = false
+                print("❄️ Access Denied : show  tutoriel how change location with turoriel ❄️")
+                break
+            case "Using", "Always":
+                print("❄️ Access using or always : remove the pending view ❄️")
+                autorisationPendingView.isHidden = true
+                print("❄️ Access using or always : Load data ❄️")
+                busyIn()
+                self.interactor?.getWeather {
+                    
+                }
+                
+                print("❄️ Access using or always : show weather data ❄️")
+                self.view.backgroundColor = UIColor.yellow
+                break
+            default:
+                self.view.backgroundColor = UIColor.blue
+            break
+        }
+        
     }
     func configNavigationController() {
         self.navigationController!.navigationBar.isHidden = true
@@ -121,8 +150,8 @@ extension WeatherViewController {
 extension WeatherViewController {
     func busyIn() {
         spinner.startAnimating()
-//        self.loadingView.isHidden = false
-//        self.loadingImage.isHidden = false
+        self.loadingView.isHidden = false
+        self.loadingImage.isHidden = false
     }
     func busyOut() {
         spinner.stopAnimating()

@@ -6,61 +6,83 @@
 // Copyright © 2020 EddyR. All rights reserved.
 
 import UIKit
+import CoreLocation
 
 // MARK: - Interactor Protocol
 protocol WeatherInteractorProtocol {
     func actionChangeColor()
+    func askLocationAutorization()
     func getWeather(completionHandler: @escaping ()->Void)
 }
+
 // MARK: - Data Store Interactor Protocol
 protocol WeatherInteractorDataStoreProtocol {
     var datasStoreWeatherInteractor: [Weather]? {get}
 }
+
 // MARK: - Interactor implementation ask and manage
-class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStoreProtocol {
+class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStoreProtocol, AuthorizationDelegate {
     var presenter: WeatherPresenterProtocol?
     var datasStoreWeatherInteractor: [Weather]?
-    var weatherWorker = WeatherWorker()
+    var weatherWorker = WeatherWorker() // Worker communicate with WeatherInteractor
+    
+     init() {
+        weatherWorker.weatherApi.locationManager.delegate = self // setup delegate to get back informations from WeatherApi about Location permission
+    }
+    
+    // MARK: - Action
     func actionChangeColor() {
         let color = UIColor.darkGray
         self.presenter?.presentChangeColor(color)
-    }
+    } // ✔︎
     
     /** import data form json. */
     fileprivate func importDataCity() {
-        // read data base SettingEntity
+        // read  SettingEntity field isDownloaded in data base (CD)
         var resultFetch :SettingEntity! = nil
         weatherWorker.weatherCoreData.readSettingIsDownloaded { (resultArray) in
             guard let result = resultArray?.first else { return}
             resultFetch = result
         }
         
-        // check is setting is nil
+        // Create Setting is downloaded : true et import data city if fetch city is nil the first time
         if resultFetch == nil {
             print("██░░░ L\(#line) 🚧📕 A 🚧🚧 [ \(type(of: self))  \(#function) ]")
             // delete and create setting row
-            weatherWorker.weatherCoreData.deleteAllCityEntity()
-            weatherWorker.weatherCoreData.createSettingRow() // ✔︎
-            //            translate data City to Json
+            weatherWorker.weatherCoreData.deleteAllCityEntity() // clean the data base for avoid duplication
+            weatherWorker.weatherCoreData.createSettingRow() // create new setting isDownloaded
+            // download json file et translate it to Dictionnary
             guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "test") else {
                 print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]")
                 return
             }
-            // insert data city in core data with batch operation
+            // import the datas with the previous dictionnary
             weatherWorker.weatherCoreData.createCitiesRows(jsonDictionnary) { (reponse) in
-                
+                //MARK: -
+                // FIXME: the completion handler here is useless, must be remove
+                // MARK: -
             }
         }
     }
+    /** Permission location : ask the permission to activate location. */
+    func askLocationAutorization() {
+        print("██░░░ L\(#line) 🚧📕 1 🚧🚧 [ \(type(of: self))  \(#function) ]")
+        weatherWorker.weatherApi.askLocationAutorization()
+    }
+    /** Permission location : get back status permission from WeatherApi. */
+    func locationAuthorization(didReceiveAuthorization code: ManagerLocationError) {
+        print("██░░░ L\(#line) 🚧📕 6 🚧🚧 [ \(type(of: self))  \(#function) ]")
+        self.presenter?.presentAskLocationAutorization(code: code)
+    }
+    
     
     func getWeather(completionHandler: () -> Void) {
-        importDataCity() // ✔︎ // import data
-        weatherWorker.weatherApi.getLocation()
+        importDataCity() // ✔︎ import data
+        //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞
+        // ✘ get position user
+//        weatherWorker.weatherApi.getLocation()
         
          // ✘
-        
-        
-        
 //         if getlocation == nil {
 //            demander la autorisation location
 //         } else {
@@ -79,5 +101,4 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
         //        self.presenter.presentGetWeather() // object data en fonction de la localisation
         completionHandler()
     }
-    
 }

@@ -19,8 +19,8 @@ class WeatherApiTests: XCTestCase {
         sut = nil
     }
     
-    func test_true() {
-        
+    func test_status() {
+//        sut.getLocation()
     }
 }
 

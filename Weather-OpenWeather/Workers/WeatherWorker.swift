@@ -1,7 +1,5 @@
-//
+//  WORKER
 //  WeatherWorker.swift // chef protocol
-//  Weather-OpenWeather
-//
 //  Created by Eddy R on 05/10/2020.
 //  Copyright © 2020 EddyR. All rights reserved.
 //
@@ -23,7 +21,8 @@ protocol WeatherCoreDataProtocol {
     func deleteAllCityEntity()
 }
 protocol WeatherApiProtocol {
-    func getLocation()
+    func askLocationAutorization()
+    var locationManager: WeatherLocationManager {get set} // give the connection to the interactior to setup the delegate on purpose
 }
 
 // bon je veux que quelqu'un me save les data c'est moi le chef

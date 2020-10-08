@@ -27,10 +27,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wuI-js-NLx" userLabel="LoadingView" propertyAccessControl="all">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wuI-js-NLx" userLabel="LoadingView" propertyAccessControl="none">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Loading" translatesAutoresizingMaskIntoConstraints="NO" id="Mci-KY-NAi" userLabel="LoadingImage" propertyAccessControl="all">
+                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Loading" translatesAutoresizingMaskIntoConstraints="NO" id="Mci-KY-NAi" userLabel="LoadingImage" propertyAccessControl="none">
                                         <rect key="frame" x="138" y="234" width="99" height="99"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -46,6 +46,17 @@
                                     <constraint firstItem="Mci-KY-NAi" firstAttribute="centerX" secondItem="wuI-js-NLx" secondAttribute="centerX" id="Fkw-K4-5Wf"/>
                                     <constraint firstItem="Mci-KY-NAi" firstAttribute="leading" secondItem="wuI-js-NLx" secondAttribute="leading" constant="138" id="eeJ-mo-P1q"/>
                                 </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t9i-Rb-rDS" userLabel="autorisationViewPending">
+                                <rect key="frame" x="0.0" y="-4" width="375" height="674"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bg-Autorisation" translatesAutoresizingMaskIntoConstraints="NO" id="zxL-u8-P7K">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="674"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -63,6 +74,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="KSN-U6-aog"/>
                     <connections>
+                        <outlet property="autorisationPendingView" destination="t9i-Rb-rDS" id="ROk-wP-gH8"/>
                         <outlet property="loadingImage" destination="Mci-KY-NAi" id="0p8-cZ-GcB"/>
                         <outlet property="loadingView" destination="wuI-js-NLx" id="Dcx-jp-Hnt"/>
                     </connections>
@@ -91,5 +103,6 @@
     </scenes>
     <resources>
         <image name="Loading" width="250" height="250"/>
+        <image name="bg-Autorisation" width="613.5" height="460"/>
     </resources>
 </document>
