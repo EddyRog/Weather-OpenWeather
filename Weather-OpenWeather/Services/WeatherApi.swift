@@ -13,7 +13,7 @@ class WeatherApi: WeatherApiProtocol {
     }
     
     func askLocationAutorization() {
-        print("██░░░ L\(#line) 🚧📕 2 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//        print("██░░░ L\(#line) 🚧📕 2 🚧🚧 [ \(type(of: self))  \(#function) ]")
         locationManager.askLocationAutorization() // WeatherLocationManager
     }
 }

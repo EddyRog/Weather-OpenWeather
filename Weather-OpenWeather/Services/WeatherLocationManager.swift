@@ -20,7 +20,7 @@ class WeatherLocationManager: NSObject {
     
     // MARK: - VIP Method
     func askLocationAutorization() {
-        print("██░░░ L\(#line) 🚧📕 3 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//        print("██░░░ L\(#line) 🚧📕 3 🚧🚧 [ \(type(of: self))  \(#function) ]")
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -31,22 +31,22 @@ class WeatherLocationManager: NSObject {
     // MARK: - FILE PRIVATE Black Box
     /** check each time the current location and then act for somethings chosen. */
     fileprivate func checkingCurrentAuthorizationLocation() {
-        print("██░░░ L\(#line) 🚧📕 4 B 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//        print("██░░░ L\(#line) 🚧📕 4 B 🚧🚧 [ \(type(of: self))  \(#function) ]")
         if (CLLocationManager.locationServicesEnabled()) {
             switch CLLocationManager.authorizationStatus() {
                 case .notDetermined:
-                    print("██░░░ L\(#line) 🚧📕 5 A 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//                    print("██░░░ L\(#line) 🚧📕 5 A 🚧🚧 [ \(type(of: self))  \(#function) ]")
                     delegate?.locationAuthorization(didReceiveAuthorization: ManagerLocationError.accessPending)
                     // permission not determined do nothing
 //                    locationManager.startUpdatingLocation()
                     break
                 case .denied:
-                    print("██░░░ L\(#line) 🚧📕 5 B 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//                    print("██░░░ L\(#line) 🚧📕 5 B 🚧🚧 [ \(type(of: self))  \(#function) ]")
                     delegate?.locationAuthorization(didReceiveAuthorization: ManagerLocationError.accessDenied)
 //                    locationManager.stopUpdatingLocation()
                     break
                 case .authorizedWhenInUse, .authorizedAlways:
-                    print("██░░░ L\(#line) 🚧📕 5 C et 5 D 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//                    print("██░░░ L\(#line) 🚧📕 5 C et 5 D 🚧🚧 [ \(type(of: self))  \(#function) ]")
                     delegate?.locationAuthorization(didReceiveAuthorization: ManagerLocationError.accessAuthorizedWhenInUse)
 //                    locationManager.startUpdatingLocation()
                     break

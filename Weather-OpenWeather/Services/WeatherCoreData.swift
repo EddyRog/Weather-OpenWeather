@@ -24,7 +24,12 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         }
         return container
     }()
-    init() { }
+    init() {
+        
+        let appdelegate = UIApplication.shared.delegate as! AppDelegate
+        let pathFileSqlite = appdelegate.persistentContainer.persistentStoreDescriptions
+        print("██░░░ L\(#line) 🚧🚧 \(pathFileSqlite) 🚧🚧",String(describing: self) ,#function)
+    }
    // MARK: - CRUD SettingEntity
     func readSettingIsDownloaded(completionHandler: @escaping ([SettingEntity]?) -> Void) {
         var result: [SettingEntity]? = nil
@@ -96,27 +101,34 @@ class WeatherCoreData: WeatherCoreDataProtocol {
     
     // MARK: - Cities import in CoreData
     func createCitiesRows(_ dictCity: [[String : String]], completionHandler: (String) -> Void) {
+        print("██░░░ L\(#line) 🚧📕 CREATECITIEROWS 🚧🚧 [ \(type(of: self))  \(#function) ]")
         let context = persitentContainer.viewContext
-        let createInsertRequest = NSBatchInsertRequest(entityName: CityEntity.description(), objects: dictCity)
-        createInsertRequest.resultType = .statusOnly
-        
-        do {
-            let resultInsert = try context.execute(createInsertRequest) as! NSBatchInsertResult // execute and save
-            
-            let successResult = Int(resultInsert.result as! NSBatchDeleteRequestResultType.RawValue) as NSNumber as! Bool
-            
-            
-            if (successResult) {
-                print("██░░░ L\(#line) 🚧📕 SUCCESS INSERT 🚧🚧 [ \(type(of: self))  \(#function) ]")
-                completionHandler("SUCCESS INSERT")
-            } else {
-                print("██░░░ L\(#line) 🚧📕 FAILED INSERT 🚧🚧 [ \(type(of: self))  \(#function) ]")
-                completionHandler("FAILED INSERT")
+        if #available(iOS 13, *) {
+            print("██░░░ L\(#line) 🚧📕 #available(iOS 13, *) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+            let createInsertRequest = NSBatchInsertRequest(entityName: CityEntity.description(), objects: dictCity)
+            createInsertRequest.resultType = .statusOnly
+            do {
+                let resultInsert = try context.execute(createInsertRequest) as! NSBatchInsertResult // execute and save
+                let successResult = Int(resultInsert.result as! NSBatchDeleteRequestResultType.RawValue) as NSNumber as! Bool
+                if (successResult) {
+                    print("██░░░ L\(#line) 🚧📕 SUCCESS INSERT 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                    completionHandler("SUCCESS INSERT")
+                } else {
+                    print("██░░░ L\(#line) 🚧📕 FAILED INSERT 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                    completionHandler("FAILED INSERT")
+                }
+            } catch {
+                completionHandler("FAILED Request")
             }
+        } else {
+            print("██░░░ L\(#line) 🚧📕 #UNDER(iOS 13, *) 🚧🚧 [ \(type(of: self))  \(#function) ]")
             
-        } catch {
-            completionHandler("FAILED Request")
+            
         }
+        
+        
+        
+        
     }
     func deleteAllCityEntity() {
         let context = persitentContainer.viewContext
@@ -154,3 +166,4 @@ class WeatherCoreData: WeatherCoreDataProtocol {
     // ⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬
 
 
+///Users/dee/Library/Developer/CoreSimulator/Devices/C0973CBD-9D1E-48A7-A20C-3A02A7957542/data/Containers/Data/Application/F6F6B04C-7FB1-443C-BDFB-75F53D5C522E/Library/Application\ Support/Weather_OpenWeather.sqlite

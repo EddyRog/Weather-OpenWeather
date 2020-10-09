@@ -20,7 +20,7 @@ class WeatherPresenter: WeatherPresenterProtocol {
         self.viewController?.displayChangeColor(color)
     }
     func presentAskLocationAutorization(code: ManagerLocationError) {
-        print("██░░░ L\(#line) 🚧📕 // traitement du message 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//        print("██░░░ L\(#line) 🚧📕 // traitement du message 🚧🚧 [ \(type(of: self))  \(#function) ]")
 
         // traitement du message
         var codePresented = ""

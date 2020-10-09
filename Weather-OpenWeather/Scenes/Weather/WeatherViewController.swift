@@ -19,7 +19,13 @@ class WeatherViewController: UIViewController {
     var router: (NSObjectProtocol & WeatherRouterProtocol & WeatherRouterDataPassing)?  // NSObjectProtocol use to perfom func in an object for handling.
     // MARK: - Animation
     private lazy var spinner: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView.init(style: .large)
+        var indicator: UIActivityIndicatorView
+        if #available(iOS 13.0, *) {
+            indicator = UIActivityIndicatorView.init(style: .large)
+        } else {
+            // Fallback on earlier versions
+            indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+        }
         indicator.color = .gray
         indicator.hidesWhenStopped = true
         return indicator
@@ -60,18 +66,23 @@ class WeatherViewController: UIViewController {
     }
     
     // MARK: - Start Action with func or IBAction
+    // 01
     func start() {
         configNavigationController() // remove bar navigation
         self.interactor?.actionChangeColor() //test VIP cycle
         self.interactor?.askLocationAutorization() // ask permission Location
-        
-        // Recuper la current location et l'afficher avec le presenter
-//        self.interactor?.getWeather {
-//            DispatchQueue.main.async {
-//                print("██░░░ L\(#line) 🚧📕 finish 🚧🚧 [ \(type(of: self))  \(#function) ]")
-//                self.busyOut()
-//            }
-//        }
+        // user hit the box then
+        // displayAskLocationAutorization(:String) is called
+    }
+    
+    private func getWeather() {
+        busyIn()
+        self.interactor?.getWeather {
+            DispatchQueue.main.async {
+                print("██░░░ L\(#line) 🚧📕 finish 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                self.busyOut()
+            }
+        }
     }
     
     // MARK: - Builder when the object is unfrozen from IB
@@ -114,27 +125,24 @@ extension WeatherViewController: WeatherViewControllerProtocol {
     }
     func displayAskLocationAutorization(_ code : String) {
         
-        print("██░░░ L\(#line) 🚧🚧 ---------Status autorisation : \(code) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//        print("██░░░ L\(#line) 🚧🚧 ---------Status autorisation : \(code) 🚧🚧 [ \(type(of: self))  \(#function) ]")
         switch code {
             case "Pending":
                 self.view.backgroundColor = UIColor.orange
-                print("Pending = not determined")
+//                print("Pending = not determined")
                 break
             case "Denied":
                 self.view.backgroundColor = UIColor.red
                 autorisationPendingView.isHidden = false
-                print("❄️ Access Denied : show  tutoriel how change location with turoriel ❄️")
+//                print("❄️ Access Denied : show  tutoriel how change location with turoriel ❄️")
                 break
             case "Using", "Always":
-                print("❄️ Access using or always : remove the pending view ❄️")
+//                print("❄️ Access using or always : remove the pending view ❄️")
                 autorisationPendingView.isHidden = true
-                print("❄️ Access using or always : Load data ❄️")
-                busyIn()
-                self.interactor?.getWeather {
-                    
-                }
-                
-                print("❄️ Access using or always : show weather data ❄️")
+//                print("❄️ Access using or always : Load data ❄️")
+                // get weather
+                getWeather()
+//                print("❄️ Access using or always : show weather data ❄️")
                 self.view.backgroundColor = UIColor.yellow
                 break
             default:

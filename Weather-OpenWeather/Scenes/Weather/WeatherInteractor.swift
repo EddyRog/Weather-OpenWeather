@@ -41,12 +41,14 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
         // read  SettingEntity field isDownloaded in data base (CD)
         var resultFetch :SettingEntity! = nil
         weatherWorker.weatherCoreData.readSettingIsDownloaded { (resultArray) in
-            guard let result = resultArray?.first else { return}
+            guard let result = resultArray?.first else { return }
+            
             resultFetch = result
         }
         
         // Create Setting is downloaded : true et import data city if fetch city is nil the first time
-        if resultFetch == nil {
+        if true {
+//            if resultFetch == nil {
             print("██░░░ L\(#line) 🚧📕 A 🚧🚧 [ \(type(of: self))  \(#function) ]")
             // delete and create setting row
             weatherWorker.weatherCoreData.deleteAllCityEntity() // clean the data base for avoid duplication
@@ -66,22 +68,19 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
     }
     /** Permission location : ask the permission to activate location. */
     func askLocationAutorization() {
-        print("██░░░ L\(#line) 🚧📕 1 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//        print("██░░░ L\(#line) 🚧📕 1 🚧🚧 [ \(type(of: self))  \(#function) ]")
         weatherWorker.weatherApi.askLocationAutorization()
     }
     /** Permission location : get back status permission from WeatherApi. */
     func locationAuthorization(didReceiveAuthorization code: ManagerLocationError) {
-        print("██░░░ L\(#line) 🚧📕 6 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//        print("██░░░ L\(#line) 🚧📕 6 🚧🚧 [ \(type(of: self))  \(#function) ]")
         self.presenter?.presentAskLocationAutorization(code: code)
     }
     
     
     func getWeather(completionHandler: () -> Void) {
         importDataCity() // ✔︎ import data
-        //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞
-        // ✘ get position user
-//        weatherWorker.weatherApi.getLocation()
-        
+                
          // ✘
 //         if getlocation == nil {
 //            demander la autorisation location
