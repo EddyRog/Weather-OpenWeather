@@ -11,24 +11,54 @@ import CoreData
 
 class WeatherCoreData: WeatherCoreDataProtocol {
     // persitent Store CoreData
+//    lazy var persitentContainer: NSPersistentContainer = {
+//        // the persistent container holds references to the model, context, and store coordinator
+//        //instances in its
+//        //managedObjectModel, viewContext, and persistentStoreCoordinator properties, respectively.
+//        // Core data Stack
+//        let container = NSPersistentContainer(name: "Weather_OpenWeather")
+//        container.loadPersistentStores { (description, error) in
+//            if let error = error {
+//                fatalError("██░░░ FATAL ERROR : \(#line) 🚧 \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//            }
+//        }
+//        return container
+//    }()
+    
+    
     lazy var persitentContainer: NSPersistentContainer = {
-        // the persistent container holds references to the model, context, and store coordinator
-        //instances in its
-        //managedObjectModel, viewContext, and persistentStoreCoordinator properties, respectively.
-        // Core data Stack
-        let container = NSPersistentContainer(name: "Weather_OpenWeather")
-        container.loadPersistentStores { (description, error) in
-            if let error = error {
-                fatalError("Unable to load persistent stores: \(error)")
+        let modelName = "Weather_OpenWeather"
+        
+        var container: NSPersistentContainer!
+        
+        if #available(iOS 13.0, *) {
+            container = NSPersistentContainer(name: modelName)
+        } else {
+            var modelURL = Bundle(for: type(of: self)).url(forResource: modelName, withExtension: "momd")!
+            let versionInfoURL = modelURL.appendingPathComponent("VersionInfo.plist")
+            if let versionInfoNSDictionary = NSDictionary(contentsOf: versionInfoURL),
+                let version = versionInfoNSDictionary.object(forKey: "NSManagedObjectModel_CurrentVersionName") as? String {
+                
+                modelURL.appendPathComponent("\(version).mom")
+                let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)
+                container = NSPersistentContainer(name: modelName, managedObjectModel: managedObjectModel!)
+            } else {
+                //fall back solution; runs fine despite "Failed to load optimized model" warning
+                container = NSPersistentContainer(name: modelName)
             }
         }
+        
+        // loading the persistent store
+        container.loadPersistentStores { (storeDescription, error) in
+            if let error = error {
+                fatalError("██░░░ FATAL ERROR : \(#line) 🚧 \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+            }
+            container.viewContext.automaticallyMergesChangesFromParent = true
+        }
+        
         return container
     }()
-    init() {
-//        let appdelegate = UIApplication.shared.delegate as! AppDelegate
-//        let pathFileSqlite = appdelegate.persistentContainer.persistentStoreDescriptions
-//        print("██░░░ L\(#line) 🚧🚧 \(pathFileSqlite) 🚧🚧",String(describing: self) ,#function)
-    }
+    init() { }
     
    // MARK: - CRUD SettingEntity
     func readSettingIsDownloaded(completionHandler: @escaping ([SettingEntity]?) -> Void) {

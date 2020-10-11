@@ -2,7 +2,7 @@
 //  SettingEntity+CoreDataClass.swift
 //  Weather-OpenWeather
 //
-//  Created by Eddy R on 05/10/2020.
+//  Created by Eddy R on 11/10/2020.
 //  Copyright © 2020 EddyR. All rights reserved.
 //
 //

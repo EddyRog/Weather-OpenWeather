@@ -77,12 +77,12 @@ class WeatherViewController: UIViewController {
     
     private func getWeather() {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
-//        busyIn()
-//        self.interactor?.getWeather {
-//            DispatchQueue.main.async {
-//                self.busyOut()
-//            }
-//        }
+        busyIn()
+        self.interactor?.getWeather {
+            DispatchQueue.main.async {
+                self.busyOut()
+            }
+        }
     }
     
     // MARK: - Builder when the object is unfrozen from IB
@@ -124,7 +124,6 @@ extension WeatherViewController: WeatherViewControllerProtocol {
         self.view.backgroundColor = color
     }
     func displayAskLocationAutorization(_ code : String) {
-        
         switch code {
             case "Pending":
                 self.view.backgroundColor = UIColor.orange
@@ -135,29 +134,12 @@ extension WeatherViewController: WeatherViewControllerProtocol {
                 autorisationPendingView.isHidden = false
                 //                print("❄️ Access Denied : show  tutoriel how change location with turoriel ❄️")
                 break
-            case "Using":
+            case "Using", "Always":
                 print("██░░░ L\(#line) 🚧📕 USING 🚧🚧 [ \(type(of: self))  \(#function) ]")
-                //                print("❄️ Access using or always : remove the pending view ❄️")
                 autorisationPendingView.isHidden = true
-                //                print("❄️ Access using or always : Load data ❄️")
-                // get weather
-//                getWeather()
-                //                print("❄️ Access using or always : show weather data ❄️")
+                getWeather()
                 self.view.backgroundColor = UIColor.yellow
                 break
-            case "Always":
-                print("██░░░ L\(#line) 🚧📕 ALWAYS 🚧🚧 [ \(type(of: self))  \(#function) ]")
-                //                print("❄️ Access using or always : remove the pending view ❄️")
-                autorisationPendingView.isHidden = true
-                //                print("❄️ Access using or always : Load data ❄️")
-                // get weather
-                
-                //                print("❄️ Access using or always : show weather data ❄️")
-                self.view.backgroundColor = UIColor.yellow
-                break
-            
-            
-            
             default:
                 self.view.backgroundColor = UIColor.blue
                 break
