@@ -24,31 +24,31 @@ class WeatherLocationManager: NSObject {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        checkingCurrentAuthorizationLocation() //check status permission each time
+        //checkingCurrentAuthorizationLocation() //check status permission each time
+        if #available(iOS 13, *) {
+            checkingCurrentAuthorizationLocation()
+        } else {
+            // nothing
+        }
         //        locationManager.startUpdatingLocation()
     }
     
     // MARK: - FILE PRIVATE Black Box
-    /** check each time the current location and then act for somethings chosen. */
+    /** check each time the current location and then act for somethings chosen. only for ios 13 */
     fileprivate func checkingCurrentAuthorizationLocation() {
-//        print("██░░░ L\(#line) 🚧📕 4 B 🚧🚧 [ \(type(of: self))  \(#function) ]")
         if (CLLocationManager.locationServicesEnabled()) {
             switch CLLocationManager.authorizationStatus() {
                 case .notDetermined:
-//                    print("██░░░ L\(#line) 🚧📕 5 A 🚧🚧 [ \(type(of: self))  \(#function) ]")
                     delegate?.locationAuthorization(didReceiveAuthorization: ManagerLocationError.accessPending)
-                    // permission not determined do nothing
-//                    locationManager.startUpdatingLocation()
+                    // locationManager.startUpdatingLocation()
                     break
                 case .denied:
-//                    print("██░░░ L\(#line) 🚧📕 5 B 🚧🚧 [ \(type(of: self))  \(#function) ]")
                     delegate?.locationAuthorization(didReceiveAuthorization: ManagerLocationError.accessDenied)
-//                    locationManager.stopUpdatingLocation()
+                    // locationManager.stopUpdatingLocation()
                     break
                 case .authorizedWhenInUse, .authorizedAlways:
-//                    print("██░░░ L\(#line) 🚧📕 5 C et 5 D 🚧🚧 [ \(type(of: self))  \(#function) ]")
                     delegate?.locationAuthorization(didReceiveAuthorization: ManagerLocationError.accessAuthorizedWhenInUse)
-//                    locationManager.startUpdatingLocation()
+                    // locationManager.startUpdatingLocation()
                     break
                 default:
                     break
@@ -69,24 +69,33 @@ enum ManagerLocationError {
 // MARK: - method of CLLocationManagerDelegate
 extension WeatherLocationManager: CLLocationManagerDelegate {
     /** method used to respond to the modal box the first time. */
+    
+    // under ios 13 this method is called every time not in ios 13
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print("██░░░ L\(#line) 🚧📕 4 A 🚧🚧 [ \(type(of: self))  \(#function) ]")
         switch status {
             case .notDetermined:
-                print("██░░░ L\(#line) 🚧📕 5 A 🚧🚧 [ \(type(of: self))  \(#function) ]")
-                // do nothing
-                delegate?.locationAuthorization(didReceiveAuthorization: ManagerLocationError.accessPending)
-                manager.startUpdatingLocation()
+                if #available(iOS 13, *) {
+                    self.checkingCurrentAuthorizationLocation()
+                } else {
+                    delegate?.locationAuthorization(didReceiveAuthorization: ManagerLocationError.accessPending)
+                    // locationManager.stopUpdatingLocation()
+                }
                 break
             case .denied:
-                print("██░░░ L\(#line) 🚧📕 5 B 🚧🚧 [ \(type(of: self))  \(#function) ]")
-                delegate?.locationAuthorization(didReceiveAuthorization: ManagerLocationError.accessDenied)
-                manager.stopUpdatingLocation()
+                if #available(iOS 13, *) {
+                    self.checkingCurrentAuthorizationLocation()
+                } else {
+                    delegate?.locationAuthorization(didReceiveAuthorization: ManagerLocationError.accessDenied)
+                    // locationManager.stopUpdatingLocation()
+                }
                 break
             case .authorizedWhenInUse, .authorizedAlways:
-                print("██░░░ L\(#line) 🚧📕 5 C et 5 D 🚧🚧 [ \(type(of: self))  \(#function) ]")
-                delegate?.locationAuthorization(didReceiveAuthorization: ManagerLocationError.accessAuthorizedWhenInUse)
-                manager.startUpdatingLocation()
+                if #available(iOS 13, *) {
+                    self.checkingCurrentAuthorizationLocation()
+                } else {
+                    delegate?.locationAuthorization(didReceiveAuthorization: ManagerLocationError.accessAuthorizedWhenInUse)
+                    // locationManager.startUpdatingLocation()
+                }
                 break
             default:
                 break
@@ -94,9 +103,12 @@ extension WeatherLocationManager: CLLocationManagerDelegate {
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            manager.stopUpdatingLocation()
-//            render(location: location)
-        }
+//        if let location = locations.first {
+//            manager.stopUpdatingLocation()
+////            render(location: location)
+//        }
     }
+    
+    
+    
 }

@@ -46,19 +46,19 @@ class WeatherViewController: UIViewController {
     // MARK: - View cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        if spinner.superview == nil, let superView = view.superview {
+        //        if spinner.superview == nil, let superView = view.superview {
         if spinner.superview == nil, let superView = loadingView.superview {
             loadingView.addSubview(spinner)
-//            view.addSubview(spinner)
+            //            view.addSubview(spinner)
             spinner.translatesAutoresizingMaskIntoConstraints = false
             spinner.centerXAnchor.constraint(equalTo: superView.centerXAnchor).isActive = true
-//            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor).isActive = true
+            //            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor).isActive = true
             spinner.topAnchor.constraint(equalTo: superView.topAnchor, constant: 20).isActive = true
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-//        busyIn()
+        //        busyIn()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -76,13 +76,13 @@ class WeatherViewController: UIViewController {
     }
     
     private func getWeather() {
-        busyIn()
-        self.interactor?.getWeather {
-            DispatchQueue.main.async {
-                print("██░░░ L\(#line) 🚧📕 finish 🚧🚧 [ \(type(of: self))  \(#function) ]")
-                self.busyOut()
-            }
-        }
+        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
+//        busyIn()
+//        self.interactor?.getWeather {
+//            DispatchQueue.main.async {
+//                self.busyOut()
+//            }
+//        }
     }
     
     // MARK: - Builder when the object is unfrozen from IB
@@ -125,29 +125,42 @@ extension WeatherViewController: WeatherViewControllerProtocol {
     }
     func displayAskLocationAutorization(_ code : String) {
         
-//        print("██░░░ L\(#line) 🚧🚧 ---------Status autorisation : \(code) 🚧🚧 [ \(type(of: self))  \(#function) ]")
         switch code {
             case "Pending":
                 self.view.backgroundColor = UIColor.orange
-//                print("Pending = not determined")
+                //                print("Pending = not determined")
                 break
             case "Denied":
                 self.view.backgroundColor = UIColor.red
                 autorisationPendingView.isHidden = false
-//                print("❄️ Access Denied : show  tutoriel how change location with turoriel ❄️")
+                //                print("❄️ Access Denied : show  tutoriel how change location with turoriel ❄️")
                 break
-            case "Using", "Always":
-//                print("❄️ Access using or always : remove the pending view ❄️")
+            case "Using":
+                print("██░░░ L\(#line) 🚧📕 USING 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                //                print("❄️ Access using or always : remove the pending view ❄️")
                 autorisationPendingView.isHidden = true
-//                print("❄️ Access using or always : Load data ❄️")
+                //                print("❄️ Access using or always : Load data ❄️")
                 // get weather
-                getWeather()
-//                print("❄️ Access using or always : show weather data ❄️")
+//                getWeather()
+                //                print("❄️ Access using or always : show weather data ❄️")
                 self.view.backgroundColor = UIColor.yellow
                 break
+            case "Always":
+                print("██░░░ L\(#line) 🚧📕 ALWAYS 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                //                print("❄️ Access using or always : remove the pending view ❄️")
+                autorisationPendingView.isHidden = true
+                //                print("❄️ Access using or always : Load data ❄️")
+                // get weather
+                
+                //                print("❄️ Access using or always : show weather data ❄️")
+                self.view.backgroundColor = UIColor.yellow
+                break
+            
+            
+            
             default:
                 self.view.backgroundColor = UIColor.blue
-            break
+                break
         }
         
     }

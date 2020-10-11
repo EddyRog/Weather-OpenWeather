@@ -25,22 +25,23 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         return container
     }()
     init() {
-        
-        let appdelegate = UIApplication.shared.delegate as! AppDelegate
-        let pathFileSqlite = appdelegate.persistentContainer.persistentStoreDescriptions
-        print("██░░░ L\(#line) 🚧🚧 \(pathFileSqlite) 🚧🚧",String(describing: self) ,#function)
+//        let appdelegate = UIApplication.shared.delegate as! AppDelegate
+//        let pathFileSqlite = appdelegate.persistentContainer.persistentStoreDescriptions
+//        print("██░░░ L\(#line) 🚧🚧 \(pathFileSqlite) 🚧🚧",String(describing: self) ,#function)
     }
+    
    // MARK: - CRUD SettingEntity
     func readSettingIsDownloaded(completionHandler: @escaping ([SettingEntity]?) -> Void) {
-        var result: [SettingEntity]? = nil
-        let context = persitentContainer.viewContext
-        let readFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: SettingEntity.description())
-        do {
-            result = try context.fetch(readFetchRequest) as? [SettingEntity]
-            completionHandler(result)
-        } catch {
-            fatalError("fetching failed \(error)")
-        }
+        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
+//        var result: [SettingEntity]? = nil
+//        let context = persitentContainer.viewContext
+//        let readFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: SettingEntity.description())
+//        do {
+//            result = try context.fetch(readFetchRequest) as? [SettingEntity]
+//            completionHandler(result)
+//        } catch {
+//            print("██░░░ L\(#line) 🚧📕 fetching failed \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//        }
     }
     func createSettingRow() {
         let context = persitentContainer.viewContext
@@ -57,25 +58,25 @@ class WeatherCoreData: WeatherCoreDataProtocol {
     internal func deleteAllSettingEntity() {
         let context = persitentContainer.viewContext
         let requestDeleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "SettingEntity")
-        
         // action
         do {
             let allRows = try context.fetch(requestDeleteFetch) as! [SettingEntity]
             _ = allRows.map { (objc) in
-                print("objc.IsDownloaded => \(objc.isDownloaded)")
+                print("██░░░ L\(#line) 🚧📕 objc.IsDownloaded => \(objc.isDownloaded) 🚧🚧 [ \(type(of: self))  \(#function) ]")
                 context.delete(objc)
             }
         } catch { fatalError("error deletion Request \(error)") }
         
         // save database
         do {
-            print("██░░░ L\(#line) 🚧📕 save in database 🚧🚧 [ \(type(of: self))  \(#function) ]")
+            
             try context.save()
         } catch { fatalError("Failing saving")}
     }
    
    // MARK: - Translate Json to Array
     func translateJsonToDict(nameFileJson:String) -> [[String: String]]? {
+        
         // get url locally
         var  cityDict: [[String: String]] = []
         _ = [[String: String]]()
@@ -101,9 +102,10 @@ class WeatherCoreData: WeatherCoreDataProtocol {
     
     // MARK: - Cities import in CoreData
     func createCitiesRows(_ dictCity: [[String : String]], completionHandler: (String) -> Void) {
-        print("██░░░ L\(#line) 🚧📕 CREATECITIEROWS 🚧🚧 [ \(type(of: self))  \(#function) ]")
         let context = persitentContainer.viewContext
+        
         if #available(iOS 13, *) {
+            
             print("██░░░ L\(#line) 🚧📕 #available(iOS 13, *) 🚧🚧 [ \(type(of: self))  \(#function) ]")
             let createInsertRequest = NSBatchInsertRequest(entityName: CityEntity.description(), objects: dictCity)
             createInsertRequest.resultType = .statusOnly
@@ -111,10 +113,10 @@ class WeatherCoreData: WeatherCoreDataProtocol {
                 let resultInsert = try context.execute(createInsertRequest) as! NSBatchInsertResult // execute and save
                 let successResult = Int(resultInsert.result as! NSBatchDeleteRequestResultType.RawValue) as NSNumber as! Bool
                 if (successResult) {
-                    print("██░░░ L\(#line) 🚧📕 SUCCESS INSERT 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                    
                     completionHandler("SUCCESS INSERT")
                 } else {
-                    print("██░░░ L\(#line) 🚧📕 FAILED INSERT 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                    
                     completionHandler("FAILED INSERT")
                 }
             } catch {
@@ -122,11 +124,7 @@ class WeatherCoreData: WeatherCoreDataProtocol {
             }
         } else {
             print("██░░░ L\(#line) 🚧📕 #UNDER(iOS 13, *) 🚧🚧 [ \(type(of: self))  \(#function) ]")
-            
-            
         }
-        
-        
         
         
     }
@@ -163,7 +161,4 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         } catch { fatalError("Failing saving")}
     }
 }
-    // ⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬
-
-
-///Users/dee/Library/Developer/CoreSimulator/Devices/C0973CBD-9D1E-48A7-A20C-3A02A7957542/data/Containers/Data/Application/F6F6B04C-7FB1-443C-BDFB-75F53D5C522E/Library/Application\ Support/Weather_OpenWeather.sqlite
+// ⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬
