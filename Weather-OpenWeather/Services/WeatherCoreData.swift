@@ -11,21 +11,6 @@ import CoreData
 
 class WeatherCoreData: WeatherCoreDataProtocol {
     // persitent Store CoreData
-//    lazy var persitentContainer: NSPersistentContainer = {
-//        // the persistent container holds references to the model, context, and store coordinator
-//        //instances in its
-//        //managedObjectModel, viewContext, and persistentStoreCoordinator properties, respectively.
-//        // Core data Stack
-//        let container = NSPersistentContainer(name: "Weather_OpenWeather")
-//        container.loadPersistentStores { (description, error) in
-//            if let error = error {
-//                fatalError("██░░░ FATAL ERROR : \(#line) 🚧 \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
-//            }
-//        }
-//        return container
-//    }()
-    
-    
     lazy var persitentContainer: NSPersistentContainer = {
         let modelName = "Weather_OpenWeather"
         
@@ -58,20 +43,22 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         
         return container
     }()
-    init() { }
+    init() {
+        print(persitentContainer.persistentStoreDescriptions)
+    }
     
    // MARK: - CRUD SettingEntity
     func readSettingIsDownloaded(completionHandler: @escaping ([SettingEntity]?) -> Void) {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
-//        var result: [SettingEntity]? = nil
-//        let context = persitentContainer.viewContext
-//        let readFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: SettingEntity.description())
-//        do {
-//            result = try context.fetch(readFetchRequest) as? [SettingEntity]
-//            completionHandler(result)
-//        } catch {
-//            print("██░░░ L\(#line) 🚧📕 fetching failed \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
-//        }
+        var result: [SettingEntity]? = nil
+        let context = persitentContainer.viewContext
+        let readFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: SettingEntity.description())
+        do {
+            result = try context.fetch(readFetchRequest) as? [SettingEntity]
+            completionHandler(result)
+        } catch {
+            print("██░░░ L\(#line) 🚧📕 fetching failed \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+        }
     }
     func createSettingRow() {
         let context = persitentContainer.viewContext
@@ -132,32 +119,76 @@ class WeatherCoreData: WeatherCoreDataProtocol {
     
     // MARK: - Cities import in CoreData
     func createCitiesRows(_ dictCity: [[String : String]], completionHandler: (String) -> Void) {
-        let context = persitentContainer.viewContext
+        var insertCitiesResult:String = "_" // for unit test
         
         if #available(iOS 13, *) {
-            
             print("██░░░ L\(#line) 🚧📕 #available(iOS 13, *) 🚧🚧 [ \(type(of: self))  \(#function) ]")
-            let createInsertRequest = NSBatchInsertRequest(entityName: CityEntity.description(), objects: dictCity)
-            createInsertRequest.resultType = .statusOnly
-            do {
-                let resultInsert = try context.execute(createInsertRequest) as! NSBatchInsertResult // execute and save
-                let successResult = Int(resultInsert.result as! NSBatchDeleteRequestResultType.RawValue) as NSNumber as! Bool
-                if (successResult) {
-                    
-                    completionHandler("SUCCESS INSERT")
-                } else {
-                    
-                    completionHandler("FAILED INSERT")
-                }
-            } catch {
-                completionHandler("FAILED Request")
+            createCitiesRowsAtIos13(dict: dictCity) { (result) in
+                insertCitiesResult = result
             }
+            completionHandler(insertCitiesResult)
         } else {
             print("██░░░ L\(#line) 🚧📕 #UNDER(iOS 13, *) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+            createCitiesRowsBeforeIos13(dict: dictCity) { (result) in
+                insertCitiesResult = result
+            }
+            completionHandler(insertCitiesResult)
         }
-        
-        
     }
+    
+    // use it before IOS 13
+    func createCitiesRowsBeforeIos13(dict:[[String:String]], completionHandler: @escaping (String)->Void){
+        let batchSize = 3
+        let count = dict.count
+        
+        var numBatches = count / batchSize
+        numBatches += count % batchSize > 0 ? 1 : 0
+        print(numBatches)
+        
+        for batchNumber in 0..<numBatches {
+            let batchStart = batchNumber * batchSize
+            let batchEnd = batchStart + min(batchSize, count - batchNumber * batchSize)
+            let range = batchStart..<batchEnd
+            //            print(dict[range])
+            
+            persitentContainer.viewContext.performAndWait {
+                
+                for city in dict[range] {
+                    guard let mcity = NSEntityDescription.insertNewObject(forEntityName: "CityEntity", into: persitentContainer.viewContext) as? CityEntity else {return}
+                    mcity.name = city["name"]
+                    
+                    
+                    if persitentContainer.viewContext.hasChanges {
+                        do {
+                            try persitentContainer.viewContext.save()
+                            completionHandler("SUCCESS INSERT")
+                        } catch {
+                            completionHandler("FAILED INSERT")
+                            fatalError("██░░░ FATAL ERROR : \(#line) 🚧 \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                        }
+                        persitentContainer.viewContext.reset()
+                    }
+                }
+            }
+        }
+    }
+    @available(iOS 13, *)
+    func createCitiesRowsAtIos13(dict:[[String:String]], completionHandler: @escaping (String)->Void){
+        let createInsertRequest = NSBatchInsertRequest(entityName: CityEntity.description(), objects: dict)
+        createInsertRequest.resultType = .statusOnly
+        do {
+            let resultInsert = try persitentContainer.viewContext.execute(createInsertRequest) as! NSBatchInsertResult // execute and save
+            let successResult = Int(resultInsert.result as! NSBatchDeleteRequestResultType.RawValue) as NSNumber as! Bool
+            if (successResult) {
+                completionHandler("SUCCESS INSERT")
+            } else {
+                completionHandler("FAILED INSERT")
+            }
+        } catch {
+            completionHandler("FAILED Request")
+        }
+    }
+    
     func deleteAllCityEntity() {
         let context = persitentContainer.viewContext
         let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "CityEntity")

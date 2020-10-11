@@ -80,29 +80,31 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
         
         // regarde si setting dans core data à ete creer
         weatherWorker.weatherCoreData.readSettingIsDownloaded { (resultArray) in
-//            guard let result = resultArray?.first else { return }
-//            resultFetch = result
-//            print("██░░░ L\(#line) 🚧🚧 entity.isDownloaded : \(resultFetch.isDownloaded) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+            guard let result = resultArray?.first else { return }
+            resultFetch = result
+            print("██░░░ L\(#line) 🚧🚧 entity.isDownloaded : \(resultFetch.isDownloaded) 🚧🚧 [ \(type(of: self))  \(#function) ]")
         }
         
         
-//        if resultFetch == nil {
-//            print("██░░░ L\(#line) 🚧📕 result Fetch is nil 🚧🚧 [ \(type(of: self))  \(#function) ]")
-//            // delete and create setting row
-//            weatherWorker.weatherCoreData.deleteAllCityEntity() // clean the data base for avoid duplication
-//            weatherWorker.weatherCoreData.createSettingRow() // create new setting isDownloaded
-//            // download json file et translate it to Dictionnary
-//            guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "test") else {
-//                print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]")
-//                return
-//            }
-//            // import the datas with the previous dictionnary
-//            weatherWorker.weatherCoreData.createCitiesRows(jsonDictionnary) { (reponse) in
-//                //MARK: -
-//                // FIXME: the completion handler here is useless, must be remove
-//                // MARK: -
-//            }
-//        }
+        if resultFetch == nil {
+            print("██░░░ L\(#line) 🚧📕 result Fetch is nil 🚧🚧 [ \(type(of: self))  \(#function) ]")
+            // delete and create setting row
+            weatherWorker.weatherCoreData.deleteAllCityEntity() // clean the data base for avoid duplication
+            weatherWorker.weatherCoreData.createSettingRow() // create new setting isDownloaded
+            // download json file et translate it to Dictionnary
+            guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "test") else {
+                print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                return
+            }
+            // import the datas with the previous dictionnary
+            weatherWorker.weatherCoreData.createCitiesRows(jsonDictionnary) { (reponse) in
+                //MARK: -
+                // FIXME: the completion handler here is useless, must be remove
+                // MARK: -
+            }
+        } else {
+            print("██░░░ L\(#line) 🚧🚧 resultFetch not nil :  🚧🚧 [ \(type(of: self))  \(#function) ]")
+        }
     }
     
 }

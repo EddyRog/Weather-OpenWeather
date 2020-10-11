@@ -19,6 +19,7 @@
 		9389EF1E2533B4F600495900 /* CityEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9389EF1A2533B4F600495900 /* CityEntity+CoreDataProperties.swift */; };
 		9389EF1F2533B4F600495900 /* SettingEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9389EF1B2533B4F600495900 /* SettingEntity+CoreDataClass.swift */; };
 		9389EF202533B4F600495900 /* SettingEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9389EF1C2533B4F600495900 /* SettingEntity+CoreDataProperties.swift */; };
+		9389EF232533B95500495900 /* WeatherInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9389EF222533B95500495900 /* WeatherInteractorTests.swift */; };
 		93B4E814252CCE6600015729 /* TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B4E813252CCE6600015729 /* TEST.swift */; };
 		93CDD11F252E2C4F00029122 /* WeatherApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CDD11E252E2C4F00029122 /* WeatherApi.swift */; };
 		93CDD127252E344500029122 /* t3.json in Resources */ = {isa = PBXBuildFile; fileRef = 93CDD123252E331A00029122 /* t3.json */; };
@@ -84,6 +85,7 @@
 		9389EF1A2533B4F600495900 /* CityEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CityEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		9389EF1B2533B4F600495900 /* SettingEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		9389EF1C2533B4F600495900 /* SettingEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		9389EF222533B95500495900 /* WeatherInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInteractorTests.swift; sourceTree = "<group>"; };
 		93B4E813252CCE6600015729 /* TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TEST.swift; sourceTree = "<group>"; };
 		93CDD11E252E2C4F00029122 /* WeatherApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApi.swift; sourceTree = "<group>"; };
 		93CDD123252E331A00029122 /* t3.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = t3.json; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 		93729EB4252889640078478A /* Weather-OpenWeatherTests */ = {
 			isa = PBXGroup;
 			children = (
+				9389EF212533B91600495900 /* Scenes */,
 				93E70D6B252B74EE00687AB6 /* Services */,
 				93729EB7252889640078478A /* Info.plist */,
 				93E70D6F252B7C1C00687AB6 /* Seeds.swift */,
@@ -223,6 +226,14 @@
 				93729EC2252889640078478A /* Info.plist */,
 			);
 			path = "Weather-OpenWeatherUITests";
+			sourceTree = "<group>";
+		};
+		9389EF212533B91600495900 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				9389EF222533B95500495900 /* WeatherInteractorTests.swift */,
+			);
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 		93E70D4F252B625E00687AB6 /* OtherFiles */ = {
@@ -574,6 +585,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93CDD13A252E35A400029122 /* WeatherApiTests.swift in Sources */,
+				9389EF232533B95500495900 /* WeatherInteractorTests.swift in Sources */,
 				93E70D6E252B753500687AB6 /* WeatherCoreDataTests.swift in Sources */,
 				93E70D70252B7C1C00687AB6 /* Seeds.swift in Sources */,
 			);
@@ -787,7 +799,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P3MRZPZ844;
 				INFOPLIST_FILE = "Weather-OpenWeatherTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -810,7 +822,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P3MRZPZ844;
 				INFOPLIST_FILE = "Weather-OpenWeatherTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

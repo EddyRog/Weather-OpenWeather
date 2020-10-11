@@ -81,16 +81,6 @@
                ReferencedContainer = "container:Weather-OpenWeather.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "93CDD12E252E354F00029122"
-               BuildableName = "Weather-OpenWeatherTests-WeatherApi.xctest"
-               BlueprintName = "Weather-OpenWeatherTests-WeatherApi"
-               ReferencedContainer = "container:Weather-OpenWeather.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
