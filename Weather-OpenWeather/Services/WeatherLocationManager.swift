@@ -64,13 +64,11 @@ class WeatherLocationManager: NSObject {
             }
         }
     }
-    internal func getCurrentLocation(completion: ([String:String]) -> Void) {
+    internal func getCurrentLocation(completion: (CLLocation) -> Void) {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
         locationManager.requestLocation()
         if let location = locationManager.location {
-            let lon = String(location.coordinate.longitude)
-            let lat = String(location.coordinate.longitude)
-            completion(["lon":lon, "lat":lat])
+            completion(location)
         }
     }
 }

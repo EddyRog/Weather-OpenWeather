@@ -24,17 +24,17 @@ class WeatherApiTests: XCTestCase {
     }
     // MARK: - Coordinate
     
-    func test_should_returnCustomCoordinate() {
-        //arrange
-        let expectationFor = expectation(description: "wait for getCurrentLocation return")
-        // when
-        var result = [String : String]()
-        sut.locationManager.getCurrentLocation { (locations) in
-            result = locations
-            expectationFor.fulfill()
-        }
-        waitForExpectations(timeout: 1.0, handler: nil)
-        XCTAssertNotNil(result)
-    }
+//    func test_should_returnCustomCoordinate() {
+//        //arrange
+//        let expectationFor = expectation(description: "wait for getCurrentLocation return")
+//        // when
+//        var result = [String : String]()
+//        sut.locationManager.getCurrentLocation { (locations) in
+//            result = locations
+//            expectationFor.fulfill()
+//        }
+//        waitForExpectations(timeout: 1.0, handler: nil)
+//        XCTAssertNotNil(result)
+//    }
 }
 
