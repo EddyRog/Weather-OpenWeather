@@ -43,5 +43,4 @@ class WeatherPresenter: WeatherPresenterProtocol {
     }
 }
 
-
 // Privacy - Location Always and When In Use Usage Description

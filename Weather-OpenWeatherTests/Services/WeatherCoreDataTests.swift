@@ -122,19 +122,19 @@ class WeatherCoreDataTests: XCTestCase {
     }
     
     // MARK: - translate json Data
-    func test_createCitiesRows_should_successInsert() {
-
-        //arrange
-        let expectationFor = expectation(description: "wait for createCitiesRows return")
-        // when
-        var result = ""
-        sut.createCitiesRows([["name":"Tokyo"]]) { (response) in
-            result = response
-            expectationFor.fulfill()
-        }
-        waitForExpectations(timeout: 0.02 , handler: nil)
-        XCTAssertEqual(result, "SUCCESS INSERT")
-    }
+//    func test_createCitiesRows_should_successInsert() {
+//
+//        //arrange
+//        let expectationFor = expectation(description: "wait for createCitiesRows return")
+//        // when
+//        var result = ""
+//        sut.createCitiesRows([["name":"Tokyo"]]) { (response) in
+//            result = response
+//            expectationFor.fulfill()
+//        }
+//        waitForExpectations(timeout: 0.02 , handler: nil)
+//        XCTAssertEqual(result, "SUCCESS INSERT")
+//    }
     
 }
     

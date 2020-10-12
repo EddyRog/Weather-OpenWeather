@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cSt-Qr-lfw">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Weather View Controller-->
+        <scene sceneID="hix-f8-Dyq">
+            <objects>
+                <viewController storyboardIdentifier="WeatherViewController" id="IH6-v4-erP" customClass="WeatherViewController" customModule="Weather_OpenWeather" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Duk-GL-eUe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="City" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5K-z5-Qum">
+                                <rect key="frame" x="172.5" y="182" width="30.5" height="20.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Temperatur" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSn-wp-71J">
+                                <rect key="frame" x="143.5" y="229.5" width="88" height="20.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wuI-js-NLx" userLabel="LoadingView" propertyAccessControl="none">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Loading" translatesAutoresizingMaskIntoConstraints="NO" id="Mci-KY-NAi" userLabel="LoadingImage" propertyAccessControl="none">
+                                        <rect key="frame" x="138" y="284" width="99" height="99"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="99" id="atc-Iq-L2m"/>
+                                            <constraint firstAttribute="width" constant="99" id="b9N-52-gPW"/>
+                                        </constraints>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="Mci-KY-NAi" firstAttribute="centerY" secondItem="wuI-js-NLx" secondAttribute="centerY" id="6c7-Fj-f4k"/>
+                                    <constraint firstItem="Mci-KY-NAi" firstAttribute="centerX" secondItem="wuI-js-NLx" secondAttribute="centerX" id="lTd-pz-JOn"/>
+                                </constraints>
+                            </view>
+                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t9i-Rb-rDS" userLabel="autorisationViewPending">
+                                <rect key="frame" x="0.0" y="-4" width="375" height="674"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bg-Autorisation" translatesAutoresizingMaskIntoConstraints="NO" id="zxL-u8-P7K">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="674"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Ggg-P4-NVW" firstAttribute="trailing" secondItem="wuI-js-NLx" secondAttribute="trailing" id="5Ff-Gv-P3S"/>
+                            <constraint firstItem="wuI-js-NLx" firstAttribute="leading" secondItem="Ggg-P4-NVW" secondAttribute="leading" id="bWx-ic-cCK"/>
+                            <constraint firstItem="wuI-js-NLx" firstAttribute="top" secondItem="Duk-GL-eUe" secondAttribute="top" id="cuD-e9-rIl"/>
+                            <constraint firstItem="wuI-js-NLx" firstAttribute="bottom" secondItem="Duk-GL-eUe" secondAttribute="bottom" id="gdV-hJ-ewU"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ggg-P4-NVW"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="KSN-U6-aog"/>
+                    <connections>
+                        <outlet property="autorisationPendingView" destination="t9i-Rb-rDS" id="ROk-wP-gH8"/>
+                        <outlet property="loadingImage" destination="Mci-KY-NAi" id="0p8-cZ-GcB"/>
+                        <outlet property="loadingView" destination="wuI-js-NLx" id="Dcx-jp-Hnt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XRu-QP-1id" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1948" y="133.5832083958021"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Fn2-1s-KkK">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="cSt-Qr-lfw" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="G8a-LB-Ii8">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="IH6-v4-erP" kind="relationship" relationship="rootViewController" id="T9f-Iu-r6h"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uuY-l6-CFi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1008.8" y="133.5832083958021"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Loading" width="250" height="250"/>
+        <image name="bg-Autorisation" width="613.5" height="460"/>
+    </resources>
+</document>

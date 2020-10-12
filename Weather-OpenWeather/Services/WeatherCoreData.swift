@@ -50,7 +50,7 @@ class WeatherCoreData: WeatherCoreDataProtocol {
    // MARK: - CRUD SettingEntity
     /** Fetch SettingEntity property : isDownloaded. */
     func readSettingIsDownloaded(completionHandler: @escaping ([SettingEntity]?) -> Void) {
-        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
+        
         var result: [SettingEntity]? = nil
         let context = persitentContainer.viewContext
         let readFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: SettingEntity.description())
@@ -82,7 +82,6 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         do {
             let allRows = try context.fetch(requestDeleteFetch) as! [SettingEntity]
             _ = allRows.map { (objc) in
-                print("██░░░ L\(#line) 🚧📕 objc.IsDownloaded => \(objc.isDownloaded) 🚧🚧 [ \(type(of: self))  \(#function) ]")
                 context.delete(objc)
             }
         } catch { fatalError("error deletion Request \(error)") }
@@ -96,19 +95,14 @@ class WeatherCoreData: WeatherCoreDataProtocol {
    
    // MARK: - Translate Json to Array
     func translateJsonToDict(nameFileJson:String) -> [[String: String]]? {
-        
         // get url locally
         var  cityDict: [[String: String]] = []
         _ = [[String: String]]()
         
-        guard let url = Bundle.main.url(forResource: nameFileJson, withExtension: "json") else {
-            return nil
-        }
-        
+        guard let url = Bundle.main.url(forResource: nameFileJson, withExtension: "json") else { return nil }
         do {
             let data = try Data(contentsOf: url)
             let result = try JSONDecoder().decode([CityCodable].self, from:data)
-
             let resultMapped = result.map { (objet) -> [String:String] in
                 if let name = objet.name {
                     return ["name":name] }
@@ -121,21 +115,19 @@ class WeatherCoreData: WeatherCoreDataProtocol {
     }
     
     // MARK: - Cities import in CoreData
-    func createCitiesRows(_ dictCity: [[String : String]], completionHandler: (String) -> Void) {
-        var insertCitiesResult:String = "_" // for unit test
+    func createCitiesRows(_ dictCity: [[String : String]]) {
+//        var insertCitiesResult:String = "_" // for unit test
         
         if #available(iOS 13, *) {
-            print("██░░░ L\(#line) 🚧📕 #available(iOS 13, *) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//            print("██░░░ L\(#line) 🚧📕 #available(iOS 13, *) 🚧🚧 [ \(type(of: self))  \(#function) ]")
             createCitiesRowsAtIos13(dict: dictCity) { (result) in
-                insertCitiesResult = result
+//                insertCitiesResult = result
             }
-            completionHandler(insertCitiesResult)
         } else {
-            print("██░░░ L\(#line) 🚧📕 #UNDER(iOS 13, *) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//            print("██░░░ L\(#line) 🚧📕 #UNDER(iOS 13, *) 🚧🚧 [ \(type(of: self))  \(#function) ]")
             createCitiesRowsBeforeIos13(dict: dictCity) { (result) in
-                insertCitiesResult = result
+//                insertCitiesResult = result
             }
-            completionHandler(insertCitiesResult)
         }
     }
 
@@ -196,13 +188,11 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         do {
             try context.execute(deleteRequest)
             try context.save()
-            print("██░░░ L\(#line) 🚧📕 Success 🚧🚧 [ \(type(of: self))  \(#function) ]")
         } catch let error as NSError {
             fatalError("██░░░ FATAL ERROR : \(#line) 🚧 \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
         }
     }
 }
-
 
 extension NSManagedObjectContext {
     func performAndWait<T>(_ block:() -> T) -> T {

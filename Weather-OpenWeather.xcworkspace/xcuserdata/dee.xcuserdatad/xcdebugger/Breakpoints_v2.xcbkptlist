@@ -7,70 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "895D0F94-E180-4232-A29D-D44175FB2D00"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Weather-OpenWeather/Services/WeatherCoreData.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "createCitiesRows(_:completionHandler:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CC41C5C0-855C-4785-B30D-D7977829BEA5"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Weather-OpenWeather/Scenes/Weather/WeatherViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "getWeather()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "CC41C5C0-855C-4785-B30D-D7977829BEA5 - 7cbeb654e3608234"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Weather_OpenWeather.WeatherViewController.(getWeather in _D54AD5E4BDEDC199E0A64CFD87C2AA13)() -&gt; ()"
-                  moduleName = "Weather-OpenWeather"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dee/Workspace/Swift/+Project/Localhost/Weather-OpenWeather/Weather-OpenWeather/Scenes/Weather/WeatherViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "79"
-                  endingLineNumber = "79"
-                  offsetFromSymbolStart = "818">
-               </Location>
-               <Location
-                  uuid = "CC41C5C0-855C-4785-B30D-D7977829BEA5 - 7afeebedda43a2e8"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in Weather_OpenWeather.WeatherViewController.(getWeather in _D54AD5E4BDEDC199E0A64CFD87C2AA13)() -&gt; ()"
-                  moduleName = "Weather-OpenWeather"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dee/Workspace/Swift/+Project/Localhost/Weather-OpenWeather/Weather-OpenWeather/Scenes/Weather/WeatherViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "79"
-                  endingLineNumber = "79"
-                  offsetFromSymbolStart = "127">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "20A64A48-42C3-404E-A0E9-A6DC6BA2A749"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -78,8 +14,8 @@
             filePath = "Weather-OpenWeather/Scenes/Weather/WeatherInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "importDataCity()"
             landmarkType = "7">
          </BreakpointContent>

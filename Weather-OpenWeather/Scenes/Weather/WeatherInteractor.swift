@@ -12,7 +12,8 @@ import CoreLocation
 protocol WeatherInteractorProtocol {
     func actionChangeColor()
     func askLocationAutorization()
-    func getWeather(completionHandler: @escaping ()->Void)
+    func getWeatherByCurentLocation()
+    func importDataCity(completionHandler: @escaping ()->Void)
 }
 
 // MARK: - Data Store Interactor Protocol
@@ -44,31 +45,20 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
         self.presenter?.presentAskLocationAutorization(code: code)
     }
     /** get the information to show the weather with the current location. */
-    func getWeather(completionHandler: () -> Void) {
-        importDataCity() // ✔︎ import JsonData in CoreData or not
-        
-        //and then
-  
-        //         get location ....
-        //        if (!true) {
-        // download data
-        // getLocation
-        // show Weather
-        //        } else {
-        // get Location
-        // Show Weather
-        //        }
-        
-        //        self.presenter.presentGetWeather() // object data en fonction de la localisation
-        completionHandler()
-
+    func getWeatherByCurentLocation() {
+        //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞
+        // recuperation des coordonnée
+         weatherWorker.weatherApi.getWeatherByCurrentLocation()
     }
-    
+    /** import data city from json. */
+    func importDataCity(completionHandler: @escaping ()->Void) {
+        importDataCity()
+        completionHandler()
+    }
     
     // MARK: - File Private
     /** import data form json. */
     fileprivate func importDataCity() {
-        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
         // read  SettingEntity field isDownloaded in data base.
         var resultFetch :SettingEntity! = nil
         
@@ -76,31 +66,18 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
         weatherWorker.weatherCoreData.readSettingIsDownloaded { (resultArray) in
             guard let result = resultArray?.first else { return }
             resultFetch = result
-            print("██░░░ L\(#line) 🚧🚧 entity.isDownloaded : \(resultFetch.isDownloaded) 🚧🚧 [ \(type(of: self))  \(#function) ]")
         }
-        
-        // If the flag is nil get import.
-        if (true) {
-//        if resultFetch == nil {
-            print("██░░░ L\(#line) 🚧📕 result Fetch is nil 🚧🚧 [ \(type(of: self))  \(#function) ]")
+        //        if (true) {
+        if resultFetch == nil {
             // delete and create setting row
             weatherWorker.weatherCoreData.deleteAllSettingEntity()
             weatherWorker.weatherCoreData.deleteAllCityEntity() // Clean the data base to avoid duplication.
             weatherWorker.weatherCoreData.createSettingRow() // Create new setting isDownloaded.
-            // Download the json file and translate it to dictionnary.
-            guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "city.list.min") else {
-                print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]")
-                return
-            }
-            // Start import.
-            weatherWorker.weatherCoreData.createCitiesRows(jsonDictionnary) { (reponse) in
-                //MARK: -
-                // FIXME: the completion handler here is useless, must be remove
-                // MARK: -
-            }
+            //            // Download the json file and translate it to dictionnary.
+            guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "city.list.min") else { print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]"); return}
+            weatherWorker.weatherCoreData.createCitiesRows(jsonDictionnary)
         } else {
-            print("██░░░ L\(#line) 🚧🚧 resultFetch not nil :  🚧🚧 [ \(type(of: self))  \(#function) ]")
+            print("██░░░ L\(#line) 🚧🚧 Data Already Imported :  🚧🚧 [ \(type(of: self))  \(#function) ]")
         }
     }
-    
 }

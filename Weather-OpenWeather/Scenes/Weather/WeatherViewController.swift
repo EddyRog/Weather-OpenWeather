@@ -53,12 +53,11 @@ class WeatherViewController: UIViewController {
             spinner.translatesAutoresizingMaskIntoConstraints = false
             spinner.centerXAnchor.constraint(equalTo: superView.centerXAnchor).isActive = true
             //            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor).isActive = true
-            spinner.topAnchor.constraint(equalTo: superView.topAnchor, constant: 20).isActive = true
+            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor, constant: -50).isActive = true
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        busyIn()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -70,18 +69,6 @@ class WeatherViewController: UIViewController {
         self.interactor?.actionChangeColor() //test VIP cycle
         self.interactor?.askLocationAutorization() // ask permission Location
         // user hit the box location then  // displayAskLocationAutorization(:String) is called
-    }
-    
-    
-    private func getWeather() {
-        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
-        busyIn()
-        self.interactor?.getWeather {
-            DispatchQueue.main.async {
-                self.busyOut()
-                print("--------EDDY FINISH")
-            }
-        }
     }
     
     // MARK: - Builder when the object is unfrozen from IB
@@ -126,6 +113,7 @@ extension WeatherViewController: WeatherViewControllerProtocol {
         switch code {
             case "Pending":
                 self.view.backgroundColor = UIColor.orange
+                autorisationPendingView.isHidden = false
                 //                print("Pending = not determined")
                 break
             case "Denied":
@@ -135,9 +123,23 @@ extension WeatherViewController: WeatherViewControllerProtocol {
                 break
             case "Using", "Always":
                 print("██░░░ L\(#line) 🚧📕 USING 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                
+                // import data
+                self.busyIn()
+                DispatchQueue.global(qos: .background).async { [weak self] in
+                    self?.interactor?.importDataCity {
+                        DispatchQueue.main.async {
+                            self?.busyOut()
+                        }
+                    }
+                }
+                
+                // present weather from current location
+                self.view.backgroundColor = UIColor.gray
                 autorisationPendingView.isHidden = true
-                getWeather()
-                self.view.backgroundColor = UIColor.yellow
+                
+                self.interactor?.getWeatherByCurentLocation()
+                
                 break
             default:
                 self.view.backgroundColor = UIColor.blue

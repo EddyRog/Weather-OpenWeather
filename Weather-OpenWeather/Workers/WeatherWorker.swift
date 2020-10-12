@@ -17,12 +17,14 @@ protocol WeatherCoreDataProtocol {
     func translateJsonToDict(nameFileJson:String) -> [[String: String]]?
     
     // MARK: - Cities CRUD
-    func createCitiesRows(_ dictCity: [[String:String]], completionHandler: (String)-> Void)
+    func createCitiesRows(_ dictCity: [[String:String]])
     func deleteAllCityEntity()
 }
 protocol WeatherApiProtocol {
-    func askLocationAutorization()
     var locationManager: WeatherLocationManager {get set} // give the connection to the interactior to setup the delegate on purpose
+    func askLocationAutorization()
+    func getWeatherByCurrentLocation()
+    
 }
 
 // bon je veux que quelqu'un me save les data c'est moi le chef
