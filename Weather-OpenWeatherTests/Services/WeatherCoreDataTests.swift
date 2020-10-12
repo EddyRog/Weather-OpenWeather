@@ -56,7 +56,7 @@ class WeatherCoreDataTests: XCTestCase {
     func test_DB_Should_Return_Count_1() {
         let expectationFor = expectation(description: "wait for readSettingIsDownloaded() return")
         var result: Int? = nil
-        sut.deleteAll()
+        sut.deleteAllSettingEntity()
         sut.createSettingRow()
         sut.readSettingIsDownloaded { (settingEntity) in
             if let settingEntityCount = settingEntity?.count {

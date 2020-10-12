@@ -48,6 +48,7 @@ class WeatherCoreData: WeatherCoreDataProtocol {
     }
     
    // MARK: - CRUD SettingEntity
+    /** Fetch SettingEntity property : isDownloaded. */
     func readSettingIsDownloaded(completionHandler: @escaping ([SettingEntity]?) -> Void) {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
         var result: [SettingEntity]? = nil
@@ -60,6 +61,7 @@ class WeatherCoreData: WeatherCoreDataProtocol {
             print("██░░░ L\(#line) 🚧📕 fetching failed \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
         }
     }
+    /** Insert 1 row in SettingEntity. */
     func createSettingRow() {
         let context = persitentContainer.viewContext
         for _ in 0..<1 {
@@ -72,6 +74,7 @@ class WeatherCoreData: WeatherCoreDataProtocol {
             fatalError("create data : failed \(error)")
         }
     }
+    /** Delete all the rows in SettingRow. */
     internal func deleteAllSettingEntity() {
         let context = persitentContainer.viewContext
         let requestDeleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "SettingEntity")
@@ -135,43 +138,39 @@ class WeatherCoreData: WeatherCoreDataProtocol {
             completionHandler(insertCitiesResult)
         }
     }
-    
-    // use it before IOS 13
+
+    // Insert before ios 13
     func createCitiesRowsBeforeIos13(dict:[[String:String]], completionHandler: @escaping (String)->Void){
-        let batchSize = 3
-        let count = dict.count
+        let itemCount = dict.count
+        let saveFrequencyCount = 4000
         
-        var numBatches = count / batchSize
-        numBatches += count % batchSize > 0 ? 1 : 0
-        print(numBatches)
-        
-        for batchNumber in 0..<numBatches {
-            let batchStart = batchNumber * batchSize
-            let batchEnd = batchStart + min(batchSize, count - batchNumber * batchSize)
-            let range = batchStart..<batchEnd
-            //            print(dict[range])
-            
-            persitentContainer.viewContext.performAndWait {
+        persitentContainer.viewContext.performAndWait { [weak self] () -> Void in
+            guard let selfStr = self else {return}
+            for i in 0..<itemCount {
+                let entity = NSEntityDescription.insertNewObject(forEntityName: "CityEntity", into: selfStr.persitentContainer.viewContext) as! CityEntity
+                entity.name = dict[i]["name"]
                 
-                for city in dict[range] {
-                    guard let mcity = NSEntityDescription.insertNewObject(forEntityName: "CityEntity", into: persitentContainer.viewContext) as? CityEntity else {return}
-                    mcity.name = city["name"]
-                    
-                    
-                    if persitentContainer.viewContext.hasChanges {
-                        do {
-                            try persitentContainer.viewContext.save()
-                            completionHandler("SUCCESS INSERT")
-                        } catch {
-                            completionHandler("FAILED INSERT")
-                            fatalError("██░░░ FATAL ERROR : \(#line) 🚧 \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
-                        }
-                        persitentContainer.viewContext.reset()
+                if i % saveFrequencyCount == 0 {
+                    print(i)
+                    do {
+                        try selfStr.persitentContainer.viewContext.save()
+                        selfStr.persitentContainer.viewContext.reset()
+                        completionHandler("SUCCESS INSERT")
+                    } catch {
+                        fatalError("██░░░ FATAL ERROR : \(#line) 🚧 \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
                     }
                 }
             }
+            do {
+                try selfStr.persitentContainer.viewContext.save()
+                selfStr.persitentContainer.viewContext.reset()
+            } catch {
+                fatalError("██░░░ FATAL ERROR : \(#line) 🚧 \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+            }
         }
     }
+    
+    /** Insert from ios 13. */
     @available(iOS 13, *)
     func createCitiesRowsAtIos13(dict:[[String:String]], completionHandler: @escaping (String)->Void){
         let createInsertRequest = NSBatchInsertRequest(entityName: CityEntity.description(), objects: dict)
@@ -188,7 +187,7 @@ class WeatherCoreData: WeatherCoreDataProtocol {
             completionHandler("FAILED Request")
         }
     }
-    
+    /** Delete all the rows in CityRow. */
     func deleteAllCityEntity() {
         let context = persitentContainer.viewContext
         let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "CityEntity")
@@ -197,29 +196,21 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         do {
             try context.execute(deleteRequest)
             try context.save()
-            print("success")
+            print("██░░░ L\(#line) 🚧📕 Success 🚧🚧 [ \(type(of: self))  \(#function) ]")
         } catch let error as NSError {
-            fatalError("error deletion Request \(error)")
+            fatalError("██░░░ FATAL ERROR : \(#line) 🚧 \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
         }
     }
-    func deleteAll() {
-        let context = persitentContainer.viewContext
-        let requestDeleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "SettingEntity")
-        
-        // action
-        do {
-            let allRows = try context.fetch(requestDeleteFetch) as! [SettingEntity]
-            _ = allRows.map { (objc) in
-                print("objc.IsDownloaded => \(objc.isDownloaded)")
-                context.delete(objc)
-            }
-        } catch { fatalError("error deletion Request \(error)") }
-        
-        // save database
-        do {
-            print("██░░░ L\(#line) 🚧📕 save in database 🚧🚧 [ \(type(of: self))  \(#function) ]")
-            try context.save()
-        } catch { fatalError("Failing saving")}
+}
+
+
+extension NSManagedObjectContext {
+    func performAndWait<T>(_ block:() -> T) -> T {
+        var result: T? = nil
+        // call the framework version
+        performAndWait {
+            result = block()
+        }
+        return result!
     }
 }
-// ⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬

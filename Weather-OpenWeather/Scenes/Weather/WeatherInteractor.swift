@@ -35,27 +35,20 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
         let color = UIColor.darkGray
         self.presenter?.presentChangeColor(color)
     } // ✔︎
-    
     /** Permission location : ask the permission to activate location. */
     func askLocationAutorization() {
-        
         weatherWorker.weatherApi.askLocationAutorization()
     }
     /** Permission location : get back status permission from WeatherApi. */
     func locationAuthorization(didReceiveAuthorization code: ManagerLocationError) {
-        
         self.presenter?.presentAskLocationAutorization(code: code)
     }
-    
+    /** get the information to show the weather with the current location. */
     func getWeather(completionHandler: () -> Void) {
-        importDataCity() // ✔︎ import data
+        importDataCity() // ✔︎ import JsonData in CoreData or not
         
-        // ✘
-        //         if getlocation == nil {
-        //            demander la autorisation location
-        //         } else {
-        //            // continue a deja location
-        //         }
+        //and then
+  
         //         get location ....
         //        if (!true) {
         // download data
@@ -68,6 +61,7 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
         
         //        self.presenter.presentGetWeather() // object data en fonction de la localisation
         completionHandler()
+
     }
     
     
@@ -75,28 +69,30 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
     /** import data form json. */
     fileprivate func importDataCity() {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
-        // read  SettingEntity field isDownloaded in data base (CD)
+        // read  SettingEntity field isDownloaded in data base.
         var resultFetch :SettingEntity! = nil
         
-        // regarde si setting dans core data à ete creer
+        // Create a flag in CoreData to know if user already or not import the cities.
         weatherWorker.weatherCoreData.readSettingIsDownloaded { (resultArray) in
             guard let result = resultArray?.first else { return }
             resultFetch = result
             print("██░░░ L\(#line) 🚧🚧 entity.isDownloaded : \(resultFetch.isDownloaded) 🚧🚧 [ \(type(of: self))  \(#function) ]")
         }
         
-        
-        if resultFetch == nil {
+        // If the flag is nil get import.
+        if (true) {
+//        if resultFetch == nil {
             print("██░░░ L\(#line) 🚧📕 result Fetch is nil 🚧🚧 [ \(type(of: self))  \(#function) ]")
             // delete and create setting row
-            weatherWorker.weatherCoreData.deleteAllCityEntity() // clean the data base for avoid duplication
-            weatherWorker.weatherCoreData.createSettingRow() // create new setting isDownloaded
-            // download json file et translate it to Dictionnary
-            guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "test") else {
+            weatherWorker.weatherCoreData.deleteAllSettingEntity()
+            weatherWorker.weatherCoreData.deleteAllCityEntity() // Clean the data base to avoid duplication.
+            weatherWorker.weatherCoreData.createSettingRow() // Create new setting isDownloaded.
+            // Download the json file and translate it to dictionnary.
+            guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "city.list.min") else {
                 print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]")
                 return
             }
-            // import the datas with the previous dictionnary
+            // Start import.
             weatherWorker.weatherCoreData.createCitiesRows(jsonDictionnary) { (reponse) in
                 //MARK: -
                 // FIXME: the completion handler here is useless, must be remove

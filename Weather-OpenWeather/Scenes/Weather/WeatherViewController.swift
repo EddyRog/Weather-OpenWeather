@@ -65,15 +65,13 @@ class WeatherViewController: UIViewController {
         start()
     }
     
-    // MARK: - Start Action with func or IBAction
-    // 01
     func start() {
         configNavigationController() // remove bar navigation
         self.interactor?.actionChangeColor() //test VIP cycle
         self.interactor?.askLocationAutorization() // ask permission Location
-        // user hit the box then
-        // displayAskLocationAutorization(:String) is called
+        // user hit the box location then  // displayAskLocationAutorization(:String) is called
     }
+    
     
     private func getWeather() {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
@@ -81,6 +79,7 @@ class WeatherViewController: UIViewController {
         self.interactor?.getWeather {
             DispatchQueue.main.async {
                 self.busyOut()
+                print("--------EDDY FINISH")
             }
         }
     }
