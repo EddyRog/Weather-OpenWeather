@@ -46,9 +46,14 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
     }
     /** get the information to show the weather with the current location. */
     func getWeatherByCurentLocation() {
-        //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞
         // recuperation des coordonnée
-         weatherWorker.weatherApi.getWeatherByCurrentLocation()
+        //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞
+        weatherWorker.weatherApi.getWeatherByCurrentLocation { (resultWeather) in
+            DispatchQueue.main.async {
+                self.presenter?.presentWeather(data: resultWeather)
+            }
+        }
+        
     }
     /** import data city from json. */
     func importDataCity(completionHandler: @escaping ()->Void) {

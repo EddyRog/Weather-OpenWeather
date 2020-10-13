@@ -19,9 +19,13 @@ enum WeatherModels {
         struct ViewModel {
             struct DisplayedWeather {
                 // for conveinience should match with Model entity/#fileModel
-                var firstName: String
-                var lastName: String
-                var date: Date
+                var city: String?
+                var time: String?
+                var picture: String?
+                var color: UIColor?
+                var temperature: String?
+                var humidity: String?
+                var wind: String?
             }
             var displayedWeather: [DisplayedWeather]
         }

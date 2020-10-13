@@ -11,6 +11,7 @@ import UIKit
 protocol WeatherViewControllerProtocol: class {
     func displayChangeColor(_ color: UIColor)
     func displayAskLocationAutorization(_ : String)
+    func displayDataCurrentWeather(_ : WeatherModels.GetWeather.ViewModel.DisplayedWeather)
 }
 // MARK: - ViewController implementation
 class WeatherViewController: UIViewController {
@@ -33,6 +34,16 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var loadingImage: UIImageView!
     @IBOutlet weak var autorisationPendingView: UIView!
+    
+    // MARK: - UI OUTLET
+    @IBOutlet weak var bgColorWeatherView: UIView!
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var pictureImageView: UIImageView!
+    @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var humidityLabel: UILabel!
+    @IBOutlet weak var windLabel: UILabel!
+    
     
     // MARK: - Initialization
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -63,7 +74,9 @@ class WeatherViewController: UIViewController {
         super.viewDidAppear(animated)
         start()
     }
-    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     func start() {
         configNavigationController() // remove bar navigation
         self.interactor?.actionChangeColor() //test VIP cycle
@@ -149,6 +162,17 @@ extension WeatherViewController: WeatherViewControllerProtocol {
     }
     func configNavigationController() {
         self.navigationController!.navigationBar.isHidden = true
+    }
+    func displayDataCurrentWeather(_ obj: WeatherModels.GetWeather.ViewModel.DisplayedWeather) {
+        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
+        self.cityLabel.text = "Etrechy"
+        self.cityLabel.text = obj.city ?? "null"
+        self.timeLabel.text = obj.time
+        self.pictureImageView.image = UIImage(named: obj.picture ?? "")
+        self.bgColorWeatherView.backgroundColor = obj.color
+        self.temperatureLabel.text = " : \(obj.temperature ?? "_") °C"
+        self.humidityLabel.text = " : \(obj.humidity ?? "_") % "
+        self.windLabel.text = " : \(obj.wind ?? "_") km/h"
     }
 }
 extension WeatherViewController {

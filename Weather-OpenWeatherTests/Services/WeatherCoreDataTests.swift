@@ -22,10 +22,19 @@ class WeatherCoreDataTests: XCTestCase {
 //        sut.deleteAllCityEntity()
     }
     
+//    override func tearDown() {
+//        super.tearDown()
+//        sut.deleteAllCityEntity()
+//        sut.deleteAllSettingEntity()
+//        sut = nil
+//    }
     override func tearDown() {
         super.tearDown()
+        sut.deleteAllCityEntity()
+        sut.deleteAllSettingEntity()
         sut = nil
     }
+    
     // MARK: - read SettingEntity
     func test_DB_Should_Return_Empty_Array() {
         let expectationFor = expectation(description: "wait for readSettingIsDownloaded() return")

@@ -14,22 +14,23 @@ import os.log
 
 class WeatherInteractorTests: XCTestCase {
     // MARK: - Subject under test
-    var sut: WeatherInteractor!
+    var sut = ConvertorWorker.self
     override func setUp() {
         super.setUp()
-        sut = WeatherInteractor()
-        //        sut.deleteAllSettingEntity()
-        //        sut.deleteAllCityEntity()
+        
     }
     
     override func tearDown() {
         super.tearDown()
-        sut = nil
     }
     // MARK: - read SettingEntity
-    func test_should() {
-//        XCTAssertEqual()
+    func test_shouldReturn_zero() {
+        XCTAssertEqual(sut.windBykmPerHour(valuePerMeterSecond: 0), 0)
     }
+    func test_shouldReturn_() {
+        XCTAssertEqual(sut.windBykmPerHour(valuePerMeterSecond: 1), 3.6)
+    }
+    
     
 }
 

@@ -6,11 +6,14 @@
 // Copyright © 2020 EddyR. All rights reserved.
 
 import UIKit
+import SwiftyJSON
 
 // MARK: - Presenter Protocol
 protocol WeatherPresenterProtocol {
     func presentChangeColor(_ color: UIColor)
     func presentAskLocationAutorization(code: ManagerLocationError) // presenter recois ce message
+    func presentWeather(data: [String:Any])
+    
 }
 // MARK: - Presenter implementation
 class WeatherPresenter: WeatherPresenterProtocol {
@@ -40,6 +43,29 @@ class WeatherPresenter: WeatherPresenterProtocol {
         }
         
         self.viewController?.displayAskLocationAutorization(codePresented)
+    }
+    func presentWeather(data: [String:Any]) {
+        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
+        // format data
+        
+        dump(data)
+        
+        let city = data["city"] as? String  ?? ""
+        let time = data["time"] as? String  ?? ""
+        let picture = data["weatherPicture"] as? String  ?? ""
+        let color = data["weatherColorBG"] as? UIColor ?? UIColor.gray
+        let temperature = (data["temperature"] as? Float ?? 0).clean
+        let humidity = String(data["humidity"] as? Int ?? 0)
+        let wind = String(data["wind"] as? Float ?? 0.0)
+        
+        let viewModelWeather = WeatherModels.GetWeather.ViewModel.DisplayedWeather(city: city,
+                                                                                   time: time,
+                                                                                   picture: picture,
+                                                                                   color: color,
+                                                                                   temperature: temperature,
+                                                                                   humidity: humidity,
+                                                                                   wind: wind)
+        self.viewController?.displayDataCurrentWeather(viewModelWeather)
     }
 }
 

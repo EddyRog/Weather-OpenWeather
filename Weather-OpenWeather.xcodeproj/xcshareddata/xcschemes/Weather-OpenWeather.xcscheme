@@ -70,11 +70,6 @@
                BlueprintName = "Weather-OpenWeatherTests"
                ReferencedContainer = "container:Weather-OpenWeather.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "WeatherCoreDataTests/test_DB_Should_Return_Empty_Array()">
-               </Test>
-            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">

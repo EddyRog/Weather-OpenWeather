@@ -20,10 +20,9 @@ class WeatherApi: WeatherApiProtocol {
 //        print("██░░░ L\(#line) 🚧📕 2 🚧🚧 [ \(type(of: self))  \(#function) ]")
         locationManager.askLocationAutorization() // WeatherLocationManager
     }
-    func getWeatherByCurrentLocation(){
+    func getWeatherByCurrentLocation(completionHandler: @escaping ([String : Any])->Void) {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
         // get meteo by the current location
-        
         var currentCCLocation: CLLocation? = nil
         locationManager.getCurrentLocation() { (coord) in
             currentCCLocation = coord
@@ -32,14 +31,12 @@ class WeatherApi: WeatherApiProtocol {
         // get weather by current location
         if let currentCCLocation = currentCCLocation {
             getDataWeatherByLatAndLon(coordinates: currentCCLocation.coordinate) { (result) in
-                print(result)
+                completionHandler(result)
             }
         }
-        
-        
-        
         // send it back to interactor
     }
+    
     
     // MARK: - Private
     fileprivate func getTokenID() -> String{
@@ -51,7 +48,6 @@ class WeatherApi: WeatherApiProtocol {
         let appId = params["OpenWeatherAppId"] as! String //ea95f1643b48eebf14e1ec6b10f3ea62
         return appId
     }
-    
     fileprivate func requestUrlByLontitudeAndLatitude(coordinates:CLLocationCoordinate2D ) -> URL? {
         //https://samples.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=439d4b804bc8187953eb36d2a8c26a02
         guard var components = URLComponents(string:urlPath) else { fatalError("need to configurate an url")}
@@ -65,7 +61,7 @@ class WeatherApi: WeatherApiProtocol {
         ]
         return components.url
     }
-    func getDataWeatherByLatAndLon(coordinates: CLLocationCoordinate2D, completion:@escaping(Dictionary<String, Any>)->()) {
+    fileprivate func getDataWeatherByLatAndLon(coordinates: CLLocationCoordinate2D, completion:@escaping(Dictionary<String, Any>)->()) {
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
         
@@ -78,24 +74,44 @@ class WeatherApi: WeatherApiProtocol {
             
             guard let temperature = json["main"]["temp"].float,
                 let nameCity = json["name"].string,
-                let idWeather = json["weather"][0]["id"].int,
+                let idWeather = json["weather"][0]["id"].int, // id of weather
                 let temperatureMax = json["main"]["temp_max"].float,
                 let sunriseTime = json["sys"]["sunrise"].int,
                 let sunsetTime =  json["sys"]["sunset"].int,
+                let humidity = json["main"]["humidity"].int,
+                let wind = json["wind"]["speed"].float,
                 let description = json["weather"][0]["description"].string else { fatalError("impossible to fetch key in json object")}
             
+            let time = self.getTime()
+            let weatherPictureAndColor = ConvertorWorker.weatherCodeToPicture(conditionCode: idWeather) // get picture and color base on the id weather
             
-            let weatherDict: [String: Any] = ["temp":temperature,
+            
+            let weatherDict: [String: Any] = ["temperature": ConvertorWorker.tempToCelsuis(temperature),
                                               "city": nameCity,
-                                              "idWeather": idWeather,
+                                              "idWeather": idWeather, // code
                                               "temperatureMax": temperatureMax,
                                               "sunrise":sunriseTime,
                                               "sunset":sunsetTime,
-                                              "description": description
+                                              "description": description,
+                                              "time": time,
+                                              "humidity": humidity,
+                                              "wind": ConvertorWorker.windBykmPerHour(valuePerMeterSecond: wind),
+                                              "weatherPicture": weatherPictureAndColor.0,
+                                              "weatherColorBG": weatherPictureAndColor.1
             ]
             completion(weatherDict) // send back data fetched
         }
         task.resume()
+    }
+    
+    func getTime() -> String {
+        let currentDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .full
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        let dateString = dateFormatter.string(from: currentDate) //14 September 2020
+        return dateString
     }
 }
 
