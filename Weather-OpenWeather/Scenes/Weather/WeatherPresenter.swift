@@ -12,8 +12,7 @@ import SwiftyJSON
 protocol WeatherPresenterProtocol {
     func presentChangeColor(_ color: UIColor)
     func presentAskLocationAutorization(code: ManagerLocationError) // presenter recois ce message
-    func presentWeather(data: [String:Any])
-    
+    func presentWeather(data: [String:Any])   
 }
 // MARK: - Presenter implementation
 class WeatherPresenter: WeatherPresenterProtocol {
@@ -45,10 +44,8 @@ class WeatherPresenter: WeatherPresenterProtocol {
         self.viewController?.displayAskLocationAutorization(codePresented)
     }
     func presentWeather(data: [String:Any]) {
-        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
-        // format data
         
-        dump(data)
+        // format data
         
         let city = data["city"] as? String  ?? ""
         let time = data["time"] as? String  ?? ""

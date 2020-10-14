@@ -43,6 +43,7 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var windLabel: UILabel!
+    @IBOutlet weak var condition: UIView!
     
     
     // MARK: - Initialization
@@ -165,6 +166,8 @@ extension WeatherViewController: WeatherViewControllerProtocol {
     }
     func displayDataCurrentWeather(_ obj: WeatherModels.GetWeather.ViewModel.DisplayedWeather) {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
+        print(obj)
+        
         self.cityLabel.text = "Etrechy"
         self.cityLabel.text = obj.city ?? "null"
         self.timeLabel.text = obj.time
@@ -173,6 +176,11 @@ extension WeatherViewController: WeatherViewControllerProtocol {
         self.temperatureLabel.text = " : \(obj.temperature ?? "_") °C"
         self.humidityLabel.text = " : \(obj.humidity ?? "_") % "
         self.windLabel.text = " : \(obj.wind ?? "_") km/h"
+        if let conditionLabel = self.condition as? LabelPivoted {
+            let conditionText: String = obj.picture ?? "_"
+            conditionLabel.label.text =  conditionText.uppercased()
+        }
+        
     }
 }
 extension WeatherViewController {
