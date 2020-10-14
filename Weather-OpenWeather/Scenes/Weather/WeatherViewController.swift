@@ -45,6 +45,11 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var condition: UIView!
     
+    // MARK: - UI Constraint
+    @IBOutlet weak var cLeadingPictureImageView: NSLayoutConstraint!
+    
+    
+    
     
     // MARK: - Initialization
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -65,8 +70,12 @@ class WeatherViewController: UIViewController {
             spinner.translatesAutoresizingMaskIntoConstraints = false
             spinner.centerXAnchor.constraint(equalTo: superView.centerXAnchor).isActive = true
             //            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor).isActive = true
-            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor, constant: -50).isActive = true
+            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor, constant: 0).isActive = true
         }
+        
+        // MARK: - Animation with constraint : setup
+//        self.conditionImageConstraintCenter.constant -= view.bounds.width + conditionImage.bounds.width / 2
+        self.cLeadingPictureImageView.constant -= view.bounds.width + pictureImageView.bounds.width / 2
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +83,10 @@ class WeatherViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         start()
+        // MARK: - Animation with constraint : anime
+
+        AnimationFactoryWorker.slideUpToTheRight(mainView: self.view, view: self.pictureImageView, constant: cLeadingPictureImageView).startAnimation()
+        AnimationFactoryWorker.scaleUpandDown(view: pictureImageView)
     }
     override var prefersStatusBarHidden: Bool {
         return true

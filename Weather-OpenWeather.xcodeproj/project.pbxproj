@@ -19,6 +19,7 @@
 		9389EF1F2533B4F600495900 /* SettingEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9389EF1B2533B4F600495900 /* SettingEntity+CoreDataClass.swift */; };
 		9389EF202533B4F600495900 /* SettingEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9389EF1C2533B4F600495900 /* SettingEntity+CoreDataProperties.swift */; };
 		9389EF232533B95500495900 /* WeatherInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9389EF222533B95500495900 /* WeatherInteractorTests.swift */; };
+		9392B747253775A300A76C95 /* AnimationFactoryWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9392B746253775A300A76C95 /* AnimationFactoryWorker.swift */; };
 		93B0D3ED2535ED8800F6BC8D /* ConvertorWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B0D3EC2535ED8800F6BC8D /* ConvertorWorker.swift */; };
 		93B0D3F02536068000F6BC8D /* ConvertorWorkerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B0D3EF2536068000F6BC8D /* ConvertorWorkerTest.swift */; };
 		93B0D3F22536157A00F6BC8D /* LabelPivoted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B0D3F12536157A00F6BC8D /* LabelPivoted.swift */; };
@@ -88,6 +89,7 @@
 		9389EF1B2533B4F600495900 /* SettingEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		9389EF1C2533B4F600495900 /* SettingEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		9389EF222533B95500495900 /* WeatherInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInteractorTests.swift; sourceTree = "<group>"; };
+		9392B746253775A300A76C95 /* AnimationFactoryWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationFactoryWorker.swift; sourceTree = "<group>"; };
 		93B0D3EC2535ED8800F6BC8D /* ConvertorWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertorWorker.swift; sourceTree = "<group>"; };
 		93B0D3EF2536068000F6BC8D /* ConvertorWorkerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertorWorkerTest.swift; sourceTree = "<group>"; };
 		93B0D3F12536157A00F6BC8D /* LabelPivoted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelPivoted.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 			children = (
 				93E70D67252B6C9A00687AB6 /* WeatherWorker.swift */,
 				93B0D3EC2535ED8800F6BC8D /* ConvertorWorker.swift */,
+				9392B746253775A300A76C95 /* AnimationFactoryWorker.swift */,
 			);
 			path = Workers;
 			sourceTree = "<group>";
@@ -580,6 +583,7 @@
 				9389EF1D2533B4F600495900 /* CityEntity+CoreDataClass.swift in Sources */,
 				93E70D68252B6C9A00687AB6 /* WeatherWorker.swift in Sources */,
 				93E70D5C252B628D00687AB6 /* WeatherModels.swift in Sources */,
+				9392B747253775A300A76C95 /* AnimationFactoryWorker.swift in Sources */,
 				93B0D3F22536157A00F6BC8D /* LabelPivoted.swift in Sources */,
 				9389EF1F2533B4F600495900 /* SettingEntity+CoreDataClass.swift in Sources */,
 				93729E9C252889610078478A /* AppDelegate.swift in Sources */,
