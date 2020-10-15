@@ -1,32 +1,29 @@
 // Router
-// WeatherRouter
+// SearchRouter
 
 // Weather-OpenWeather
-// Created by Eddy R on 05/10/2020.
+// Created by Eddy R on 14/10/2020.
 // Copyright © 2020 EddyR. All rights reserved.
 
 import UIKit
 
 // MARK: - Router Protocol
 //@objc to make callable responds(to:selector)
-@objc protocol WeatherRouterProtocol {
-    func routeToSearch(segue: UIStoryboardSegue?)
-    // func routeTo[DoSomething(segue: UIStoryboardSegue?)]
-    // func routeTo[Name of Segue in the IB ](segue: UIStoryboardSegue?)]
-    //    func routeToViewA(segue: UIStoryboardSegue?)
-    
+@objc protocol SearchRouterProtocol {
+     func routeToSearch(segue: UIStoryboardSegue?)
 }
 // MARK: - Data Passing Router Protocol
-protocol WeatherRouterDataPassing {
+protocol SearchRouterDataPassing {
     // Data Passing by the router
-    var dataStore: WeatherInteractorDataStoreProtocol? {get}
+    var dataStore: SearchInteractorDataStoreProtocol? {get}
 }
 // MARK: - Router implementation
-class WeatherRouter: NSObject, WeatherRouterProtocol, WeatherRouterDataPassing {
-    weak var viewController: WeatherViewController?
-    var dataStore: WeatherInteractorDataStoreProtocol?
+class SearchRouter: NSObject, SearchRouterProtocol, SearchRouterDataPassing {
+    weak var viewController: SearchViewController?
+    var dataStore: SearchInteractorDataStoreProtocol?
     
     func routeToSearch(segue: UIStoryboardSegue?) {
+        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
         
     }
     

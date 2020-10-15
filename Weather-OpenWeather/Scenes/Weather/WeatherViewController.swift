@@ -47,10 +47,7 @@ class WeatherViewController: UIViewController {
     
     // MARK: - UI Constraint
     @IBOutlet weak var cLeadingPictureImageView: NSLayoutConstraint!
-    
-    
-    
-    
+
     // MARK: - Initialization
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -60,6 +57,7 @@ class WeatherViewController: UIViewController {
         super.init(coder: aDecoder)
         setup()
     }
+    
     // MARK: - View cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -91,12 +89,15 @@ class WeatherViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    // MARK: - Method
     func start() {
         configNavigationController() // remove bar navigation
         self.interactor?.actionChangeColor() //test VIP cycle
         self.interactor?.askLocationAutorization() // ask permission Location
         // user hit the box location then  // displayAskLocationAutorization(:String) is called
     }
+    
     
     // MARK: - Builder when the object is unfrozen from IB
     private func setup() {
@@ -124,11 +125,6 @@ class WeatherViewController: UIViewController {
                 router.perform(selector, with: segue)
             }
         }
-        /** should match to the func in the router
-         func routeToCreateOrder(segue: UIStoryboardSegue?)
-         func routeToShowOrder(segue: UIStoryboardSegue?)
-         func routeTo[Name Of The Segue]](segue: UIStoryboardSegue?)
-         */
     }
 }
 

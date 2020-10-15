@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cSt-Qr-lfw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yTl-xU-By2">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -117,8 +117,37 @@
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u32-N2-M3T" userLabel="ViewButton">
                                         <rect key="frame" x="8" y="597" width="359" height="40"/>
+                                        <subviews>
+                                            <button autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" semanticContentAttribute="playback" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="clip" pointerInteraction="YES" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="npk-vF-Ttb">
+                                                <rect key="frame" x="319" y="0.0" width="40" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="40" id="KgV-vO-JC4"/>
+                                                </constraints>
+                                                <color key="tintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal">
+                                                    <attributedString key="attributedTitle">
+                                                        <fragment content="+">
+                                                            <attributes>
+                                                                <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" metaFont="system" size="60"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="clipping" baseWritingDirection="natural" lineHeightMultiple="1" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font" scale="default" weight="black">
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    </preferredSymbolConfiguration>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="yTl-xU-By2" kind="show" identifier="Search" id="zGR-Pv-yaR"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="5KS-bo-bKO"/>
+                                            <constraint firstAttribute="trailing" secondItem="npk-vF-Ttb" secondAttribute="trailing" id="7RX-ik-Rc0"/>
+                                            <constraint firstItem="npk-vF-Ttb" firstAttribute="centerY" secondItem="u32-N2-M3T" secondAttribute="centerY" id="JwG-X6-d0P"/>
+                                            <constraint firstItem="npk-vF-Ttb" firstAttribute="top" secondItem="u32-N2-M3T" secondAttribute="top" id="z67-Ju-Juo"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZqA-jx-lw2" userLabel="Condition" customClass="LabelPivoted" customModule="Weather_OpenWeather" customModuleProvider="target">
@@ -148,11 +177,11 @@
                                     <constraint firstAttribute="trailing" secondItem="UUd-0u-Ano" secondAttribute="trailing" constant="8" id="pKi-ZH-p5R"/>
                                 </constraints>
                             </view>
-                            <view alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wuI-js-NLx" userLabel="LoadingView">
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wuI-js-NLx" userLabel="LoadingView">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Loading" translatesAutoresizingMaskIntoConstraints="NO" id="Mci-KY-NAi" userLabel="LoadingImage" propertyAccessControl="none">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Loading" translatesAutoresizingMaskIntoConstraints="NO" id="Mci-KY-NAi" userLabel="LoadingImage" propertyAccessControl="none">
                                         <rect key="frame" x="138" y="284" width="99" height="99"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -161,11 +190,11 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <view alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t9i-Rb-rDS" userLabel="autorisationViewPending">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t9i-Rb-rDS" userLabel="autorisationViewPending">
                                 <rect key="frame" x="0.0" y="-4" width="375" height="674"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bg-Autorisation" translatesAutoresizingMaskIntoConstraints="NO" id="zxL-u8-P7K">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bg-Autorisation" translatesAutoresizingMaskIntoConstraints="NO" id="zxL-u8-P7K">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="674"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
@@ -204,6 +233,50 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XRu-QP-1id" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1948" y="133.5832083958021"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="MGj-pG-5SJ">
+            <objects>
+                <viewController storyboardIdentifier="Search" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yTl-xU-By2" customClass="SearchViewController" customModule="Weather_OpenWeather" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LSd-3Y-o5v">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cAw-sU-oNp">
+                                <rect key="frame" x="16" y="20" width="287" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g3B-3R-U9t">
+                                <rect key="frame" x="311" y="20" width="48" height="34"/>
+                                <state key="normal" title="Cancel"/>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BUy-qf-bwH">
+                                <rect key="frame" x="16" y="62" width="343" height="585"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="g3B-3R-U9t" firstAttribute="leading" secondItem="cAw-sU-oNp" secondAttribute="trailing" constant="8" id="6eB-eu-N5Z"/>
+                            <constraint firstItem="gmy-t2-mBb" firstAttribute="bottom" secondItem="BUy-qf-bwH" secondAttribute="bottom" constant="20" id="9rb-1w-yhd"/>
+                            <constraint firstItem="cAw-sU-oNp" firstAttribute="top" secondItem="gmy-t2-mBb" secondAttribute="top" constant="20" id="M2i-vj-VUa"/>
+                            <constraint firstItem="cAw-sU-oNp" firstAttribute="leading" secondItem="gmy-t2-mBb" secondAttribute="leading" constant="16" id="OId-jy-Bgd"/>
+                            <constraint firstItem="BUy-qf-bwH" firstAttribute="top" secondItem="g3B-3R-U9t" secondAttribute="bottom" constant="8" id="Oo8-RQ-Sif"/>
+                            <constraint firstItem="gmy-t2-mBb" firstAttribute="trailing" secondItem="g3B-3R-U9t" secondAttribute="trailing" constant="16" id="dzw-IA-2Rh"/>
+                            <constraint firstItem="BUy-qf-bwH" firstAttribute="top" secondItem="gmy-t2-mBb" secondAttribute="top" constant="62" id="gHb-E2-hIq"/>
+                            <constraint firstItem="g3B-3R-U9t" firstAttribute="top" secondItem="gmy-t2-mBb" secondAttribute="top" constant="20" id="hD0-XM-Frb"/>
+                            <constraint firstItem="BUy-qf-bwH" firstAttribute="leading" secondItem="gmy-t2-mBb" secondAttribute="leading" constant="16" id="hHx-40-s0M"/>
+                            <constraint firstItem="BUy-qf-bwH" firstAttribute="top" secondItem="cAw-sU-oNp" secondAttribute="bottom" constant="8" id="ycY-lI-8jd"/>
+                            <constraint firstItem="gmy-t2-mBb" firstAttribute="trailing" secondItem="BUy-qf-bwH" secondAttribute="trailing" constant="16" id="zwn-iI-06i"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="gmy-t2-mBb"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="i36-sZ-UEr"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gkx-hf-Mcq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2829.5999999999999" y="133.5832083958021"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Fn2-1s-KkK">
