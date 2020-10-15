@@ -17,6 +17,11 @@ class SearchViewController: UIViewController ,SearchViewControllerProtocol {
     var interactor: SearchInteractorProtocol?
     var router: (NSObjectProtocol & SearchRouterProtocol & SearchRouterDataPassing)?  // NSObjectProtocol use to perfom func in an object for handling.
     
+    // MARK: - UI
+    @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var cancel: UIButton!
+    @IBOutlet weak var tableView: UITableView!
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setup()
@@ -37,6 +42,7 @@ class SearchViewController: UIViewController ,SearchViewControllerProtocol {
     // MARK: - Start Action with func or IBAction
     func start() {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
+        setUpIconSearchTextField()
         self.interactor?.actionChangeColor()
     }
     
@@ -80,6 +86,47 @@ extension SearchViewController {
         self.view.backgroundColor = color
     }
 }
+
+// MARK: - UITEXTFIELD
+extension SearchViewController: UITextFieldDelegate {
+    func setUpIconSearchTextField() {
+        let imageView = UIImageView(frame: CGRect(x: 6, y: 2, width: 15, height: 15))
+        let image = UIImage(systemName: "magnifyingglass")
+        imageView.image = image
+        
+        let iconViewContainner: UIView = UIView(frame: CGRect(x:0, y: 0, width: 20, height: 20))
+        iconViewContainner.addSubview(imageView)
+        
+        searchTextField.leftView = iconViewContainner
+        searchTextField.leftViewMode = .always
+        searchTextField.tintColor = .lightGray
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let text = textField.text,
+            let textRange = Range(range, in: text) {
+            let updatedText = text.replacingCharacters(in: textRange,
+                                                       with: string)
+            print(updatedText)
+//            predicateValue = updatedText
+//            tableview.reloadData()
+//            // 📢 : reload tableView.
+        }
+        return true
+    }
+}
+
+// MARK: - TableView
+extension SearchViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+}
+
+
 
 
 
