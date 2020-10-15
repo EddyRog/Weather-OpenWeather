@@ -23,7 +23,7 @@ protocol WeatherCoreDataProtocol {
 protocol WeatherApiProtocol {
     var locationManager: WeatherLocationManager {get set} // give the connection to the interactior to setup the delegate on purpose
     func askLocationAutorization()
-    func getWeatherByCurrentLocation(completionHandler: @escaping ([String : Any])->Void)
+    func getWeatherByCurrentLocation(completionHandler: @escaping ([String : Any]?)->Void)
 }
 
 // bon je veux que quelqu'un me save les data c'est moi le chef

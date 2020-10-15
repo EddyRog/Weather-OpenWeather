@@ -201,16 +201,48 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YSr-bS-NR5" userLabel="viewConnectionNotAvailable">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Signal Low Try to move during we try to get the signal" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJM-iW-cY1">
+                                        <rect key="frame" x="57" y="302" width="261" height="63"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CLx-YI-OmV">
+                                        <rect key="frame" x="57" y="395" width="261" height="30"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="refresh"/>
+                                        <connections>
+                                            <action selector="refreshLocation:" destination="IH6-v4-erP" eventType="touchUpInside" id="8Pn-6M-M5d"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="CLx-YI-OmV" firstAttribute="trailing" secondItem="RJM-iW-cY1" secondAttribute="trailing" id="9ze-E8-70S"/>
+                                    <constraint firstItem="CLx-YI-OmV" firstAttribute="leading" secondItem="RJM-iW-cY1" secondAttribute="leading" id="HxH-Vt-xg6"/>
+                                    <constraint firstItem="CLx-YI-OmV" firstAttribute="leading" secondItem="YSr-bS-NR5" secondAttribute="leading" constant="57" id="PdQ-yj-heI"/>
+                                    <constraint firstItem="CLx-YI-OmV" firstAttribute="top" secondItem="RJM-iW-cY1" secondAttribute="bottom" constant="30" id="Sd5-Si-Zde"/>
+                                    <constraint firstAttribute="bottom" secondItem="CLx-YI-OmV" secondAttribute="bottom" constant="242" id="X3N-45-OAN"/>
+                                    <constraint firstItem="CLx-YI-OmV" firstAttribute="centerX" secondItem="YSr-bS-NR5" secondAttribute="centerX" id="chg-dn-o7j"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="ZqA-jx-lw2" firstAttribute="top" secondItem="Ggg-P4-NVW" secondAttribute="top" constant="30" id="2Gj-Lr-gkH"/>
+                            <constraint firstItem="YSr-bS-NR5" firstAttribute="leading" secondItem="Ggg-P4-NVW" secondAttribute="leading" id="4Mb-VS-lyj"/>
                             <constraint firstItem="Ggg-P4-NVW" firstAttribute="bottom" secondItem="ZqA-jx-lw2" secondAttribute="bottom" constant="325" id="6Ye-no-ZeN"/>
                             <constraint firstItem="ONL-3v-2cO" firstAttribute="width" secondItem="Duk-GL-eUe" secondAttribute="width" multiplier="0.3" priority="750" id="9IP-fk-3gU"/>
                             <constraint firstItem="G2j-SR-gV5" firstAttribute="top" secondItem="Duk-GL-eUe" secondAttribute="top" id="9ab-4g-bL9"/>
                             <constraint firstAttribute="bottom" secondItem="G2j-SR-gV5" secondAttribute="bottom" id="M4U-YY-Geh"/>
                             <constraint firstItem="G2j-SR-gV5" firstAttribute="leading" secondItem="Ggg-P4-NVW" secondAttribute="leading" id="N42-Gz-ixX"/>
+                            <constraint firstItem="Ggg-P4-NVW" firstAttribute="trailing" secondItem="YSr-bS-NR5" secondAttribute="trailing" id="PK3-OV-K8X"/>
                             <constraint firstItem="Ggg-P4-NVW" firstAttribute="trailing" secondItem="G2j-SR-gV5" secondAttribute="trailing" id="RWF-7L-8BG"/>
+                            <constraint firstItem="YSr-bS-NR5" firstAttribute="top" secondItem="Ggg-P4-NVW" secondAttribute="top" id="U5s-Yf-aJp"/>
+                            <constraint firstItem="Ggg-P4-NVW" firstAttribute="bottom" secondItem="YSr-bS-NR5" secondAttribute="bottom" id="gbp-tP-HWb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ggg-P4-NVW"/>
                     </view>
@@ -227,6 +259,7 @@
                         <outlet property="pictureImageView" destination="l7x-zk-63k" id="ro8-0i-nQF"/>
                         <outlet property="temperatureLabel" destination="yxF-iA-uYW" id="CSE-sS-kyx"/>
                         <outlet property="timeLabel" destination="d5K-z5-Qum" id="6fE-ka-VlA"/>
+                        <outlet property="viewConnectionNotAvailable" destination="YSr-bS-NR5" id="nEz-jf-KNB"/>
                         <outlet property="windLabel" destination="Z26-CM-h2o" id="qvQ-gl-9PA"/>
                     </connections>
                 </viewController>

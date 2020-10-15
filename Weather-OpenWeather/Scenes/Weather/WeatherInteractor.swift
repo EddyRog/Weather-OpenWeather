@@ -1,10 +1,6 @@
 // Interactor
 // WeatherInteractor [Action]
 
-// Weather-OpenWeather
-// Created by Eddy R on 05/10/2020.
-// Copyright © 2020 EddyR. All rights reserved.
-
 import UIKit
 import CoreLocation
 
@@ -47,10 +43,18 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
     /** get the information to show the weather with the current location. */
     func getWeatherByCurentLocation() {
         // recuperation des coordonnée
-        //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞
+        // check if location is available and bring back the data to presenter
         weatherWorker.weatherApi.getWeatherByCurrentLocation { (resultWeather) in
             DispatchQueue.main.async {
-                self.presenter?.presentWeather(data: resultWeather)
+                if let resultWeather = resultWeather {
+                    // if data here presentethe weather
+                    self.presenter?.presentWeather(data: resultWeather)
+                    self.presenter?.isPresentViewConnectionNotAvailable(false) // [hide] view by default hide but shown
+                } else {
+                    // present autre chose
+                    self.presenter?.isPresentViewConnectionNotAvailable(true)// [show] view by default hide
+                }
+                
             }
         }
         

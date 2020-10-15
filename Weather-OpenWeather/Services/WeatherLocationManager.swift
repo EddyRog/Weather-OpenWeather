@@ -68,8 +68,15 @@ class WeatherLocationManager: NSObject {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
         locationManager.requestLocation()
         if let location = locationManager.location {
+            print("██░░░ L\(#line) 🚧🚧 \(location) 🚧🚧 [ \(type(of: self))  \(#function) ]")
             completion(location)
+            locationManager.stopUpdatingLocation()
+        } else {
+            // active location plus longtemps
+            locationManager.startUpdatingLocation()
         }
+        
+        
     }
 }
 
@@ -82,7 +89,9 @@ enum ManagerLocationError {
     case accessAuthorizedAlways
 }
 
-var toto : [String:String]! = ["o":""]
+//var toto : [String:String]! = ["o":""]
+
+
 // MARK: - method of CLLocationManagerDelegate
 extension WeatherLocationManager: CLLocationManagerDelegate {
     /** method used to respond to the modal box the first time. */
@@ -120,17 +129,13 @@ extension WeatherLocationManager: CLLocationManagerDelegate {
         }
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        
+        print("██░░░ L\(#line) 🚧🚧 error Location manager : \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+        locationManager.startUpdatingLocation()
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
-            manager.stopUpdatingLocation()
-//            let lon = String(location.coordinate.longitude)
-//            let lat = String(location.coordinate.longitude)
-//            let coordinate = ["lon":lon, "lat":lat]
-//            delegateCoordinates?.coordinatesDelegate(didReveiceCoordinates: coordinate)
-//            print(locations)
-//            toto = coordinate
+            print(location)
+            
         }
     }
 }

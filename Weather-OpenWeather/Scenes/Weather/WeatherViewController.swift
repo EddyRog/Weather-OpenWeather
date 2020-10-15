@@ -12,6 +12,7 @@ protocol WeatherViewControllerProtocol: class {
     func displayChangeColor(_ color: UIColor)
     func displayAskLocationAutorization(_ : String)
     func displayDataCurrentWeather(_ : WeatherModels.GetWeather.ViewModel.DisplayedWeather)
+    func displayViewConnectionNotAvailable(_ :Bool)
 }
 // MARK: - ViewController implementation
 class WeatherViewController: UIViewController {
@@ -44,6 +45,7 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var condition: UIView!
+    @IBOutlet weak var viewConnectionNotAvailable: UIView!
     
     // MARK: - UI Constraint
     @IBOutlet weak var cLeadingPictureImageView: NSLayoutConstraint!
@@ -90,6 +92,12 @@ class WeatherViewController: UIViewController {
         return true
     }
     
+    // MARK: - IBAction
+    @IBAction func refreshLocation(_ sender: Any) {
+        print("██░░░ L\(#line) 🚧📕 Refresh 🚧🚧 [ \(type(of: self))  \(#function) ]")
+        self.interactor?.getWeatherByCurentLocation()
+    }
+    
     // MARK: - Method
     func start() {
         configNavigationController() // remove bar navigation
@@ -97,7 +105,6 @@ class WeatherViewController: UIViewController {
         self.interactor?.askLocationAutorization() // ask permission Location
         // user hit the box location then  // displayAskLocationAutorization(:String) is called
     }
-    
     
     // MARK: - Builder when the object is unfrozen from IB
     private func setup() {
@@ -126,6 +133,10 @@ class WeatherViewController: UIViewController {
             }
         }
     }
+}
+
+extension WeatherViewController {
+    
 }
 
 extension WeatherViewController: WeatherViewControllerProtocol {
@@ -157,10 +168,12 @@ extension WeatherViewController: WeatherViewControllerProtocol {
                     }
                 }
                 
+                print("██░░░ L\(#line) 🚧📕 --- A 🚧🚧 [ \(type(of: self))  \(#function) ]")
                 // present weather from current location
                 self.view.backgroundColor = UIColor.gray
                 autorisationPendingView.isHidden = true
                 
+                print("██░░░ L\(#line) 🚧📕 --- B 🚧🚧 [ \(type(of: self))  \(#function) ]")
                 self.interactor?.getWeatherByCurentLocation()
                 
                 break
@@ -191,6 +204,10 @@ extension WeatherViewController: WeatherViewControllerProtocol {
             conditionLabel.label.text =  conditionText.uppercased()
         }
         
+    }
+    func displayViewConnectionNotAvailable(_ bool :Bool) {
+        // add in spinner
+        viewConnectionNotAvailable.isHidden = !bool
     }
 }
 extension WeatherViewController {

@@ -22,21 +22,26 @@ class WeatherApi: WeatherApiProtocol {
 //        print("██░░░ L\(#line) 🚧📕 2 🚧🚧 [ \(type(of: self))  \(#function) ]")
         locationManager.askLocationAutorization() // WeatherLocationManager
     }
-    func getWeatherByCurrentLocation(completionHandler: @escaping ([String : Any])->Void) {
+    func getWeatherByCurrentLocation(completionHandler: @escaping ([String : Any]?)->Void) {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
         // get meteo by the current location
         var currentCCLocation: CLLocation? = nil
+        
         locationManager.getCurrentLocation() { (coord) in
             currentCCLocation = coord
         }
         
+        // SI LOCATION RECUPER GET DATA
         // get weather by current location
         if let currentCCLocation = currentCCLocation {
             getDataWeatherByLatAndLon(coordinates: currentCCLocation.coordinate) { (result) in
                 completionHandler(result)
             }
+        } else {
+            // escape un message location non available
+            completionHandler(nil)
         }
-        // send it back to interactor
+        
     }
     
     // MARK: -
