@@ -43,6 +43,10 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         
         return container
     }()
+    
+    weak var fetchResultControllerDelegate: NSFetchedResultsControllerDelegate? // delegate view data for tableview
+    
+    
     init() {
         print(persitentContainer.persistentStoreDescriptions)
     }
@@ -130,8 +134,7 @@ class WeatherCoreData: WeatherCoreDataProtocol {
             }
         }
     }
-
-    // Insert before ios 13
+    /** Insert before ios 13 */
     func createCitiesRowsBeforeIos13(dict:[[String:String]], completionHandler: @escaping (String)->Void){
         let itemCount = dict.count
         let saveFrequencyCount = 4000
@@ -161,7 +164,6 @@ class WeatherCoreData: WeatherCoreDataProtocol {
             }
         }
     }
-    
     /** Insert from ios 13. */
     @available(iOS 13, *)
     func createCitiesRowsAtIos13(dict:[[String:String]], completionHandler: @escaping (String)->Void){
@@ -191,6 +193,43 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         } catch let error as NSError {
             fatalError("██░░░ FATAL ERROR : \(#line) 🚧 \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
         }
+    }
+    
+    func readsCity(predicate:String?) -> NSFetchedResultsController<CityEntity>? {
+        // fetch request local data
+        let fetchRequest : NSFetchRequest<CityEntity> = CityEntity.fetchRequest()
+        
+        // Apply several predicate to match with th research
+        guard let predicate = predicate else { return nil }
+        let predicate1 = NSPredicate(format: "name CONTAINS[c] %@", predicate) // name or
+//        let predicate2 = NSPredicate(format: "cp CONTAINS[c] %@", predicate) // code city
+        // add them
+//        fetchRequest.predicate = NSCompoundPredicate(type: .or, subpredicates: [predicate1, predicate2])
+        fetchRequest.predicate = NSCompoundPredicate(type: .or, subpredicates: [predicate1])
+        
+        if let city = try? fetchRequest.execute().first {
+            print("██░░ 🚧","city = \(city.name ?? "Rien") †",#line)
+        }
+        
+        // Sort Result by
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+            fetchRequest.fetchLimit = 3
+        fetchRequest.fetchBatchSize = 50
+        
+        // execute the request
+        
+        let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                    managedObjectContext: persitentContainer.viewContext,
+                                                    sectionNameKeyPath: nil, cacheName: nil)
+        
+        controller.delegate = fetchResultControllerDelegate // viewcontroller
+        
+        do {
+            try controller.performFetch()
+        } catch {
+            fatalError("\(error)")
+        }
+        return controller
     }
 }
 

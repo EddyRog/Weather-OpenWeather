@@ -6,10 +6,12 @@
 import Foundation
 import SwiftyJSON
 import CoreLocation
+import CoreData
 
 class WeatherApi: WeatherApiProtocol {
     var locationManager: WeatherLocationManager
     fileprivate let urlPath = "http://api.openweathermap.org/data/2.5/weather?q=paris&appid=ea95f1643b48eebf14e1ec6b10f3ea62"
+    weak var fetchResultControllerDelegate: NSFetchedResultsControllerDelegate? // delegate view data for tableview
     
     init() {
         locationManager = WeatherLocationManager()
@@ -37,6 +39,46 @@ class WeatherApi: WeatherApiProtocol {
         // send it back to interactor
     }
     
+    // MARK: -
+    // TODO: verifier la methode
+    // MARK: -
+    func getDataWeatherByCityName(Name:String ,completion: @escaping (Dictionary<String, Any>)->Void) {
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        print("██░░ 🚧","name : \(Name) †",#line)
+        guard let url = requestUrlByCity(city: Name) else { fatalError("Status: Url creation has failed") }
+        
+        let task = session.dataTask(with: url) { (data, response, error)  in
+            guard let data = data else { fatalError("json Serialization failed")}
+            guard let json = try? JSON(data: data) else {
+                print("██░░ 🚧","no data †",#line)
+                fatalError("no data")
+                
+            }
+            
+            guard let temperature = json["main"]["temp"].float,
+                let nameCity = json["name"].string,
+                let idWeather = json["weather"][0]["id"].int,
+                let temperatureMax = json["main"]["temp_max"].float,
+                let sunriseTime = json["sys"]["sunrise"].int,
+                let sunsetTime =  json["sys"]["sunset"].int,
+                let description = json["weather"][0]["description"].string else {
+                    fatalError("impossible to fetch key in json object")
+            }
+            
+            let weatherDict: [String: Any] = ["temp":temperature,
+                                              "city": nameCity,
+                                              "idWeather": idWeather,
+                                              "temperatureMax": temperatureMax,
+                                              "sunrise":sunriseTime,
+                                              "sunset":sunsetTime,
+                                              "description": description
+            ]
+            completion(weatherDict) // send back data fetched
+        }
+        task.resume()
+    }
+    
     
     // MARK: - Private
     fileprivate func getTokenID() -> String{
@@ -47,7 +89,7 @@ class WeatherApi: WeatherApiProtocol {
         guard let params = parameters  else { fatalError("do not have access to parameters from")}
         let appId = params["OpenWeatherAppId"] as! String //ea95f1643b48eebf14e1ec6b10f3ea62
         return appId
-    }
+    } // get Key
     fileprivate func requestUrlByLontitudeAndLatitude(coordinates:CLLocationCoordinate2D ) -> URL? {
         //https://samples.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=439d4b804bc8187953eb36d2a8c26a02
         guard var components = URLComponents(string:urlPath) else { fatalError("need to configurate an url")}
@@ -60,7 +102,17 @@ class WeatherApi: WeatherApiProtocol {
             URLQueryItem(name:"appid", value:appId),
         ]
         return components.url
+    } // build URL
+    fileprivate func requestUrlByCity(city:String) -> URL? {
+        guard var components = URLComponents(string:urlPath) else { fatalError("need to configurate an url")}
+        let appId = getTokenID()
+        components.queryItems = [
+            URLQueryItem(name:"q", value: city),
+            URLQueryItem(name:"appid", value:appId),
+        ]
+        return components.url
     }
+    
     fileprivate func getDataWeatherByLatAndLon(coordinates: CLLocationCoordinate2D, completion:@escaping(Dictionary<String, Any>)->()) {
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)

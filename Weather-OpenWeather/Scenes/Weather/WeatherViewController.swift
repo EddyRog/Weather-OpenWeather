@@ -171,7 +171,8 @@ extension WeatherViewController: WeatherViewControllerProtocol {
         
     }
     func configNavigationController() {
-        self.navigationController!.navigationBar.isHidden = true
+//        self.navigationController!.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = true
     }
     func displayDataCurrentWeather(_ obj: WeatherModels.GetWeather.ViewModel.DisplayedWeather) {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")

@@ -6,16 +6,25 @@
 // Copyright © 2020 EddyR. All rights reserved.
 
 import UIKit
-
+import CoreData
 // MARK: - ViewController Protocol
 protocol SearchViewControllerProtocol: class {
     func displayChangeColor(_ color: UIColor)
 }
 // MARK: - ViewController implementation
-class SearchViewController: UIViewController ,SearchViewControllerProtocol {
+class SearchViewController: UIViewController ,SearchViewControllerProtocol, NSFetchedResultsControllerDelegate {
     // ViewController knows :
     var interactor: SearchInteractorProtocol?
     var router: (NSObjectProtocol & SearchRouterProtocol & SearchRouterDataPassing)?  // NSObjectProtocol use to perfom func in an object for handling.
+    
+    var predicateValue = "Paris"
+    
+    private lazy var searchWeatherCoredata: WeatherCoreData = {
+        let searchWeatherCoredata = WeatherCoreData()
+        searchWeatherCoredata.fetchResultControllerDelegate = self
+        return searchWeatherCoredata
+    }()
+    
     
     // MARK: - UI
     @IBOutlet weak var searchTextField: UITextField!
@@ -38,12 +47,21 @@ class SearchViewController: UIViewController ,SearchViewControllerProtocol {
         start()
     }
     
-    
     // MARK: - Start Action with func or IBAction
     func start() {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
         setUpIconSearchTextField()
         self.interactor?.actionChangeColor()
+        
+        
+//        guard let result = searchWeatherCoredata.readsCity(predicate: predicateValue) else { return UITableViewCell() }
+//        print(result.fetchedObjects)
+        if let toto = searchWeatherCoredata.readsCity(predicate: "Paris") {
+            print(toto)
+        }
+        
+        
+        
     }
     
     // MARK: - Builder when the object is unfrozen from IB
@@ -106,10 +124,10 @@ extension SearchViewController: UITextFieldDelegate {
             let textRange = Range(range, in: text) {
             let updatedText = text.replacingCharacters(in: textRange,
                                                        with: string)
-            print(updatedText)
-//            predicateValue = updatedText
-//            tableview.reloadData()
-//            // 📢 : reload tableView.
+            predicateValue = updatedText
+            print(predicateValue)
+            tableView.reloadData()
+
         }
         return true
     }
@@ -118,33 +136,15 @@ extension SearchViewController: UITextFieldDelegate {
 // MARK: - TableView
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return 1
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+//        guard let result = searchWeatherCoredata.readsCity(predicate: predicateValue) else { return UITableViewCell() }
+//        print(result.fetchedObjects)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        
+        cell.textLabel?.text = predicateValue
+        return cell
     }
 }
 
-
-
-
-
-/*
- ** NSObjectProtocol **   has :
- var hash: Int { get }
- var superclass: AnyClass? { get }
- 
- func isEqual(_ object: Any?) -> Bool
- func `self`() -> Self
- func perform(_ aSelector: Selector!) -> Unmanaged<AnyObject>!
- func perform(_ aSelector: Selector!, with object: Any!) -> Unmanaged<AnyObject>!
- func perform(_ aSelector: Selector!, with object1: Any!, with object2: Any!) -> Unmanaged<AnyObject>!
- func isProxy() -> Bool
- func isKind(of aClass: AnyClass) -> Bool
- func isMember(of aClass: AnyClass) -> Bool
- func conforms(to aProtocol: Protocol) -> Bool
- func responds(to aSelector: Selector!) -> Bool
- var description: String { get }
- optional var debugDescription: String { get }
- */
