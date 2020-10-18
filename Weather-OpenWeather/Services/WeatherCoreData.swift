@@ -62,7 +62,7 @@ class WeatherCoreData: WeatherCoreDataProtocol {
             result = try context.fetch(readFetchRequest) as? [SettingEntity]
             completionHandler(result)
         } catch {
-            print("██░░░ L\(#line) 🚧📕 fetching failed \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+            print("██░░░ L\(#line) 🚧📕 fetching failed \(error) 🚧🚧 [ \(type (of: self))  \(#function) ]")
         }
     }
     /** Insert 1 row in SettingEntity. */
@@ -170,11 +170,15 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         let createInsertRequest = NSBatchInsertRequest(entityName: CityEntity.description(), objects: dict)
         createInsertRequest.resultType = .statusOnly
         do {
+            print("██░░░ L\(#line) 🚧📕 Insert ios 13 🚧🚧 [ \(type(of: self))  \(#function) ]")
             let resultInsert = try persitentContainer.viewContext.execute(createInsertRequest) as! NSBatchInsertResult // execute and save
             let successResult = Int(resultInsert.result as! NSBatchDeleteRequestResultType.RawValue) as NSNumber as! Bool
             if (successResult) {
+                print("██░░░ L\(#line) 🚧📕 sucess 🚧🚧 [ \(type(of: self))  \(#function) ]")
                 completionHandler("SUCCESS INSERT")
+                
             } else {
+                print("██░░░ L\(#line) 🚧📕 failed 🚧🚧 [ \(type(of: self))  \(#function) ]")
                 completionHandler("FAILED INSERT")
             }
         } catch {

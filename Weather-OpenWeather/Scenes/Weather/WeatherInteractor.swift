@@ -14,6 +14,7 @@ protocol WeatherInteractorProtocol {
     func askLocationAutorization()
     func getWeatherByCurentLocation()
     func importDataCity(completionHandler: @escaping ()->Void)
+    
 }
 
 // MARK: - Data Store Interactor Protocol
@@ -48,10 +49,12 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
     func getWeatherByCurentLocation() {
         // recuperation des coordonnée
         //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞
+        
         weatherWorker.weatherApi.getWeatherByCurrentLocation { (resultWeather) in
             DispatchQueue.main.async {
                 self.presenter?.presentWeather(data: resultWeather)
             }
+            
         }
         
     }
@@ -72,14 +75,15 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
             guard let result = resultArray?.first else { return }
             resultFetch = result
         }
-        //        if (true) {
+        
+        if true {
         if resultFetch == nil {
             // delete and create setting row
             weatherWorker.weatherCoreData.deleteAllSettingEntity()
             weatherWorker.weatherCoreData.deleteAllCityEntity() // Clean the data base to avoid duplication.
             weatherWorker.weatherCoreData.createSettingRow() // Create new setting isDownloaded.
             //            // Download the json file and translate it to dictionnary.
-            guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "city.list.min") else { print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]"); return}
+            guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "test") else { print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]"); return}
             weatherWorker.weatherCoreData.createCitiesRows(jsonDictionnary)
         } else {
             print("██░░░ L\(#line) 🚧🚧 Data Already Imported :  🚧🚧 [ \(type(of: self))  \(#function) ]")

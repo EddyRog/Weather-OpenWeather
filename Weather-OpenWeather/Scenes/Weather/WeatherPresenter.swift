@@ -22,8 +22,7 @@ class WeatherPresenter: WeatherPresenterProtocol {
         self.viewController?.displayChangeColor(color)
     }
     func presentAskLocationAutorization(code: ManagerLocationError) {
-//        print("██░░░ L\(#line) 🚧📕 // traitement du message 🚧🚧 [ \(type(of: self))  \(#function) ]")
-
+        //        print("██░░░ L\(#line) 🚧📕 // traitement du message 🚧🚧 [ \(type(of: self))  \(#function) ]")
         // traitement du message
         var codePresented = ""
         switch code {
@@ -54,7 +53,6 @@ class WeatherPresenter: WeatherPresenterProtocol {
         let temperature = (data["temperature"] as? Float ?? 0).clean
         let humidity = String(data["humidity"] as? Int ?? 0)
         let wind = String(data["wind"] as? Float ?? 0.0)
-        
         let viewModelWeather = WeatherModels.GetWeather.ViewModel.DisplayedWeather(city: city,
                                                                                    time: time,
                                                                                    picture: picture,

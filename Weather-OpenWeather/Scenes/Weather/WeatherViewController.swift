@@ -47,7 +47,6 @@ class WeatherViewController: UIViewController {
     
     // MARK: - UI Constraint
     @IBOutlet weak var cLeadingPictureImageView: NSLayoutConstraint!
-
     // MARK: - Initialization
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -71,20 +70,22 @@ class WeatherViewController: UIViewController {
             spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor, constant: 0).isActive = true
         }
         
-        // MARK: - Animation with constraint : setup
-//        self.conditionImageConstraintCenter.constant -= view.bounds.width + conditionImage.bounds.width / 2
-        self.cLeadingPictureImageView.constant -= view.bounds.width + pictureImageView.bounds.width / 2
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // MARK: - Animation with constraint : setup
+        
+        self.cLeadingPictureImageView.constant -= view.bounds.width + pictureImageView.bounds.width / 2
+        self.cLeadingPictureImageView.constant = 0
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         start()
         // MARK: - Animation with constraint : anime
-
-        AnimationFactoryWorker.slideUpToTheRight(mainView: self.view, view: self.pictureImageView, constant: cLeadingPictureImageView).startAnimation()
-        AnimationFactoryWorker.scaleUpandDown(view: pictureImageView)
+        
+//        AnimationFactoryWorker.slideUpToTheRight(mainView: self.view, view: self.pictureImageView, constant: cLeadingPictureImageView).startAnimation()
+//        AnimationFactoryWorker.scaleUpandDown(view: pictureImageView)
     }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -133,20 +134,24 @@ extension WeatherViewController: WeatherViewControllerProtocol {
         self.view.backgroundColor = color
     }
     func displayAskLocationAutorization(_ code : String) {
+        print("░░░██❄️❄️ -- 3A  ❄️██░░░ [ \(type(of: self)) L\(#line)")
         switch code {
             case "Pending":
+                print("░░░██❄️❄️ -- 3B  ❄️██░░░ [ \(type(of: self)) L\(#line)")
                 self.view.backgroundColor = UIColor.orange
                 autorisationPendingView.isHidden = false
                 //                print("Pending = not determined")
                 break
             case "Denied":
+                print("░░░██❄️❄️ -- 3C  ❄️██░░░ [ \(type(of: self)) L\(#line)")
                 self.view.backgroundColor = UIColor.red
                 autorisationPendingView.isHidden = false
                 //                print("❄️ Access Denied : show  tutoriel how change location with turoriel ❄️")
                 break
             case "Using", "Always":
-                print("██░░░ L\(#line) 🚧📕 USING 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                print("░░░██❄️❄️ -- 3D  ❄️██░░░ [ \(type(of: self)) L\(#line)")
                 
+                autorisationPendingView.isHidden = true // cache papier peint violet
                 // import data
                 self.busyIn()
                 DispatchQueue.global(qos: .background).async { [weak self] in
@@ -156,7 +161,8 @@ extension WeatherViewController: WeatherViewControllerProtocol {
                         }
                     }
                 }
-                
+                // STOP HERE 🚦🌁🏝☀️🏖🐬🏝🏞🏜🚦
+                break
                 // present weather from current location
                 self.view.backgroundColor = UIColor.gray
                 autorisationPendingView.isHidden = true
@@ -171,7 +177,7 @@ extension WeatherViewController: WeatherViewControllerProtocol {
         
     }
     func configNavigationController() {
-//        self.navigationController!.navigationBar.isHidden = true
+        //        self.navigationController!.navigationBar.isHidden = true
         self.navigationController?.navigationBar.isHidden = true
     }
     func displayDataCurrentWeather(_ obj: WeatherModels.GetWeather.ViewModel.DisplayedWeather) {
@@ -195,14 +201,13 @@ extension WeatherViewController: WeatherViewControllerProtocol {
 }
 extension WeatherViewController {
     func busyIn() {
-        spinner.startAnimating()
-        self.loadingView.isHidden = false
-        self.loadingImage.isHidden = false
+                spinner.startAnimating()
+//        self.loadingView.isHidden = false
+//        self.loadingImage.isHidden = false
     }
     func busyOut() {
-        spinner.stopAnimating()
-        self.loadingImage.isHidden = true
-        self.loadingView.isHidden = true
-        
+                spinner.stopAnimating()
+//        self.loadingView.isHidden = true
+//        self.loadingImage.isHidden = true
     }
 }

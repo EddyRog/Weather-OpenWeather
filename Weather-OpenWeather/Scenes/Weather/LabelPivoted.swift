@@ -86,7 +86,6 @@ class LabelPivoted: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        print("██░░░ L\(#line) 🚧📕 layoutSubview 🚧🚧 [ \(type(of: self))  \(#function) ]")
         label.frame = CGRect(x: 0 + 2, y: 0 + 2, width: bounds.width - 4, height: bounds.height - 4)
         
     }
