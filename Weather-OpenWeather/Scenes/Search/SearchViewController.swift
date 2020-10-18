@@ -52,15 +52,13 @@ class SearchViewController: UIViewController ,SearchViewControllerProtocol, NSFe
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
         setUpIconSearchTextField()
         self.interactor?.actionChangeColor()
-        
+        //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞
         
 //        guard let result = searchWeatherCoredata.readsCity(predicate: predicateValue) else { return UITableViewCell() }
 //        print(result.fetchedObjects)
         if let toto = searchWeatherCoredata.readsCity(predicate: "Paris") {
             print(toto)
         }
-        
-        
         
     }
     

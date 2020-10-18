@@ -12,7 +12,8 @@ import SwiftyJSON
 protocol WeatherPresenterProtocol {
     func presentChangeColor(_ color: UIColor)
     func presentAskLocationAutorization(code: ManagerLocationError) // presenter recois ce message
-    func presentWeather(data: [String:Any])   
+    func presentWeather(data: [String:Any])
+    func isPresentViewConnectionNotAvailable(_ :Bool)
 }
 // MARK: - Presenter implementation
 class WeatherPresenter: WeatherPresenterProtocol {
@@ -22,7 +23,11 @@ class WeatherPresenter: WeatherPresenterProtocol {
         self.viewController?.displayChangeColor(color)
     }
     func presentAskLocationAutorization(code: ManagerLocationError) {
+<<<<<<< HEAD
         //        print("██░░░ L\(#line) 🚧📕 // traitement du message 🚧🚧 [ \(type(of: self))  \(#function) ]")
+=======
+//        print("██░░░ L\(#line) 🚧📕 // traitement du message 🚧🚧 [ \(type(of: self))  \(#function) ]")
+>>>>>>> bf0426927fd2db11811490158dd0d94a44ce7173
         // traitement du message
         var codePresented = ""
         switch code {
@@ -39,13 +44,10 @@ class WeatherPresenter: WeatherPresenterProtocol {
                 codePresented = "Always"
                 break
         }
-        
         self.viewController?.displayAskLocationAutorization(codePresented)
     }
     func presentWeather(data: [String:Any]) {
-        
         // format data
-        
         let city = data["city"] as? String  ?? ""
         let time = data["time"] as? String  ?? ""
         let picture = data["weatherPicture"] as? String  ?? ""
@@ -61,6 +63,9 @@ class WeatherPresenter: WeatherPresenterProtocol {
                                                                                    humidity: humidity,
                                                                                    wind: wind)
         self.viewController?.displayDataCurrentWeather(viewModelWeather)
+    }
+    func isPresentViewConnectionNotAvailable(_ bool:Bool) {
+        self.viewController?.displayViewConnectionNotAvailable(bool)
     }
 }
 

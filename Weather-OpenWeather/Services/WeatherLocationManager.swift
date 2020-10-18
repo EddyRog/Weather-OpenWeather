@@ -82,11 +82,33 @@ class WeatherLocationManager: NSObject {
         print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
         locationManager.requestLocation()
         if let location = locationManager.location {
+            print("██░░░ L\(#line) 🚧🚧 \(location) 🚧🚧 [ \(type(of: self))  \(#function) ]")
             completion(location)
+            locationManager.stopUpdatingLocation()
+        } else {
+            // active location plus longtemps
+            locationManager.startUpdatingLocation()
         }
+        
+        
     }
 }
 
+<<<<<<< HEAD
+=======
+
+// MARK: - Enum of CLLocationManagerDelegate
+enum ManagerLocationError {
+    case accessPending
+    case accessDenied
+    case accessAuthorizedWhenInUse
+    case accessAuthorizedAlways
+}
+
+//var toto : [String:String]! = ["o":""]
+
+
+>>>>>>> bf0426927fd2db11811490158dd0d94a44ce7173
 // MARK: - method of CLLocationManagerDelegate
 extension WeatherLocationManager: CLLocationManagerDelegate {
     /** method used to respond to the modal box the first time. */
@@ -127,10 +149,12 @@ extension WeatherLocationManager: CLLocationManagerDelegate {
         }
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        
+        print("██░░░ L\(#line) 🚧🚧 error Location manager : \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+        locationManager.startUpdatingLocation()
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
+<<<<<<< HEAD
             manager.stopUpdatingLocation()
             
 //            let lon = String(location.coordinate.longitude)
@@ -139,6 +163,10 @@ extension WeatherLocationManager: CLLocationManagerDelegate {
 //            delegateCoordinates?.coordinatesDelegate(didReveiceCoordinates: coordinate)
 //            print(locations)
 //            toto = coordinate
+=======
+            print(location)
+            
+>>>>>>> bf0426927fd2db11811490158dd0d94a44ce7173
         }
     }
 }
