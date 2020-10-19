@@ -1,15 +1,10 @@
 // ViewController
 // WeatherViewController [Display]
 
-// Weather-OpenWeather
-// Created by Eddy R on 05/10/2020.
-// Copyright © 2020 EddyR. All rights reserved.
-
 import UIKit
 
 // MARK: - ViewController Protocol
 protocol WeatherViewControllerProtocol: class {
-    func displayChangeColor(_ color: UIColor)
     func displayAskLocationAutorization(_ : String)
     func displayDataCurrentWeather(_ : WeatherModels.GetWeather.ViewModel.DisplayedWeather)
     func displayViewConnectionNotAvailable(_ :Bool)
@@ -49,71 +44,29 @@ class WeatherViewController: UIViewController {
     
     // MARK: - UI Constraint
     @IBOutlet weak var cLeadingPictureImageView: NSLayoutConstraint!
+    
+    // Private Var
+    private var repeatSearchConnection: Timer?
+    private var isNotSearchingConnection: Bool = true
+    
+    
     // MARK: - Initialization
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        print("  L\(#line) [✴️\(type(of: self))  ✴️\(#function) ] ")
         setup()
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        print("  L\(#line) [✴️\(type(of: self))  ✴️\(#function) ] ")
         setup()
     }
-    
-    // MARK: - View cycle
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //        if spinner.superview == nil, let superView = view.superview {
-        if spinner.superview == nil, let superView = loadingView.superview {
-            loadingView.addSubview(spinner)
-            //            view.addSubview(spinner)
-            spinner.translatesAutoresizingMaskIntoConstraints = false
-            spinner.centerXAnchor.constraint(equalTo: superView.centerXAnchor).isActive = true
-            //            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor).isActive = true
-            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor, constant: 0).isActive = true
-        }
-        
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // MARK: - Animation with constraint : setup
-        
-        self.cLeadingPictureImageView.constant -= view.bounds.width + pictureImageView.bounds.width / 2
-        self.cLeadingPictureImageView.constant = 0
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        start()
-        // MARK: - Animation with constraint : anime
-        
-//        AnimationFactoryWorker.slideUpToTheRight(mainView: self.view, view: self.pictureImageView, constant: cLeadingPictureImageView).startAnimation()
-//        AnimationFactoryWorker.scaleUpandDown(view: pictureImageView)
-    }
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
-    // MARK: - IBAction
-    @IBAction func refreshLocation(_ sender: Any) {
-        print("██░░░ L\(#line) 🚧📕 Refresh 🚧🚧 [ \(type(of: self))  \(#function) ]")
-        self.interactor?.getWeatherByCurentLocation()
-    }
-    
-    // MARK: - Method
-    func start() {
-        configNavigationController() // remove bar navigation
-        self.interactor?.actionChangeColor() //test VIP cycle
-        self.interactor?.askLocationAutorization() // ask permission Location
-        // user hit the box location then  // displayAskLocationAutorization(:String) is called
-    }
-    
-    // MARK: - Builder when the object is unfrozen from IB
     private func setup() {
+        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
         let viewController = self
         let interactor = WeatherInteractor()
         let presenter = WeatherPresenter()
         let router = WeatherRouter()
-        
         viewController.interactor = interactor
         viewController.router = router
         
@@ -125,8 +78,58 @@ class WeatherViewController: UIViewController {
         router.viewController = viewController
     }
     
+    // MARK: - View cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+//        //        if spinner.superview == nil, let superView = view.superview {
+        if spinner.superview == nil, let superView = loadingView.superview {
+            loadingView.addSubview(spinner)
+            //            view.addSubview(spinner)
+            spinner.translatesAutoresizingMaskIntoConstraints = false
+            spinner.centerXAnchor.constraint(equalTo: superView.centerXAnchor).isActive = true
+            //            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor).isActive = true
+            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor, constant: 0).isActive = true
+        }
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+        start()
+        // MARK: - Animation with constraint : setup
+        self.cLeadingPictureImageView.constant -= view.bounds.width + pictureImageView.bounds.width / 2
+        self.cLeadingPictureImageView.constant = -self.view.frame.width
+//        start()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+        // MARK: - Animation with constraint : anime
+//                AnimationFactoryWorker.slideUpToTheRight(mainView: self.view, view: self.pictureImageView, constant: cLeadingPictureImageView).startAnimation()
+//                AnimationFactoryWorker.scaleUpandDown(view: pictureImageView)
+    }
+    
+    // MARK: - Method
+    func start() {
+        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+        configNavigationController() // remove bar navigation
+        self.interactor?.askLocationAutorization() // ask permission Location
+        // user hit the box location then  // displayAskLocationAutorization(:String) is called
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    // MARK: - IBAction
+    @IBAction func refreshLocation(_ sender: Any) {
+        print("██░░░ L\(#line) 🚧📕 Refresh 🚧🚧 [ \(type(of: self))  \(#function) ]")
+        self.interactor?.getWeatherByCurentLocation()
+    }
+    
     // MARK: - Routing.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("██░░░ L\(#line) 🚧🚧📐  🚧                 [ \(type(of: self))  \(#function) ]🚧")
         if let scene = segue.identifier {
             let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
             if let router = router, router.responds(to: selector) {
@@ -136,62 +139,49 @@ class WeatherViewController: UIViewController {
     }
 }
 
-extension WeatherViewController {
-    
-}
-
 extension WeatherViewController: WeatherViewControllerProtocol {
     func displayChangeColor(_ color: UIColor) {
         self.view.backgroundColor = color
     }
     func displayAskLocationAutorization(_ code : String) {
-        print("░░░██❄️❄️ -- 3A  ❄️██░░░ [ \(type(of: self)) L\(#line)")
-        switch code {
-            case "Pending":
-                print("░░░██❄️❄️ -- 3B  ❄️██░░░ [ \(type(of: self)) L\(#line)")
-                self.view.backgroundColor = UIColor.orange
-                autorisationPendingView.isHidden = false
-                //                print("Pending = not determined")
-                break
-            case "Denied":
-                print("░░░██❄️❄️ -- 3C  ❄️██░░░ [ \(type(of: self)) L\(#line)")
-                self.view.backgroundColor = UIColor.red
-                autorisationPendingView.isHidden = false
-                //                print("❄️ Access Denied : show  tutoriel how change location with turoriel ❄️")
-                break
-            case "Using", "Always":
-                print("░░░██❄️❄️ -- 3D  ❄️██░░░ [ \(type(of: self)) L\(#line)")
-                
-                autorisationPendingView.isHidden = true // cache papier peint violet
-                // import data
-                self.busyIn()
-                DispatchQueue.global(qos: .background).async { [weak self] in
-                    self?.interactor?.importDataCity {
-                        DispatchQueue.main.async {
-                            self?.busyOut()
+        // when CoreLocation have already check the location :  let the cycle finishing to create everithing others the classes don't have the time to finish the initialization et the app crash because the views in the SB are handled.
+        DispatchQueue.main.async {
+            print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+            print("██░░░ L\(#line) 🚧🚧------ code  : \(code) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+            switch code {
+                case "Pending":
+                    self.view.backgroundColor = UIColor.clear
+                    self.autorisationPendingView.isHidden = false
+                    //                print("Pending = not determined")
+                    break
+                case "Denied":
+                    self.view.backgroundColor = UIColor.red
+                    self.autorisationPendingView.isHidden = false
+                    //                print("❄️ Access Denied : show  tutoriel how change location with turoriel ❄️")
+                    break
+                case "Using", "Always":
+                    self.autorisationPendingView.isHidden = true
+                    
+                    // import data
+//                    self.view.backgroundColor = UIColor.brown
+                    self.interactor?.getWeatherByCurentLocation()
+                    self.busyIn()
+                    DispatchQueue.global(qos: .background).async { [weak self] in
+                        self?.interactor?.importDataCity {
+                            DispatchQueue.main.sync {
+                                self?.busyOut()
+                                // animation
+                                AnimationFactoryWorker.slideUpToTheRight(mainView: self?.view, view: self?.pictureImageView ?? UIImageView(), constant: self?.cLeadingPictureImageView ?? NSLayoutConstraint()).startAnimation()
+                                AnimationFactoryWorker.scaleUpandDown(view: self?.pictureImageView ?? UIImageView())
+                            }
                         }
                     }
-                }
-<<<<<<< HEAD
-                // STOP HERE 🚦🌁🏝☀️🏖🐬🏝🏞🏜🚦
-                break
-=======
-                
-                print("██░░░ L\(#line) 🚧📕 --- A 🚧🚧 [ \(type(of: self))  \(#function) ]")
->>>>>>> bf0426927fd2db11811490158dd0d94a44ce7173
-                // present weather from current location
-                self.view.backgroundColor = UIColor.gray
-                autorisationPendingView.isHidden = true
-                
-                print("██░░░ L\(#line) 🚧📕 --- B 🚧🚧 [ \(type(of: self))  \(#function) ]")
-                self.interactor?.getWeatherByCurentLocation()
-                
-                break
-            default:
-                self.view.backgroundColor = UIColor.blue
-                break
+                    break
+                default:
+                    self.view.backgroundColor = UIColor.blue
+                    break
+            }
         }
-        
     }
     func configNavigationController() {
         //        self.navigationController!.navigationBar.isHidden = true
@@ -216,19 +206,34 @@ extension WeatherViewController: WeatherViewControllerProtocol {
         
     }
     func displayViewConnectionNotAvailable(_ bool :Bool) {
-        // add in spinner
-        viewConnectionNotAvailable.isHidden = !bool
+        //search automatically the connection
+        // if connectio not ConnectionNotAvailable
+        if bool {
+            viewConnectionNotAvailable.isHidden = !true
+            if (bool == true && isNotSearchingConnection == true) {
+                isNotSearchingConnection = false
+                repeatSearchConnection = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { (timer) in
+                    self.interactor?.getWeatherByCurentLocation()
+                }
+            }
+        } else {
+            if bool == false {
+                isNotSearchingConnection = true
+            }
+            repeatSearchConnection?.invalidate()
+            viewConnectionNotAvailable.isHidden = true
+        }
     }
 }
 extension WeatherViewController {
     func busyIn() {
                 spinner.startAnimating()
-//        self.loadingView.isHidden = false
-//        self.loadingImage.isHidden = false
+        self.loadingView.isHidden = false
+        self.loadingImage.isHidden = false
     }
     func busyOut() {
                 spinner.stopAnimating()
-//        self.loadingView.isHidden = true
-//        self.loadingImage.isHidden = true
+        self.loadingView.isHidden = true
+        self.loadingImage.isHidden = true
     }
 }

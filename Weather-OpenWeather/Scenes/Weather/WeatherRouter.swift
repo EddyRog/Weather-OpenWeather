@@ -23,6 +23,11 @@ protocol WeatherRouterDataPassing {
 }
 // MARK: - Router implementation
 class WeatherRouter: NSObject, WeatherRouterProtocol, WeatherRouterDataPassing {
+    
+    override init() {
+        super.init()
+        print("  L\(#line) [📊\(type(of: self))  📊\(#function) ] ")
+    }
     weak var viewController: WeatherViewController?
     var dataStore: WeatherInteractorDataStoreProtocol?
     

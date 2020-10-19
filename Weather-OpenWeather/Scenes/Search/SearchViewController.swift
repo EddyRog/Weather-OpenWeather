@@ -49,7 +49,7 @@ class SearchViewController: UIViewController ,SearchViewControllerProtocol, NSFe
     
     // MARK: - Start Action with func or IBAction
     func start() {
-        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
+        
         setUpIconSearchTextField()
         self.interactor?.actionChangeColor()
         //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞

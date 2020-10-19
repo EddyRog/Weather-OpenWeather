@@ -1,16 +1,12 @@
 // Presenter
 // WeatherPresenter [Present]
 
-// Weather-OpenWeather
-// Created by Eddy R on 05/10/2020.
-// Copyright © 2020 EddyR. All rights reserved.
-
 import UIKit
 import SwiftyJSON
 
 // MARK: - Presenter Protocol
 protocol WeatherPresenterProtocol {
-    func presentChangeColor(_ color: UIColor)
+    
     func presentAskLocationAutorization(code: ManagerLocationError) // presenter recois ce message
     func presentWeather(data: [String:Any])
     func isPresentViewConnectionNotAvailable(_ :Bool)
@@ -18,16 +14,12 @@ protocol WeatherPresenterProtocol {
 // MARK: - Presenter implementation
 class WeatherPresenter: WeatherPresenterProtocol {
     weak var viewController: WeatherViewControllerProtocol?
-    func presentChangeColor(_ color: UIColor) {
-        // // use eventually the viewmodel class to display to viewcontroller
-        self.viewController?.displayChangeColor(color)
+    
+    init() {
+        print("  L\(#line) [📈\(type(of: self))  📈\(#function) ] ")
     }
+    
     func presentAskLocationAutorization(code: ManagerLocationError) {
-<<<<<<< HEAD
-        //        print("██░░░ L\(#line) 🚧📕 // traitement du message 🚧🚧 [ \(type(of: self))  \(#function) ]")
-=======
-//        print("██░░░ L\(#line) 🚧📕 // traitement du message 🚧🚧 [ \(type(of: self))  \(#function) ]")
->>>>>>> bf0426927fd2db11811490158dd0d94a44ce7173
         // traitement du message
         var codePresented = ""
         switch code {

@@ -6,11 +6,9 @@ import CoreLocation
 
 // MARK: - Interactor Protocol
 protocol WeatherInteractorProtocol {
-    func actionChangeColor()
     func askLocationAutorization()
     func getWeatherByCurentLocation()
     func importDataCity(completionHandler: @escaping ()->Void)
-    
 }
 
 // MARK: - Data Store Interactor Protocol
@@ -19,37 +17,27 @@ protocol WeatherInteractorDataStoreProtocol {
 }
 
 // MARK: - Interactor implementation ask and manage
-class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStoreProtocol, AuthorizationDelegate {
+class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStoreProtocol {
     var presenter: WeatherPresenterProtocol?
     var datasStoreWeatherInteractor: [Weather]?
     var weatherWorker = WeatherWorker() // Worker communicate with WeatherInteractor
     
     init() {
-        weatherWorker.weatherApi.locationManager.delegate = self // setup delegate to get back informations from WeatherApi about Location permission
+        print("  L\(#line) [🆔\(type(of: self))  🆔\(#function) ] ")
+        weatherWorker.weatherApi.locationManager.delegate = self
+//        weatherWorker.weatherApi.locationManager.delegate = self // setup delegate to get back informations from WeatherApi about Location permission
     }
     
     // MARK: - Action
-    func actionChangeColor() {
-        let color = UIColor.darkGray
-        self.presenter?.presentChangeColor(color)
-    } // ✔︎
     /** Permission location : ask the permission to activate location. */
     func askLocationAutorization() {
         weatherWorker.weatherApi.askLocationAutorization()
     }
-    /** Permission location : get back status permission from WeatherApi. */
-    func locationAuthorization(didReceiveAuthorization code: ManagerLocationError) {
-        self.presenter?.presentAskLocationAutorization(code: code)
-    }
+    
     /** get the information to show the weather with the current location. */
     func getWeatherByCurentLocation() {
         // recuperation des coordonnée
-<<<<<<< HEAD
-        //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞
-        
-=======
-        // check if location is available and bring back the data to presenter
->>>>>>> bf0426927fd2db11811490158dd0d94a44ce7173
+
         weatherWorker.weatherApi.getWeatherByCurrentLocation { (resultWeather) in
             DispatchQueue.main.async {
                 if let resultWeather = resultWeather {
@@ -58,14 +46,16 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
                     self.presenter?.isPresentViewConnectionNotAvailable(false) // [hide] view by default hide but shown
                 } else {
                     // present autre chose
+                    print("██░░░ L\(#line) 🚧🚧 getWeatherByCurrentLocation : CONNECTION non disponible 🚧🚧 [ \(type(of: self))  \(#function) ]")
                     self.presenter?.isPresentViewConnectionNotAvailable(true)// [show] view by default hide
                 }
-                
+
             }
-            
+
         }
         
     }
+    
     /** import data city from json. */
     func importDataCity(completionHandler: @escaping ()->Void) {
         importDataCity()
@@ -85,16 +75,26 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
         }
         
         if true {
-        if resultFetch == nil {
+//        if resultFetch == nil {
             // delete and create setting row
             weatherWorker.weatherCoreData.deleteAllSettingEntity()
             weatherWorker.weatherCoreData.deleteAllCityEntity() // Clean the data base to avoid duplication.
             weatherWorker.weatherCoreData.createSettingRow() // Create new setting isDownloaded.
             //            // Download the json file and translate it to dictionnary.
-            guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "test") else { print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]"); return}
+//            guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "test") else { print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]"); return}
+            guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "city.list.min") else { print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]"); return}
             weatherWorker.weatherCoreData.createCitiesRows(jsonDictionnary)
         } else {
             print("██░░░ L\(#line) 🚧🚧 Data Already Imported :  🚧🚧 [ \(type(of: self))  \(#function) ]")
         }
+    }
+}
+
+extension WeatherInteractor : AuthorizationDelegate {
+    /** Permission location : get back status permission from WeatherApi. */
+    func locationAuthorization(didReceiveAuthorization code: ManagerLocationError) {
+        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+        print("██░░░ L\(#line) 🚧🚧 code autorisation : \(code) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+        self.presenter?.presentAskLocationAutorization(code: code)
     }
 }

@@ -15,7 +15,7 @@ protocol WeatherCoreDataProtocol {
     
     // MARK: - Translate Json to Array
     func translateJsonToDict(nameFileJson:String) -> [[String: String]]?
-    
+
     // MARK: - Cities CRUD
     func createCitiesRows(_ dictCity: [[String:String]])
     func deleteAllCityEntity()
@@ -28,7 +28,13 @@ protocol WeatherApiProtocol {
 
 // bon je veux que quelqu'un me save les data c'est moi le chef
 class WeatherWorker {
-    var weatherCoreData: WeatherCoreDataProtocol = WeatherCoreData()
-    var weatherApi: WeatherApiProtocol = WeatherApi()
+    var weatherCoreData: WeatherCoreDataProtocol!
+    var weatherApi: WeatherApiProtocol!
+    init() {
+        print("  L\(#line) [🆙\(type(of: self))  🆙\(#function) ] ")
+        weatherCoreData = WeatherCoreData()
+        weatherApi = WeatherApi()
+    }
+    
 }
 

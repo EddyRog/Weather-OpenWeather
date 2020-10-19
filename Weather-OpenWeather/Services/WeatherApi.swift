@@ -14,6 +14,7 @@ class WeatherApi: WeatherApiProtocol {
     weak var fetchResultControllerDelegate: NSFetchedResultsControllerDelegate? // delegate view data for tableview
     
     init() {
+        print("  L\(#line) [🅿️\(type(of: self))  🅿️\(#function) ] ")
         locationManager = WeatherLocationManager()
         locationManager.delegateCoordinates = self
     }
@@ -23,7 +24,6 @@ class WeatherApi: WeatherApiProtocol {
         locationManager.askLocationAutorization() // WeatherLocationManager
     }
     func getWeatherByCurrentLocation(completionHandler: @escaping ([String : Any]?)->Void) {
-        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
         // get meteo by the current location
         var currentCCLocation: CLLocation? = nil
         
@@ -31,14 +31,14 @@ class WeatherApi: WeatherApiProtocol {
             currentCCLocation = coord
         }
         
-        // SI LOCATION RECUPER GET DATA
         // get weather by current location
         if let currentCCLocation = currentCCLocation {
+            // if connection get location
             getDataWeatherByLatAndLon(coordinates: currentCCLocation.coordinate) { (result) in
                 completionHandler(result)
             }
         } else {
-            // escape un message location non available
+            // if not  get location
             completionHandler(nil)
         }
         
