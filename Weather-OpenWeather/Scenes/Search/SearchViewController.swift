@@ -12,54 +12,54 @@ protocol SearchViewControllerProtocol: class {
     func displayChangeColor(_ color: UIColor)
 }
 // MARK: - ViewController implementation
-class SearchViewController: UIViewController ,SearchViewControllerProtocol, NSFetchedResultsControllerDelegate {
+class SearchViewController: UIViewController ,SearchViewControllerProtocol {
+    
     // ViewController knows :
     var interactor: SearchInteractorProtocol?
     var router: (NSObjectProtocol & SearchRouterProtocol & SearchRouterDataPassing)?  // NSObjectProtocol use to perfom func in an object for handling.
     
-    var predicateValue = "Paris"
     
+    var predicateValue = "etrechy" // predicate value for UITextField when searching
+//    var arrResult: [CityEntity]? = nil // data tableView
+    var dataCityFiltered: [CityEntity] = [] // data tableView without duplicate data from json
+    
+    // MARK: - fetchResultControllerDelegate
     private lazy var searchWeatherCoredata: WeatherCoreData = {
         let searchWeatherCoredata = WeatherCoreData()
         searchWeatherCoredata.fetchResultControllerDelegate = self
         return searchWeatherCoredata
     }()
-    
-    
+    var c: NSFetchedResultsController<CityEntity>!
+        
     // MARK: - UI
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var cancel: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
+    // MARK: - Init
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        print("  L\(#line) [✴️\(type(of: self))  ✴️\(#function) ] ")
         setup()
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        print("  L\(#line) [✴️\(type(of: self))  ✴️\(#function) ] ")
         setup()
     }
     
     // MARK: - View cycle
-    override func viewWillAppear(_ animated: Bool)
-    {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         start()
     }
     
     // MARK: - Start Action with func or IBAction
+    
     func start() {
-        
         setUpIconSearchTextField()
         self.interactor?.actionChangeColor()
-        //Reflexion🏙🏝 👾👯‍♀️👙🙍🏻‍♀️👄😺🏖🏞
-        
-//        guard let result = searchWeatherCoredata.readsCity(predicate: predicateValue) else { return UITableViewCell() }
-//        print(result.fetchedObjects)
-        if let toto = searchWeatherCoredata.readsCity(predicate: "Paris") {
-            print(toto)
-        }
-        
+        dataCityFiltered = filterDuplicateDataFetched(c: searchWeatherCoredata.readsCity(predicate: predicateValue))
     }
     
     // MARK: - Builder when the object is unfrozen from IB
@@ -82,6 +82,7 @@ class SearchViewController: UIViewController ,SearchViewControllerProtocol, NSFe
     
     // MARK: - Routing.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if let scene = segue.identifier {
             let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
             if let router = router, router.responds(to: selector) {
@@ -94,11 +95,30 @@ class SearchViewController: UIViewController ,SearchViewControllerProtocol, NSFe
          func routeTo[Name Of The Segue]](segue: UIStoryboardSegue?)
          */
     }
+    
+    // MARK: - fileprivate
+    /** remove duplicate data*/
+    fileprivate func filterDuplicateDataFetched(c: NSFetchedResultsController<CityEntity>!) -> [CityEntity]{
+        let arrResult = c.fetchedObjects
+        // filter result to remove duplicate data
+        var precedent = ""
+        let dataCityFiltered = arrResult!.filter { (CityEntity) -> Bool in
+            if CityEntity.name ?? "" != precedent {
+                precedent = CityEntity.name ?? ""
+                return true
+            } else {
+                return false
+            }
+        }
+        return dataCityFiltered
+    }
+    
 }
 
+
+// MARK: - EXTENSION
 extension SearchViewController {
     func displayChangeColor(_ color: UIColor) {
-        
         self.view.backgroundColor = color
     }
 }
@@ -123,26 +143,55 @@ extension SearchViewController: UITextFieldDelegate {
             let updatedText = text.replacingCharacters(in: textRange,
                                                        with: string)
             predicateValue = updatedText
-            print(predicateValue)
+//            c = searchWeatherCoredata.readsCity(predicate: updatedText)
+            dataCityFiltered = filterDuplicateDataFetched(c: searchWeatherCoredata.readsCity(predicate: updatedText))
+            //print(predicateValue)
             tableView.reloadData()
-
         }
         return true
     }
 }
 
 // MARK: - TableView
-extension SearchViewController: UITableViewDataSource {
+extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+
+//        if let objc = c.fetchedObjects {
+//            return objc.count
+//        } else {
+//            return 0
+//        }
+        
+        return dataCityFiltered.count
+            
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let result = searchWeatherCoredata.readsCity(predicate: predicateValue) else { return UITableViewCell() }
-//        print(result.fetchedObjects)
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-        cell.textLabel?.text = predicateValue
+//        if let object = c.fetchedObjects?[indexPath.row] {
+//            cell.textLabel?.text = object.name
+//        } else {
+//            cell.textLabel?.text = ""
+//        }
+        
+        let object = dataCityFiltered[indexPath.row]
+        cell.textLabel?.text = object.name
+        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            if let cityName = cell.textLabel?.text {
+                print("██░░░ L\(#line) 🚧🚧 cityname :  : \(cityName) 🚧🚧 [ \(type(of: self))  \(#function) ]")
+            }
+        }
+//        navigationController?.popToRootViewController(animated: true)
     }
 }
 
+extension SearchViewController: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        print("change")
+    }
+}

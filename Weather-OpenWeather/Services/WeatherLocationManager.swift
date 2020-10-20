@@ -50,7 +50,6 @@ class WeatherLocationManager: NSObject {
         }
     }
     
-    
 }
 
 
@@ -60,24 +59,20 @@ extension WeatherLocationManager: CLLocationManagerDelegate {
     
     // before ios 13 this method is called every time not in ios 13
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+        
         switch status {
             case .notDetermined:
-                print("░░░██❄️ -- not determined  ❄️██░░░ [ \(type(of: self)) L\(#line)")
                 self.delegate?.locationAuthorization(didReceiveAuthorization: .accessPending)
                 break
             
             case .denied:
-                print("░░░██❄️ -- not refused  ❄️██░░░ [ \(type(of: self)) L\(#line)")
                 break
             
             case .authorizedWhenInUse:
-                print("░░░██❄️ --  authorizedWhenInUse  ❄️██░░░ [ \(type(of: self)) L\(#line)")
                 self.delegate?.locationAuthorization(didReceiveAuthorization: .accessAuthorizedWhenInUse)
                 break
             
             case .authorizedAlways:
-                print("░░░██❄️ --  authorizedAlways  ❄️██░░░ [ \(type(of: self)) L\(#line)")
                 break
             
             default:
@@ -87,11 +82,11 @@ extension WeatherLocationManager: CLLocationManagerDelegate {
     
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+        
         locationManager.startUpdatingLocation()
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+        
         if let location = locations.first {
             manager.stopUpdatingLocation()
 //            let lon = String(location.coordinate.longitude)

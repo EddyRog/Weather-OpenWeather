@@ -10,7 +10,7 @@ import UIKit
 // MARK: - Router Protocol
 //@objc to make callable responds(to:selector)
 @objc protocol SearchRouterProtocol {
-     func routeToSearch(segue: UIStoryboardSegue?)
+    func routeToWeather(segue: UIStoryboardSegue?)
 }
 // MARK: - Data Passing Router Protocol
 protocol SearchRouterDataPassing {
@@ -22,10 +22,16 @@ class SearchRouter: NSObject, SearchRouterProtocol, SearchRouterDataPassing {
     weak var viewController: SearchViewController?
     var dataStore: SearchInteractorDataStoreProtocol?
     
-    func routeToSearch(segue: UIStoryboardSegue?) {
-        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
+    
+    override init() {
+        super.init()
+        print("  L\(#line) [📊\(type(of: self))  📊\(#function) ] ")
+    }
+    
+    func routeToWeather(segue: UIStoryboardSegue?) {
         
     }
+    
     
     //    func routeToViewA(segue: UIStoryboardSegue?) {
     //        if let segue = segue {

@@ -21,7 +21,7 @@ class SearchInteractor: SearchInteractorProtocol, SearchInteractorDataStoreProto
     var datasStoreSearchInteractor: [Search]?
     
     init() {
-        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
+        print("  L\(#line) [🆔\(type(of: self))  🆔\(#function) ] ")
     }
     
     func actionChangeColor() {

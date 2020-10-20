@@ -27,10 +27,8 @@ class AnimationFactoryWorker {
             if let mainview = mainView {
                 mainview.layoutIfNeeded() // must to stay at  the end to force updating
             }
-        }, delayFactor: 0.0)
+        }, delayFactor: 0)
         // maybe a callback if needed
-        
-        slide.startAnimation()
         return slide
     }
     

@@ -13,6 +13,9 @@ protocol SearchPresenterProtocol {
 }
 // MARK: - Presenter implementation
 class SearchPresenter: SearchPresenterProtocol {
+    init() {
+        print("  L\(#line) [📈\(type(of: self))  📈\(#function) ] ")
+    }
     weak var viewController: SearchViewControllerProtocol?
     func presentChangeColor(_ color: UIColor) {
         // // use eventually the viewmodel class to display to viewcontroller

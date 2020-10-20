@@ -62,7 +62,7 @@ class WeatherViewController: UIViewController {
         setup()
     }
     private func setup() {
-        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+        
         let viewController = self
         let interactor = WeatherInteractor()
         let presenter = WeatherPresenter()
@@ -91,19 +91,25 @@ class WeatherViewController: UIViewController {
             //            spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor).isActive = true
             spinner.centerYAnchor.constraint(equalTo: superView.centerYAnchor, constant: 0).isActive = true
         }
+        
+        self.cLeadingPictureImageView.constant -= view.bounds.width + pictureImageView.bounds.width / 2
+        self.cLeadingPictureImageView.constant = -self.view.frame.width
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+        
         start()
         // MARK: - Animation with constraint : setup
-        self.cLeadingPictureImageView.constant -= view.bounds.width + pictureImageView.bounds.width / 2
-        self.cLeadingPictureImageView.constant = -self.view.frame.width
+//        self.cLeadingPictureImageView.constant -= view.bounds.width + pictureImageView.bounds.width / 2
+//        self.cLeadingPictureImageView.constant = -self.view.frame.width
 //        start()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+        
         // MARK: - Animation with constraint : anime
 //                AnimationFactoryWorker.slideUpToTheRight(mainView: self.view, view: self.pictureImageView, constant: cLeadingPictureImageView).startAnimation()
 //                AnimationFactoryWorker.scaleUpandDown(view: pictureImageView)
@@ -111,7 +117,7 @@ class WeatherViewController: UIViewController {
     
     // MARK: - Method
     func start() {
-        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+        
         configNavigationController() // remove bar navigation
         self.interactor?.askLocationAutorization() // ask permission Location
         // user hit the box location then  // displayAskLocationAutorization(:String) is called
@@ -123,7 +129,7 @@ class WeatherViewController: UIViewController {
     
     // MARK: - IBAction
     @IBAction func refreshLocation(_ sender: Any) {
-        print("██░░░ L\(#line) 🚧📕 Refresh 🚧🚧 [ \(type(of: self))  \(#function) ]")
+        
         self.interactor?.getWeatherByCurentLocation()
     }
     
@@ -146,8 +152,6 @@ extension WeatherViewController: WeatherViewControllerProtocol {
     func displayAskLocationAutorization(_ code : String) {
         // when CoreLocation have already check the location :  let the cycle finishing to create everithing others the classes don't have the time to finish the initialization et the app crash because the views in the SB are handled.
         DispatchQueue.main.async {
-            print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
-            print("██░░░ L\(#line) 🚧🚧------ code  : \(code) 🚧🚧 [ \(type(of: self))  \(#function) ]")
             switch code {
                 case "Pending":
                     self.view.backgroundColor = UIColor.clear
@@ -157,7 +161,6 @@ extension WeatherViewController: WeatherViewControllerProtocol {
                 case "Denied":
                     self.view.backgroundColor = UIColor.red
                     self.autorisationPendingView.isHidden = false
-                    //                print("❄️ Access Denied : show  tutoriel how change location with turoriel ❄️")
                     break
                 case "Using", "Always":
                     self.autorisationPendingView.isHidden = true
@@ -171,7 +174,9 @@ extension WeatherViewController: WeatherViewControllerProtocol {
                             DispatchQueue.main.sync {
                                 self?.busyOut()
                                 // animation
-                                AnimationFactoryWorker.slideUpToTheRight(mainView: self?.view, view: self?.pictureImageView ?? UIImageView(), constant: self?.cLeadingPictureImageView ?? NSLayoutConstraint()).startAnimation()
+                                print("██░░░ L\(#line) 🚧🚧 Animation :  🚧🚧 [ \(type(of: self))  \(#function) ]")
+                                self?.pictureImageView.alpha = 0
+                                AnimationFactoryWorker.slideUpToTheRight(mainView: self?.view, view: self?.pictureImageView ?? UIImageView(), constant: self?.cLeadingPictureImageView ?? NSLayoutConstraint()).startAnimation(afterDelay: 0.4)
                                 AnimationFactoryWorker.scaleUpandDown(view: self?.pictureImageView ?? UIImageView())
                             }
                         }
@@ -188,9 +193,6 @@ extension WeatherViewController: WeatherViewControllerProtocol {
         self.navigationController?.navigationBar.isHidden = true
     }
     func displayDataCurrentWeather(_ obj: WeatherModels.GetWeather.ViewModel.DisplayedWeather) {
-        print("██░░░ L\(#line) 🚧🚧📐  🚧[ \(type(of: self))  \(#function) ]🚧")
-        print(obj)
-        
         self.cityLabel.text = "Etrechy"
         self.cityLabel.text = obj.city ?? "null"
         self.timeLabel.text = obj.time

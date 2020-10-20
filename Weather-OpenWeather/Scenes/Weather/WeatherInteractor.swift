@@ -25,7 +25,6 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
     init() {
         print("  L\(#line) [🆔\(type(of: self))  🆔\(#function) ] ")
         weatherWorker.weatherApi.locationManager.delegate = self
-//        weatherWorker.weatherApi.locationManager.delegate = self // setup delegate to get back informations from WeatherApi about Location permission
     }
     
     // MARK: - Action
@@ -74,14 +73,13 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
             resultFetch = result
         }
         
-        if true {
-//        if resultFetch == nil {
+//        if true {
+        if resultFetch == nil {
             // delete and create setting row
             weatherWorker.weatherCoreData.deleteAllSettingEntity()
             weatherWorker.weatherCoreData.deleteAllCityEntity() // Clean the data base to avoid duplication.
             weatherWorker.weatherCoreData.createSettingRow() // Create new setting isDownloaded.
             //            // Download the json file and translate it to dictionnary.
-//            guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "test") else { print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]"); return}
             guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "city.list.min") else { print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]"); return}
             weatherWorker.weatherCoreData.createCitiesRows(jsonDictionnary)
         } else {
@@ -93,8 +91,6 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
 extension WeatherInteractor : AuthorizationDelegate {
     /** Permission location : get back status permission from WeatherApi. */
     func locationAuthorization(didReceiveAuthorization code: ManagerLocationError) {
-        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
-        print("██░░░ L\(#line) 🚧🚧 code autorisation : \(code) 🚧🚧 [ \(type(of: self))  \(#function) ]")
         self.presenter?.presentAskLocationAutorization(code: code)
     }
 }

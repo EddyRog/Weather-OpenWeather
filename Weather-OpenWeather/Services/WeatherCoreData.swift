@@ -43,10 +43,23 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         
         return container
     }()
+    lazy var fetchResultControllerCity: NSFetchedResultsController<CityEntity> = {
+        // create request
+        let fetchRequest: NSFetchRequest<CityEntity> = CityEntity.fetchRequest()
+
+        // configure
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+
+        // create fetch result
+        let fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.persitentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+
+        fetchResultController.delegate = fetchResultControllerDelegate
+        print(fetchResultControllerDelegate)
+        return fetchResultController
+    }()
     
     weak var fetchResultControllerDelegate: NSFetchedResultsControllerDelegate? // delegate view data for tableview
     
-
     init() {
         print("  L\(#line) [❇️\(type(of: self)) ❇️\(#function) ] ")
         print("██░░░ L\(#line) 🚧🚧 \(persitentContainer.persistentStoreDescriptions) 🚧🚧 [ \(type(of: self))  \(#function) ]")
@@ -99,20 +112,27 @@ class WeatherCoreData: WeatherCoreDataProtocol {
     }
    
    // MARK: - Translate Json to Array
+//    {"id": 833, "name": "Ḩeşār-e Sefīd", "state": "", "country": "IR", "coord": {"lon": 47.159401, "lat": 34.330502}},
     func translateJsonToDict(nameFileJson:String) -> [[String: String]]? {
         // get url locally
         var  cityDict: [[String: String]] = []
-        _ = [[String: String]]()
+        
         
         guard let url = Bundle.main.url(forResource: nameFileJson, withExtension: "json") else { return nil }
         do {
             let data = try Data(contentsOf: url)
             let result = try JSONDecoder().decode([CityCodable].self, from:data)
-            let resultMapped = result.map { (objet) -> [String:String] in
-                if let name = objet.name {
-                    return ["name":name] }
+            let resultMapped = result.map { (objc) -> [String:String] in
+                if let name = objc.name, let country = objc.country, let state = objc.state{
+                    return ["name":name,
+                            "state":state,
+                            "country": country,
+                    ] }
                 else {
-                    return ["name":"_o"] }
+                    return ["name":"_",
+                            "state":"_",
+                            "country":"_",
+                    ] }
             }
             cityDict.append(contentsOf: resultMapped)
         } catch  { return cityDict }
@@ -195,30 +215,21 @@ class WeatherCoreData: WeatherCoreDataProtocol {
             fatalError("██░░░ FATAL ERROR : \(#line) 🚧 \(error) 🚧🚧 [ \(type(of: self))  \(#function) ]")
         }
     }
-    
     func readsCity(predicate:String?) -> NSFetchedResultsController<CityEntity>? {
-        // fetch request local data
+        // Request
         let fetchRequest : NSFetchRequest<CityEntity> = CityEntity.fetchRequest()
+        fetchRequest.propertiesToFetch = ["name"]
         
-        // Apply several predicate to match with th research
+        // Predicate
         guard let predicate = predicate else { return nil }
-        let predicate1 = NSPredicate(format: "name CONTAINS[c] %@", predicate) // name or
-//        let predicate2 = NSPredicate(format: "cp CONTAINS[c] %@", predicate) // code city
-        // add them
-//        fetchRequest.predicate = NSCompoundPredicate(type: .or, subpredicates: [predicate1, predicate2])
+//        let predicate1 = NSPredicate(format: "name BEGINSWITH[cd] %@", predicate) // name or
+          let predicate1 = NSPredicate(format: "name BEGINSWITH[cd] %@", predicate) // name or
         fetchRequest.predicate = NSCompoundPredicate(type: .or, subpredicates: [predicate1])
-        
-        if let city = try? fetchRequest.execute().first {
-            print("██░░ 🚧","city = \(city.name ?? "Rien") †",#line)
-        }
         
         // Sort Result by
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-            fetchRequest.fetchLimit = 3
-        fetchRequest.fetchBatchSize = 50
         
         // execute the request
-        
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                     managedObjectContext: persitentContainer.viewContext,
                                                     sectionNameKeyPath: nil, cacheName: nil)
