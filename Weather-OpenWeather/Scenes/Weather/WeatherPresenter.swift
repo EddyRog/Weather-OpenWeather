@@ -60,5 +60,3 @@ class WeatherPresenter: WeatherPresenterProtocol {
         self.viewController?.displayViewConnectionNotAvailable(bool)
     }
 }
-
-// Privacy - Location Always and When In Use Usage Description

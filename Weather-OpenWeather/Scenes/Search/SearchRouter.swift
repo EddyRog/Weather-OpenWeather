@@ -1,10 +1,6 @@
 // Router
 // SearchRouter
 
-// Weather-OpenWeather
-// Created by Eddy R on 14/10/2020.
-// Copyright © 2020 EddyR. All rights reserved.
-
 import UIKit
 
 // MARK: - Router Protocol
@@ -22,38 +18,34 @@ class SearchRouter: NSObject, SearchRouterProtocol, SearchRouterDataPassing {
     weak var viewController: SearchViewController?
     var dataStore: SearchInteractorDataStoreProtocol?
     
-    
     override init() {
         super.init()
         print("  L\(#line) [📊\(type(of: self))  📊\(#function) ] ")
     }
     
     func routeToWeather(segue: UIStoryboardSegue?) {
-        
+        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+        if let segue = segue {
+            let destinationVC = segue.destination as! WeatherViewController
+            var destinationDS = destinationVC.router!.dataStore!
+            passDataToWeatherViewController(source: dataStore!, destination: &destinationDS) // pass data function
+        } else {
+            let destinationVC = viewController?.storyboard?.instantiateViewController(identifier: "WeatherViewController") as! WeatherViewController
+            var destinationDS = destinationVC.router!.dataStore!
+            passDataToWeatherViewController(source: dataStore!, destination: &destinationDS) // pass data function
+            navigateToWeather(source: viewController!, destination: destinationVC)
+            // navigate vc function
+        }
     }
     
-    
-    //    func routeToViewA(segue: UIStoryboardSegue?) {
-    //        if let segue = segue {
-    //            let destinationVC = segue.destination as! TypeOfNextViewController
-    //            let destinatinDS = destinationVC.router!.dataStore!
-    //            passDataToNextViewController(source: dataStore!, destination: &destinationVC)
-    //        } else {
-    //            let destinationVC = viewController?.storyboard?.instantiateViewController(withIdentifier: <#NameOfNextViewController#>) as! <#TypeOfNextViewController#>
-    //            let destinatinDS = destinationVC.router!.dataStore!
-    //            passDataToNextViewController(source: dataStore!, destination: &destinationVC)
-    //            navigateTo<#NextViewController#>(source: viewcontroller!, destination: &destinationVC)
-    //        }
-    //    }
-    
-    //    func passDataToShowOrder(source: ListOrdersDataStore, destination: inout ShowOrderDataStore)
-    //    {
-    //        let selectedRow = viewController?.tableView.indexPathForSelectedRow?.row
-    //        destination.order = source.orders?[selectedRow!]
-    //    }
-    //    func navigateToCreateOrder(source: ListOrdersViewController, destination: CreateOrderViewController)
-    //    {
-    //        source.show(destination, sender: nil)
-    //    }
-}
+    func passDataToWeatherViewController(source: SearchInteractorDataStoreProtocol , destination: inout WeatherInteractorDataStoreProtocol) {
+        // SearchViewController -> SearchInteractor -> SearchPresenter -> SearchRouter // ui -> action -> segue (other vip)
+        let selectedRow = viewController?.tableView.indexPathForSelectedRow?.row
+        let nameCitySelected = viewController?.dataCitiesFiltered[selectedRow!].name
+        destination.city = City(name: nameCitySelected ?? "")
 
+    }
+    func navigateToWeather(source: SearchViewController, destination: WeatherViewController) {
+        source.show(destination, sender: nil)
+    }
+}

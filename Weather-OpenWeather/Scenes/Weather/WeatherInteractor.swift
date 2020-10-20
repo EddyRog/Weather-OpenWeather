@@ -9,17 +9,18 @@ protocol WeatherInteractorProtocol {
     func askLocationAutorization()
     func getWeatherByCurentLocation()
     func importDataCity(completionHandler: @escaping ()->Void)
+    func getWeatherByCityWith(name:String)
 }
 
 // MARK: - Data Store Interactor Protocol
 protocol WeatherInteractorDataStoreProtocol {
-    var datasStoreWeatherInteractor: [Weather]? {get}
+    var city: City! {get set}
 }
 
 // MARK: - Interactor implementation ask and manage
 class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStoreProtocol {
     var presenter: WeatherPresenterProtocol?
-    var datasStoreWeatherInteractor: [Weather]?
+    var city: City!
     var weatherWorker = WeatherWorker() // Worker communicate with WeatherInteractor
     
     init() {
@@ -36,7 +37,6 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
     /** get the information to show the weather with the current location. */
     func getWeatherByCurentLocation() {
         // recuperation des coordonnée
-
         weatherWorker.weatherApi.getWeatherByCurrentLocation { (resultWeather) in
             DispatchQueue.main.async {
                 if let resultWeather = resultWeather {
@@ -52,6 +52,41 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
             }
 
         }
+        
+    }
+    
+    /** get the information to show the weather with the current location. */
+    func getWeatherByCityWith(name:String) {
+        // recuperation des coordonnée
+        weatherWorker.weatherApi.getWeatherByCity(city: name) { (resultWeather) in
+            DispatchQueue.main.async {
+                if let resultWeather = resultWeather {
+                    // if data here presentethe weather
+                    self.presenter?.presentWeather(data: resultWeather)
+                    self.presenter?.isPresentViewConnectionNotAvailable(false) // [hide] view by default hide but shown
+                } else {
+                    // present autre chose
+                    print("██░░░ L\(#line) 🚧🚧 getWeatherByCurrentLocation : CONNECTION non disponible 🚧🚧 [ \(type(of: self))  \(#function) ]")
+                    self.presenter?.isPresentViewConnectionNotAvailable(true)// [show] view by default hide
+                }
+                
+            }
+        }
+//        weatherWorker.weatherApi.getWeatherByCurrentLocation { (resultWeather) in
+//            DispatchQueue.main.async {
+//                if let resultWeather = resultWeather {
+//                    // if data here presentethe weather
+//                    self.presenter?.presentWeather(data: resultWeather)
+//                    self.presenter?.isPresentViewConnectionNotAvailable(false) // [hide] view by default hide but shown
+//                } else {
+//                    // present autre chose
+//                    print("██░░░ L\(#line) 🚧🚧 getWeatherByCurrentLocation : CONNECTION non disponible 🚧🚧 [ \(type(of: self))  \(#function) ]")
+//                    self.presenter?.isPresentViewConnectionNotAvailable(true)// [show] view by default hide
+//                }
+//
+//            }
+//
+//        }
         
     }
     
@@ -83,7 +118,7 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
             guard let jsonDictionnary = weatherWorker.weatherCoreData.translateJsonToDict(nameFileJson: "city.list.min") else { print("██░░░ L\(#line) 🚧📕 Error : TranslateJsonToDict failed 🚧🚧 [ \(type(of: self))  \(#function) ]"); return}
             weatherWorker.weatherCoreData.createCitiesRows(jsonDictionnary)
         } else {
-            print("██░░░ L\(#line) 🚧🚧 Data Already Imported :  🚧🚧 [ \(type(of: self))  \(#function) ]")
+            
         }
     }
 }

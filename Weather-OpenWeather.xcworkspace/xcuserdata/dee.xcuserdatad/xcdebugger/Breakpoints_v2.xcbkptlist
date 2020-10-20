@@ -14,8 +14,8 @@
             filePath = "Weather-OpenWeather/Scenes/Weather/WeatherInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "importDataCity()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "Weather-OpenWeather/Scenes/Weather/WeatherInteractor.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
             landmarkName = "WeatherInteractor"
             landmarkType = "3">
          </BreakpointContent>
@@ -50,37 +50,6 @@
             endingLineNumber = "20"
             landmarkName = "spinner"
             landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "95B42EFB-ECAD-475D-A70C-1AF724893C4F"
-            shouldBeEnabled = "No"
-            condition = "currentCCLocation == nil"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Weather-OpenWeather/Services/WeatherApi.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "getWeatherByCurrentLocation(completionHandler:)"
-            landmarkType = "7">
-            <Actions>
-               <BreakpointActionProxy
-                  ActionExtensionID = "Xcode.BreakpointAction.Sound">
-                  <ActionContent
-                     soundName = "Glass">
-                  </ActionContent>
-               </BreakpointActionProxy>
-               <BreakpointActionProxy
-                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
-                  <ActionContent
-                     consoleCommand = "po currentCCLocation">
-                  </ActionContent>
-               </BreakpointActionProxy>
-            </Actions>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -125,8 +94,8 @@
             filePath = "Weather-OpenWeather/Scenes/Weather/WeatherViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "displayViewConnectionNotAvailable(_:)"
             landmarkType = "7">
          </BreakpointContent>

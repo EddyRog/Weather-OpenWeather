@@ -10,9 +10,14 @@ import UIKit
 // MARK: - Presenter Protocol
 protocol SearchPresenterProtocol {
     func presentChangeColor(_ color: UIColor)
+    func presenteFetchCityWith(dataCityFiltered: [CityEntity])
 }
 // MARK: - Presenter implementation
 class SearchPresenter: SearchPresenterProtocol {
+    func presenteFetchCityWith(dataCityFiltered: [CityEntity]) {
+        self.viewController?.displayFetchCityWith(dataCityFiltered)
+    }
+    
     init() {
         print("  L\(#line) [📈\(type(of: self))  📈\(#function) ] ")
     }
@@ -21,4 +26,5 @@ class SearchPresenter: SearchPresenterProtocol {
         // // use eventually the viewmodel class to display to viewcontroller
         self.viewController?.displayChangeColor(color)
     }
+    
 }

@@ -20,7 +20,6 @@ class WeatherApi: WeatherApiProtocol {
     }
     
     func askLocationAutorization() {
-//        print("██░░░ L\(#line) 🚧📕 2 🚧🚧 [ \(type(of: self))  \(#function) ]")
         locationManager.askLocationAutorization() // WeatherLocationManager
     }
     func getWeatherByCurrentLocation(completionHandler: @escaping ([String : Any]?)->Void) {
@@ -41,13 +40,59 @@ class WeatherApi: WeatherApiProtocol {
             // if not  get location
             completionHandler(nil)
         }
-        
     }
+    
+    // get weather by city name
+    func getWeatherByCity(city:String ,completionHandler: @escaping ([String : Any]?)->Void) {
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        
+        guard let url = requestUrlByCity(city: city) else { fatalError("Status: Url creation has failed") }
+        
+        let task = session.dataTask(with: url) { (data, response, error)  in
+            guard let data = data else { fatalError("json Serialization failed")}
+            
+            guard let json = try? JSON(data: data) else { fatalError("no data")}
+            
+            guard let temperature = json["main"]["temp"].float,
+                let nameCity = json["name"].string,
+                let idWeather = json["weather"][0]["id"].int, // id of weather
+                let temperatureMax = json["main"]["temp_max"].float,
+                let sunriseTime = json["sys"]["sunrise"].int,
+                let sunsetTime =  json["sys"]["sunset"].int,
+                let humidity = json["main"]["humidity"].int,
+                let wind = json["wind"]["speed"].float,
+                let description = json["weather"][0]["description"].string else { fatalError("impossible to fetch key in json object")}
+            
+            let time = self.getTime()
+            let weatherPictureAndColor = ConvertorWorker.weatherCodeToPicture(conditionCode: idWeather) // get picture and color base on the id weather
+            
+            
+            let weatherDict: [String: Any] = ["temperature": ConvertorWorker.tempToCelsuis(temperature),
+                                              "city": nameCity,
+                                              "idWeather": idWeather, // code
+                "temperatureMax": temperatureMax,
+                "sunrise":sunriseTime,
+                "sunset":sunsetTime,
+                "description": description,
+                "time": time,
+                "humidity": humidity,
+                "wind": ConvertorWorker.windBykmPerHour(valuePerMeterSecond: wind),
+                "weatherPicture": weatherPictureAndColor.0,
+                "weatherColorBG": weatherPictureAndColor.1
+            ]
+            completionHandler(weatherDict) // send back data fetched
+        }
+        task.resume()
+    }
+    
+    
+    
     
     // MARK: -
     // TODO: verifier la methode
     // MARK: -
-    func getDataWeatherByCityName(Name:String ,completion: @escaping (Dictionary<String, Any>)->Void) {
+    fileprivate func getDataWeatherByCityName(Name:String ,completion: @escaping (Dictionary<String, Any>)->Void) {
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
         print("██░░ 🚧","name : \(Name) †",#line)
