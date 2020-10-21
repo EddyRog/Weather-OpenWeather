@@ -68,7 +68,7 @@ class WeatherPresenter: WeatherPresenterProtocol {
             case "sunnyd":
                 condition = "clear sky"
                 break
-            case "snnyn":
+            case "sunnyn":
                 condition = "clear sky"
                 break
             case "thunderstormyn","thunderstormy":
