@@ -32,6 +32,14 @@ class AnimationFactoryWorker {
         return slide
     }
     
+    static func pendingView(view: UIView, completion: ()->Void) {
+        UIView.animate(withDuration: 1, animations: {
+            view.alpha = 0
+        }) { (true) in
+            print("coucou")
+            //view.isHidden = true
+        }
+    }
     
     static func scaleUpandDown(view: UIView) {
         UIView.animate(withDuration: 1, delay: 1, options: [.curveEaseInOut ,.repeat, .autoreverse], animations: {

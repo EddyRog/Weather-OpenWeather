@@ -40,6 +40,8 @@ class WeatherPresenter: WeatherPresenterProtocol {
     }
     func presentWeather(data: [String:Any]) {
         // format data
+        print(data)
+        
         let city = data["city"] as? String  ?? ""
         let time = data["time"] as? String  ?? ""
         let picture = data["weatherPicture"] as? String  ?? ""

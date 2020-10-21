@@ -13,6 +13,8 @@ protocol WeatherCoreDataProtocol {
     func createSettingRow()
     func deleteAllSettingEntity()
     
+    
+    
     // MARK: - Translate Json to Array
     func translateJsonToDict(nameFileJson:String) -> [[String: String]]?
 

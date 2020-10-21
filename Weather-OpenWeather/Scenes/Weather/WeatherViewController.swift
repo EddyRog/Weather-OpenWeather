@@ -45,9 +45,12 @@ class WeatherViewController: UIViewController {
     // MARK: - UI Constraint
     @IBOutlet weak var cLeadingPictureImageView: NSLayoutConstraint!
     
-    // Private Var
+    // Private Var ProblemeConnection
     private var repeatSearchConnection: Timer?
     private var isNotSearchingConnection: Bool = true
+    
+    // currentCitySearched
+    var currentCitySearched:String = ""
     
     
     // MARK: - Initialization
@@ -145,37 +148,63 @@ extension WeatherViewController: WeatherViewControllerProtocol {
     func displayChangeColor(_ color: UIColor) {
         self.view.backgroundColor = color
     }
+    
     func displayAskLocationAutorization(_ code : String) {
+        print("██░░░ L\(#line) 🚧📕 display 🚧🚧 [ \(type(of: self))  \(#function) ]")
         // when CoreLocation have already check the location :  let the cycle finishing to create everithing others the classes don't have the time to finish the initialization et the app crash because the views in the SB are handled.
+        
         DispatchQueue.main.async {
             switch code {
                 case "Pending":
+                    
                     self.view.backgroundColor = UIColor.clear
                     self.autorisationPendingView.isHidden = false
-                    //                print("Pending = not determined")
+                    
                     break
                 case "Denied":
+                    
                     self.view.backgroundColor = UIColor.red
                     self.autorisationPendingView.isHidden = false
                     break
                 case "Using", "Always":
-                    self.autorisationPendingView.isHidden = true
+                    print(self.router?.dataStore?.city)
+                    // animatio fade in / out transition view
+                    if self.router?.dataStore?.city == nil {
+                        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseInOut], animations: {
+                            self.autorisationPendingView.alpha = 0
+                        }, completion: {_ in
+                            self.autorisationPendingView.isHidden = true
+                        })
+                        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
+                            self.bgColorWeatherView.alpha = 1
+                        }, completion: nil)
+
+                    } else {
+                        self.autorisationPendingView.isHidden = true
+                        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
+                            self.bgColorWeatherView.alpha = 1
+                        }, completion: nil)
+                    }
+//
                     
-                    
+                        
                     if let choiceFromCitySearch  = self.router?.dataStore?.city {
                         print("██░░░ L\(#line) 🚧🚧 A 🚧🚧 [ \(type(of: self))  \(#function) ] \n\n")
+                        print(choiceFromCitySearch)
                         if choiceFromCitySearch.name == "" || self.router?.dataStore?.city == nil {
                             print("██░░░ L\(#line) 🚧🚧 LANCER LA RECHERCHE BY CHOICE : 🚧🚧 [ \(type(of: self))  \(#function) ]")
                             self.interactor?.getWeatherByCurentLocation()
+//                            self.interactor?.getWeatherByCityWith(name: choiceFromCitySearch.name)
                         } else {
                             print("██░░░ L\(#line) 🚧🚧 NORMAL A : 🚧🚧 [ \(type(of: self))  \(#function) ]")
-                            
                             self.interactor?.getWeatherByCityWith(name: choiceFromCitySearch.name)
                         }
                     } else {
                         print("██░░░ L\(#line) 🚧🚧 NORMAL B : 🚧🚧 [ \(type(of: self))  \(#function) ]")
                         self.interactor?.getWeatherByCurentLocation()
+               
                     }
+                    
                     
 //                    self.interactor?.getWeatherByCurentLocation()
                     
@@ -194,6 +223,7 @@ extension WeatherViewController: WeatherViewControllerProtocol {
                     }
                     break
                 default:
+                    
                     self.view.backgroundColor = UIColor.blue
                     break
             }
@@ -204,7 +234,7 @@ extension WeatherViewController: WeatherViewControllerProtocol {
         self.navigationController?.navigationBar.isHidden = true
     }
     func displayDataCurrentWeather(_ obj: WeatherModels.GetWeather.ViewModel.DisplayedWeather) {
-        self.cityLabel.text = "Etrechy"
+        
         self.cityLabel.text = obj.city ?? "null"
         self.timeLabel.text = obj.time
         self.pictureImageView.image = UIImage(named: obj.picture ?? "")
@@ -216,6 +246,8 @@ extension WeatherViewController: WeatherViewControllerProtocol {
             let conditionText: String = obj.picture ?? "_"
             conditionLabel.label.text =  conditionText.uppercased()
         }
+        
+        currentCitySearched = obj.city ?? ""
         
     }
     func displayViewConnectionNotAvailable(_ bool :Bool) {

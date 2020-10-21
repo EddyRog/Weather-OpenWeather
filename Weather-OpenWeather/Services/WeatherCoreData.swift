@@ -54,7 +54,7 @@ class WeatherCoreData: WeatherCoreDataProtocol {
         let fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.persitentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
 
         fetchResultController.delegate = fetchResultControllerDelegate
-        print(fetchResultControllerDelegate)
+//        print(fetchResultControllerDelegate)
         return fetchResultController
     }()
     
@@ -110,6 +110,8 @@ class WeatherCoreData: WeatherCoreDataProtocol {
             try context.save()
         } catch { fatalError("Failing saving")}
     }
+    
+
    
    // MARK: - Translate Json to Array
 //    {"id": 833, "name": "Ḩeşār-e Sefīd", "state": "", "country": "IR", "coord": {"lon": 47.159401, "lat": 34.330502}},

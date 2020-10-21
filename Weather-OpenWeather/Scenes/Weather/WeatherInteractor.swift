@@ -48,7 +48,6 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
                     print("██░░░ L\(#line) 🚧🚧 getWeatherByCurrentLocation : CONNECTION non disponible 🚧🚧 [ \(type(of: self))  \(#function) ]")
                     self.presenter?.isPresentViewConnectionNotAvailable(true)// [show] view by default hide
                 }
-
             }
 
         }
@@ -72,22 +71,6 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
                 
             }
         }
-//        weatherWorker.weatherApi.getWeatherByCurrentLocation { (resultWeather) in
-//            DispatchQueue.main.async {
-//                if let resultWeather = resultWeather {
-//                    // if data here presentethe weather
-//                    self.presenter?.presentWeather(data: resultWeather)
-//                    self.presenter?.isPresentViewConnectionNotAvailable(false) // [hide] view by default hide but shown
-//                } else {
-//                    // present autre chose
-//                    print("██░░░ L\(#line) 🚧🚧 getWeatherByCurrentLocation : CONNECTION non disponible 🚧🚧 [ \(type(of: self))  \(#function) ]")
-//                    self.presenter?.isPresentViewConnectionNotAvailable(true)// [show] view by default hide
-//                }
-//
-//            }
-//
-//        }
-        
     }
     
     /** import data city from json. */
@@ -95,6 +78,8 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
         importDataCity()
         completionHandler()
     }
+    
+    
     
     // MARK: - File Private
     /** import data form json. */

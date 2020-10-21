@@ -42,12 +42,110 @@ class ConvertorWorker {
         }
     }
     
+    static func codeDataWther(idWeather: Int ,idIcon:String) -> (String, UIColor) {
+        switch idWeather {
+            case let x where (x >= 200 && x <= 202) || (x >= 230 && x <= 232):
+                return ("thunderstormy",ConvertorWorker.ColorCondition.thunderstormy.rawValue)
+            //                return "⛈"
+            case let x where x >= 210 && x <= 211:
+                return ("thunderstormy",ConvertorWorker.ColorCondition.thunderstormy.rawValue)
+            //                return "🌩"
+            case let x where x >= 212 && x <= 221:
+                return ("thunderstormy",ConvertorWorker.ColorCondition.thunderstormy.rawValue)
+            //                return "⚡️"
+            case let x where x >= 300 && x <= 321:
+                return ("misty",ConvertorWorker.ColorCondition.misty.rawValue)
+            //                return "🌦"
+            case let x where x >= 500 && x <= 531:
+                return ("rainy",ConvertorWorker.ColorCondition.rainy.rawValue)
+            //                return "🌧"
+            case let x where x >= 600 && x <= 602:
+                return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+            //                return "☃️"
+            case let x where x >= 603 && x <= 622:
+                return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+            //                return "🌨"
+            case let x where x >= 701 && x <= 771:
+                return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+            //                return "🌫"
+            case let x where x == 781 || x == 900:
+                return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+            //                return "🌪"
+            case let x where x == 800:
+                if idIcon == "01d" {
+                    print("DayTime")
+                    return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+                } else {
+                    print("nightTime")
+                    return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+                }
+                
+            //                return isDayTime ? "☀️" : "🌕"
+            case let x where x == 801:
+                if idIcon == "02d" {
+                    print("DayTime")
+                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
+                } else {
+                    print("nightTime")
+                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
+                }
+            //                return "🌤"
+            case let x where x == 802:
+                if idIcon == "03d" {
+                    print("DayTime")
+                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
+                } else {
+                    print("nightTime")
+                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
+                }
+            //                return "⛅️"
+            case let x where x == 803:
+                if idIcon == "04d" {
+                    print("DayTime")
+                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
+                } else {
+                    print("nightTime")
+                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
+            }
+            //                return "🌥"
+            case let x where x == 804:
+                if idIcon == "04d" {
+                    print("DayTime")
+                   return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
+                } else {
+                    print("nightTime")
+                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
+                }
+            
+            //                return "☁️"
+            case let x where x >= 952 && x <= 956 || x == 905:
+                return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+            //                return "🌬"
+            case let x where x >= 957 && x <= 961 || x == 771:
+                return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+            //                return "💨"
+            case let x where x == 901 || x == 902 || x == 962:
+                return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+            //                return "🌀"
+            case let x where x == 903:
+                return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+            //                return "❄️"
+            case let x where x == 904:
+                return ("snowy",ConvertorWorker.ColorCondition.snowy.rawValue)
+            //                return "🌡"
+            case let x where x == 962:
+                return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+            //                return "🌋"
+            default:
+                return ("",ConvertorWorker.ColorCondition.none.rawValue)
+            //                return "❓"
+        }
+    }
+    
     static func weatherCodeToPicture(conditionCode: Int?) -> (String, UIColor) {
         guard let code = conditionCode else {
             return ("", ConvertorWorker.ColorCondition.none.rawValue)
         }
-        
-        
         switch code {
             case let x where (x >= 200 && x <= 202) || (x >= 230 && x <= 232):
                 return ("thunderstormy",ConvertorWorker.ColorCondition.thunderstormy.rawValue)

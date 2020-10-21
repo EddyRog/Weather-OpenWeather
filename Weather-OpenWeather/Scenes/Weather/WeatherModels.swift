@@ -19,6 +19,7 @@ enum WeatherModels {
         struct ViewModel {
             struct DisplayedWeather {
                 // for conveinience should match with Model entity/#fileModel
+                var icon: String?
                 var city: String?
                 var time: String?
                 var picture: String?

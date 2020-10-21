@@ -43,11 +43,13 @@ class SearchViewController: UIViewController ,SearchViewControllerProtocol, NSFe
     // MARK: - Init
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
         print("  L\(#line) [✴️\(type(of: self))  ✴️\(#function) ] ")
         setup()
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
         print("  L\(#line) [✴️\(type(of: self))  ✴️\(#function) ] ")
         setup()
     }
@@ -55,6 +57,7 @@ class SearchViewController: UIViewController ,SearchViewControllerProtocol, NSFe
     // MARK: - View cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         start()
     }
     
@@ -62,7 +65,7 @@ class SearchViewController: UIViewController ,SearchViewControllerProtocol, NSFe
     
     func start() {
         setUpIconSearchTextField()
-        self.interactor?.actionChangeColor()
+//        self.interactor?.actionChangeColor()
 //        dataCityFiltered = filterDuplicateDataFetched(c: searchWeatherCoredata.readsCity(predicate: predicateValue))
     }
     
@@ -86,9 +89,12 @@ class SearchViewController: UIViewController ,SearchViewControllerProtocol, NSFe
     
     // MARK: - Routing.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("██░░░ L\(#line) 🚧🚧 \(segue.destination) 🚧🚧 [ \(type(of: self))  \(#function) ]")
         if let scene = segue.identifier {
+            print("██░░░ L\(#line) 🚧🚧 \(scene) 🚧🚧 [ \(type(of: self))  \(#function) ]")
             let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
             if let router = router, router.responds(to: selector) {
+                print("██░░░ L\(#line) 🚧🚧 \(router) 🚧🚧 [ \(type(of: self))  \(#function) ]")
                 // routeToSearchController
                 router.perform(selector, with: segue)
             }
@@ -114,6 +120,10 @@ class SearchViewController: UIViewController ,SearchViewControllerProtocol, NSFe
         return dataCityFiltered
     }
     // MARK: -
+//    @IBAction func cancel(_ sender: Any) {
+//        print(self.router?.dataStore?.city)
+//        router?.routeToWeather(segue: UIStoryboardSegue.)
+//    }
 }
 
 // MARK: - EXTENSION
@@ -124,7 +134,6 @@ extension SearchViewController {
 //    func displayFetchCityWith(citiesFetched :[CityEntity] ) {
 
 //    }
-    
     func displayFetchCityWith(_ citiesFetched: [CityEntity]) {
         dataCitiesFiltered = citiesFetched
     }
@@ -198,7 +207,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     // MARK: -
-    
 }
 
 

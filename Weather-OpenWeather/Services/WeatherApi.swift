@@ -22,6 +22,7 @@ class WeatherApi: WeatherApiProtocol {
     func askLocationAutorization() {
         locationManager.askLocationAutorization() // WeatherLocationManager
     }
+    
     func getWeatherByCurrentLocation(completionHandler: @escaping ([String : Any]?)->Void) {
         // get meteo by the current location
         var currentCCLocation: CLLocation? = nil
@@ -41,8 +42,6 @@ class WeatherApi: WeatherApiProtocol {
             completionHandler(nil)
         }
     }
-    
-    // get weather by city name
     func getWeatherByCity(city:String ,completionHandler: @escaping ([String : Any]?)->Void) {
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
@@ -50,85 +49,11 @@ class WeatherApi: WeatherApiProtocol {
         guard let url = requestUrlByCity(city: city) else { fatalError("Status: Url creation has failed") }
         
         let task = session.dataTask(with: url) { (data, response, error)  in
-            guard let data = data else { fatalError("json Serialization failed")}
-            
-            guard let json = try? JSON(data: data) else { fatalError("no data")}
-            
-            guard let temperature = json["main"]["temp"].float,
-                let nameCity = json["name"].string,
-                let idWeather = json["weather"][0]["id"].int, // id of weather
-                let temperatureMax = json["main"]["temp_max"].float,
-                let sunriseTime = json["sys"]["sunrise"].int,
-                let sunsetTime =  json["sys"]["sunset"].int,
-                let humidity = json["main"]["humidity"].int,
-                let wind = json["wind"]["speed"].float,
-                let description = json["weather"][0]["description"].string else { fatalError("impossible to fetch key in json object")}
-            
-            let time = self.getTime()
-            let weatherPictureAndColor = ConvertorWorker.weatherCodeToPicture(conditionCode: idWeather) // get picture and color base on the id weather
-            
-            
-            let weatherDict: [String: Any] = ["temperature": ConvertorWorker.tempToCelsuis(temperature),
-                                              "city": nameCity,
-                                              "idWeather": idWeather, // code
-                "temperatureMax": temperatureMax,
-                "sunrise":sunriseTime,
-                "sunset":sunsetTime,
-                "description": description,
-                "time": time,
-                "humidity": humidity,
-                "wind": ConvertorWorker.windBykmPerHour(valuePerMeterSecond: wind),
-                "weatherPicture": weatherPictureAndColor.0,
-                "weatherColorBG": weatherPictureAndColor.1
-            ]
+            let weatherDict = self.weatherDataBuilderWith(data)
             completionHandler(weatherDict) // send back data fetched
         }
         task.resume()
     }
-    
-    
-    
-    
-    // MARK: -
-    // TODO: verifier la methode
-    // MARK: -
-    fileprivate func getDataWeatherByCityName(Name:String ,completion: @escaping (Dictionary<String, Any>)->Void) {
-        let sessionConfig = URLSessionConfiguration.default
-        let session = URLSession(configuration: sessionConfig)
-        print("██░░ 🚧","name : \(Name) †",#line)
-        guard let url = requestUrlByCity(city: Name) else { fatalError("Status: Url creation has failed") }
-        
-        let task = session.dataTask(with: url) { (data, response, error)  in
-            guard let data = data else { fatalError("json Serialization failed")}
-            guard let json = try? JSON(data: data) else {
-                print("██░░ 🚧","no data †",#line)
-                fatalError("no data")
-                
-            }
-            
-            guard let temperature = json["main"]["temp"].float,
-                let nameCity = json["name"].string,
-                let idWeather = json["weather"][0]["id"].int,
-                let temperatureMax = json["main"]["temp_max"].float,
-                let sunriseTime = json["sys"]["sunrise"].int,
-                let sunsetTime =  json["sys"]["sunset"].int,
-                let description = json["weather"][0]["description"].string else {
-                    fatalError("impossible to fetch key in json object")
-            }
-            
-            let weatherDict: [String: Any] = ["temp":temperature,
-                                              "city": nameCity,
-                                              "idWeather": idWeather,
-                                              "temperatureMax": temperatureMax,
-                                              "sunrise":sunriseTime,
-                                              "sunset":sunsetTime,
-                                              "description": description
-            ]
-            completion(weatherDict) // send back data fetched
-        }
-        task.resume()
-    }
-    
     
     // MARK: - Private
     fileprivate func getTokenID() -> String{
@@ -162,7 +87,6 @@ class WeatherApi: WeatherApiProtocol {
         ]
         return components.url
     }
-    
     fileprivate func getDataWeatherByLatAndLon(coordinates: CLLocationCoordinate2D, completion:@escaping(Dictionary<String, Any>)->()) {
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
@@ -170,42 +94,11 @@ class WeatherApi: WeatherApiProtocol {
         guard let url = requestUrlByLontitudeAndLatitude(coordinates: coordinates) else { fatalError("Status: Url creation has failed")}
         
         let task = session.dataTask(with: url) { (data, response, error)  in
-            guard let data = data else { fatalError("json Serialization failed")}
-            
-            guard let json = try? JSON(data: data) else { fatalError("no data")}
-            
-            guard let temperature = json["main"]["temp"].float,
-                let nameCity = json["name"].string,
-                let idWeather = json["weather"][0]["id"].int, // id of weather
-                let temperatureMax = json["main"]["temp_max"].float,
-                let sunriseTime = json["sys"]["sunrise"].int,
-                let sunsetTime =  json["sys"]["sunset"].int,
-                let humidity = json["main"]["humidity"].int,
-                let wind = json["wind"]["speed"].float,
-                let description = json["weather"][0]["description"].string else { fatalError("impossible to fetch key in json object")}
-            
-            let time = self.getTime()
-            let weatherPictureAndColor = ConvertorWorker.weatherCodeToPicture(conditionCode: idWeather) // get picture and color base on the id weather
-            
-            
-            let weatherDict: [String: Any] = ["temperature": ConvertorWorker.tempToCelsuis(temperature),
-                                              "city": nameCity,
-                                              "idWeather": idWeather, // code
-                                              "temperatureMax": temperatureMax,
-                                              "sunrise":sunriseTime,
-                                              "sunset":sunsetTime,
-                                              "description": description,
-                                              "time": time,
-                                              "humidity": humidity,
-                                              "wind": ConvertorWorker.windBykmPerHour(valuePerMeterSecond: wind),
-                                              "weatherPicture": weatherPictureAndColor.0,
-                                              "weatherColorBG": weatherPictureAndColor.1
-            ]
+            let weatherDict = self.weatherDataBuilderWith(data)
             completion(weatherDict) // send back data fetched
         }
         task.resume()
     }
-    
     func getTime() -> String {
         let currentDate = Date()
         let dateFormatter = DateFormatter()
@@ -214,6 +107,45 @@ class WeatherApi: WeatherApiProtocol {
         dateFormatter.dateFormat = "dd MMMM yyyy"
         let dateString = dateFormatter.string(from: currentDate) //14 September 2020
         return dateString
+    }
+    func weatherDataBuilderWith(_ data: Data?) -> [String:Any]{
+        guard let data = data else { fatalError("json Serialization failed")}
+        
+        guard let json = try? JSON(data: data) else { fatalError("no data")}
+        
+        guard let temperature = json["main"]["temp"].float,
+            let nameCity = json["name"].string,
+            let idWeather = json["weather"][0]["id"].int, // id of weather
+            let temperatureMax = json["main"]["temp_max"].float,
+            let sunriseTime = json["sys"]["sunrise"].int,
+            let sunsetTime =  json["sys"]["sunset"].int,
+            let humidity = json["main"]["humidity"].int,
+            let wind = json["wind"]["speed"].float,
+            let icon = json["weather"][0]["icon"].string,
+            let description = json["weather"][0]["description"].string
+            else { fatalError("impossible to fetch key in json object")}
+        
+        let time = self.getTime()
+        let weatherPictureAndColor = ConvertorWorker.codeDataWther(idWeather: idWeather, idIcon: icon) // get picture and color base on the id weather
+        
+//        let infoPicture = ConvertorWorker.codeDataWther(idWeather: idWeather ,idIcon:icon)
+        let weatherDict: [String: Any] = [
+            "temperature": ConvertorWorker.tempToCelsuis(temperature),
+            "city": nameCity,
+            "idWeather": idWeather, // code
+            "temperatureMax": temperatureMax,
+            "sunrise":sunriseTime,
+            "sunset":sunsetTime,
+            "description": description,
+            "time": time,
+            "humidity": humidity,
+            "wind": ConvertorWorker.windBykmPerHour(valuePerMeterSecond: wind),
+            "icon":icon,
+            "weatherPicture": weatherPictureAndColor.0,
+            "weatherColorBG": weatherPictureAndColor.1
+        ]
+        
+        return weatherDict
     }
 }
 

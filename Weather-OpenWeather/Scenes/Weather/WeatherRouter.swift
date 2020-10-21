@@ -27,6 +27,29 @@ class WeatherRouter: NSObject, WeatherRouterProtocol, WeatherRouterDataPassing {
     weak var viewController: WeatherViewController?
     var dataStore: WeatherInteractorDataStoreProtocol?
     
-    func routeToSearch(segue: UIStoryboardSegue?) { }
+    func routeToSearch(segue: UIStoryboardSegue?) {
+        print("  L\(#line)      [🔲🔳🔲\(type(of: self))  🔲🔳🔲\(#function) ] ")
+        if let segue = segue {
+            let destinationVC = segue.destination as! SearchViewController
+            var destinationDS = destinationVC.router!.dataStore!
+            passDataToSearchViewController(source: dataStore!, destination: &destinationDS) // pass data function
+        } else {
+            let destinationVC = viewController?.storyboard?.instantiateViewController(identifier: "SearchViewController") as! SearchViewController
+            var destinationDS = destinationVC.router!.dataStore!
+            passDataToSearchViewController(source: dataStore!, destination: &destinationDS) // pass data function
+            navigateToSearch(source: viewController!, destination: destinationVC)
+            // navigate vc function
+        }
+    }
+    
+    func passDataToSearchViewController(source: WeatherInteractorDataStoreProtocol , destination: inout SearchInteractorDataStoreProtocol) {
+        print("██░░░ L\(#line) 🚧📕 print 🚧🚧 [ \(type(of: self))  \(#function) ]")
+        //        // SearchViewController -> SearchInteractor -> SearchPresenter -> SearchRouter // ui -> action -> segue (other vip)
+        destination.city = City(name: viewController?.currentCitySearched ?? "")
+    }
+    func navigateToSearch(source: WeatherViewController, destination: SearchViewController) {
+        source.show(destination, sender: nil)
+        //        source.popoverPresentationController?.presentedView
+    }
 }
 
