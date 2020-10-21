@@ -348,6 +348,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="zGR-Pv-yaR"/>
         <segue reference="hXN-7S-8gS"/>
     </inferredMetricsTieBreakers>
     <resources>

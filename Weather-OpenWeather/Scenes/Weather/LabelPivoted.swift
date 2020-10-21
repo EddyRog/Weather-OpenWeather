@@ -71,7 +71,7 @@ class LabelPivoted: UIView {
         label.font = label.font.withSize(fontSize)
         label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 0
-        label.minimumScaleFactor = 0.2
+        label.minimumScaleFactor = 0.01
         label.textAlignment = .left
         label.lineBreakMode = .byClipping
         

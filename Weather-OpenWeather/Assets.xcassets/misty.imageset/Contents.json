@@ -1,17 +1,16 @@
 {
   "images" : [
     {
-      "filename" : "misty.png",
+      "filename" : "mist.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "misty-1.png",
+      "filename" : "mist-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "misty-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

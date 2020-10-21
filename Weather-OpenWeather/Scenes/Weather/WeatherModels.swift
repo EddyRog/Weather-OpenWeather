@@ -27,6 +27,7 @@ enum WeatherModels {
                 var temperature: String?
                 var humidity: String?
                 var wind: String?
+                var condition:String?
             }
             var displayedWeather: [DisplayedWeather]
         }

@@ -243,7 +243,7 @@ extension WeatherViewController: WeatherViewControllerProtocol {
         self.humidityLabel.text = " : \(obj.humidity ?? "_") % "
         self.windLabel.text = " : \(obj.wind ?? "_") km/h"
         if let conditionLabel = self.condition as? LabelPivoted {
-            let conditionText: String = obj.picture ?? "_"
+            let conditionText: String = obj.condition ?? "_"
             conditionLabel.label.text =  conditionText.uppercased()
         }
         

@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "thunderstormy.png",
+      "filename" : "thunderstormyn.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "thunderstormy-1.png",
+      "filename" : "thunderstormyn-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

@@ -49,13 +49,58 @@ class WeatherPresenter: WeatherPresenterProtocol {
         let temperature = (data["temperature"] as? Float ?? 0).clean
         let humidity = String(data["humidity"] as? Int ?? 0)
         let wind = String(data["wind"] as? Float ?? 0.0)
+        
+        // rainy,rainyn snow, mist,storm, sunnyd, sunnyn, thunderstormyn, thunderstormy ,cloudyn804,cloudyn803,cloudyn802,cloudyn801
+        var condition = ""
+        switch picture {
+            case "rainy","rainyn":
+                condition = "rainy"
+                break
+            case "snow":
+                condition = "snow"
+                break
+            case "misty":
+                condition = "mist"
+                break
+            case "storm":
+                condition = "storm"
+                break
+            case "sunnyd":
+                condition = "clear sky"
+                break
+            case "snnyn":
+                condition = "clear sky"
+                break
+            case "thunderstormyn","thunderstormy":
+                condition = "thunderstormy"
+                break
+            case "cloudyn804","cloudyd804":
+                condition = "overcast clouds: 85-100%"
+                break
+            case "cloudyn803","cloudyd803":
+                condition = "broken clouds: 51-84%"
+                break
+            case "cloudyn802","cloudyd802":
+                condition = "scattered clouds: 25-50%"
+                break
+            case "cloudyn801","cloudyd801":
+                condition = "few clouds: 11-25%"
+                break
+            
+            default:
+                condition = ""
+            break
+        }
+        
+        
         let viewModelWeather = WeatherModels.GetWeather.ViewModel.DisplayedWeather(city: city,
                                                                                    time: time,
                                                                                    picture: picture,
                                                                                    color: color,
                                                                                    temperature: temperature,
                                                                                    humidity: humidity,
-                                                                                   wind: wind)
+                                                                                   wind: wind,
+                                                                                   condition: condition)
         self.viewController?.displayDataCurrentWeather(viewModelWeather)
     }
     func isPresentViewConnectionNotAvailable(_ bool:Bool) {

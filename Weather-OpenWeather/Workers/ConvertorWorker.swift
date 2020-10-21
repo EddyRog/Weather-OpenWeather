@@ -13,7 +13,7 @@ class ConvertorWorker {
         //01
         typealias RawValue = UIColor
         //02
-        case sunny, snowy, cloudy, rainy, thunderstormy, misty, none
+        case sunny,sunnyn, snowy,cloudydlight ,cloudyd, cloudyn, rainy,rainyn, thunderstormy,thunderstormyn, storm, misty, none
         //04
         init?(rawValue: UIColor) {
             switch rawValue {
@@ -26,16 +26,28 @@ class ConvertorWorker {
             switch self {
                 case .sunny:
                     return UIColor.rgb(red: 129, green: 207, blue: 213)
+                case .sunnyn:
+                    return UIColor.rgb(red: 69, green: 79, blue: 134)
                 case .snowy:
                     return UIColor.rgb(red: 132, green: 0, blue: 181)
-                case .cloudy:
-                    return UIColor.rgb(red: 237, green: 102, blue: 99)
+                case .cloudydlight:
+                    return UIColor.rgb(red: 125, green: 188, blue: 227)
+                case .cloudyn:
+                    return UIColor.rgb(red: 69, green: 79, blue: 134)
+                case .cloudyd:
+                    return UIColor.rgb(red: 109, green: 161, blue: 209)
                 case .rainy:
                     return UIColor.rgb(red: 16, green: 124, blue: 255)
+                case .rainyn:
+                    return UIColor.rgb(red: 40, green: 44, blue: 107)
                 case .thunderstormy:
                     return UIColor.rgb(red: 252, green: 66, blue: 100)
+                case .thunderstormyn:
+                    return UIColor.rgb(red: 50, green: 56, blue: 91)
                 case .misty:
                     return UIColor.rgb(red: 0, green: 45, blue: 51)
+                case .storm:
+                    return UIColor.rgb(red: 197, green: 94, blue: 155)
                 case .none:
                     return UIColor.rgb(red: 1, green: 147, blue: 168)
             }
@@ -45,76 +57,93 @@ class ConvertorWorker {
     static func codeDataWther(idWeather: Int ,idIcon:String) -> (String, UIColor) {
         switch idWeather {
             case let x where (x >= 200 && x <= 202) || (x >= 230 && x <= 232):
-                return ("thunderstormy",ConvertorWorker.ColorCondition.thunderstormy.rawValue)
+                if (idIcon == "11d") {
+                    return ("thunderstormy",ConvertorWorker.ColorCondition.thunderstormy.rawValue)
+                } else {
+                    return ("thunderstormyn",ConvertorWorker.ColorCondition.thunderstormyn.rawValue)
+            }
             //                return "⛈"
             case let x where x >= 210 && x <= 211:
-                return ("thunderstormy",ConvertorWorker.ColorCondition.thunderstormy.rawValue)
+                if (idIcon == "11d") {
+                    return ("thunderstormy",ConvertorWorker.ColorCondition.thunderstormy.rawValue)
+                } else {
+                    return ("thunderstormyn",ConvertorWorker.ColorCondition.thunderstormyn.rawValue)
+            }
             //                return "🌩"
             case let x where x >= 212 && x <= 221:
-                return ("thunderstormy",ConvertorWorker.ColorCondition.thunderstormy.rawValue)
+                if (idIcon == "11d") {
+                    return ("thunderstormy",ConvertorWorker.ColorCondition.thunderstormy.rawValue)
+                } else {
+                    return ("thunderstormyn",ConvertorWorker.ColorCondition.thunderstormyn.rawValue)
+                }
+                
             //                return "⚡️"
             case let x where x >= 300 && x <= 321:
                 return ("misty",ConvertorWorker.ColorCondition.misty.rawValue)
             //                return "🌦"
             case let x where x >= 500 && x <= 531:
-                return ("rainy",ConvertorWorker.ColorCondition.rainy.rawValue)
+                if (idIcon == "09d" || idIcon == "13d" || idIcon == "10d") {
+                    return ("rainy",ConvertorWorker.ColorCondition.rainy.rawValue)
+                } else {
+                    return ("rainyn",ConvertorWorker.ColorCondition.rainyn.rawValue)
+                }
             //                return "🌧"
             case let x where x >= 600 && x <= 602:
-                return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+                return ("snow",ConvertorWorker.ColorCondition.snowy.rawValue)
             //                return "☃️"
             case let x where x >= 603 && x <= 622:
-                return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+                return ("snow",ConvertorWorker.ColorCondition.snowy.rawValue)
             //                return "🌨"
             case let x where x >= 701 && x <= 771:
-                return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+                return ("mist",ConvertorWorker.ColorCondition.misty.rawValue)
             //                return "🌫"
             case let x where x == 781 || x == 900:
-                return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+                return ("storm",ConvertorWorker.ColorCondition.storm.rawValue)
             //                return "🌪"
             case let x where x == 800:
                 if idIcon == "01d" {
                     print("DayTime")
-                    return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+                    return ("sunnyd",ConvertorWorker.ColorCondition.sunny.rawValue)
                 } else {
                     print("nightTime")
-                    return ("sunny",ConvertorWorker.ColorCondition.sunny.rawValue)
+                    return ("sunnyn",ConvertorWorker.ColorCondition.sunnyn.rawValue)
                 }
                 
             //                return isDayTime ? "☀️" : "🌕"
             case let x where x == 801:
                 if idIcon == "02d" {
-                    print("DayTime")
-                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
+                    //day taime
+                    return ("cloudyd801",ConvertorWorker.ColorCondition.cloudyd.rawValue)
                 } else {
-                    print("nightTime")
-                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
-                }
+                    //nightTime
+                    return ("cloudyn801",ConvertorWorker.ColorCondition.cloudyn.rawValue)
+            }
             //                return "🌤"
             case let x where x == 802:
                 if idIcon == "03d" {
-                    print("DayTime")
-                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
+                    //day taime
+                    return ("cloudyd802",ConvertorWorker.ColorCondition.cloudyd.rawValue)
                 } else {
-                    print("nightTime")
-                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
-                }
+                    //nightTime
+                    return ("cloudyn802",ConvertorWorker.ColorCondition.cloudyn.rawValue)
+            }
             //                return "⛅️"
             case let x where x == 803:
                 if idIcon == "04d" {
-                    print("DayTime")
-                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
+                    //day taime
+                    return ("cloudyd803",ConvertorWorker.ColorCondition.cloudyd.rawValue)
                 } else {
-                    print("nightTime")
-                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
-            }
+                    //nightTime
+                    return ("cloudyn803",ConvertorWorker.ColorCondition.cloudyn.rawValue)
+                }
             //                return "🌥"
             case let x where x == 804:
                 if idIcon == "04d" {
-                    print("DayTime")
-                   return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
+                    //day taime
+                   return ("cloudyd804",ConvertorWorker.ColorCondition.cloudyd.rawValue)
                 } else {
-                    print("nightTime")
-                    return ("cloudy",ConvertorWorker.ColorCondition.cloudy.rawValue)
+                    //nightTime
+                    return ("cloudyn804",ConvertorWorker.ColorCondition.cloudyn.rawValue)
                 }
             
             //                return "☁️"
@@ -141,7 +170,7 @@ class ConvertorWorker {
             //                return "❓"
         }
     }
-    
+    /*
     static func weatherCodeToPicture(conditionCode: Int?) -> (String, UIColor) {
         guard let code = conditionCode else {
             return ("", ConvertorWorker.ColorCondition.none.rawValue)
@@ -213,7 +242,7 @@ class ConvertorWorker {
         }
         
     }
-    
+    */
     /// convert kelvin to celsuis
     /// - Parameter temp: temperature
     /// - Returns: temperatur in celsuis
