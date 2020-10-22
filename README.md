@@ -20,3 +20,4 @@ Just download source code and unzip the downloaded folder and open it in Xcode.
 If you wish to contribute, your PR are welcomed. If you have any query please drop me a mail at pro.eddy.r@gmail.com
 
 # License
+[MIT License](https://github.com/Dee-R/Weather-OpenWeather/blob/main/LICENSE)
