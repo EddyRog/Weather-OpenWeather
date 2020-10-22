@@ -65,6 +65,7 @@ class SearchViewController: UIViewController ,SearchViewControllerProtocol, NSFe
     
     func start() {
         setUpIconSearchTextField()
+        searchTextField.becomeFirstResponder()
 //        self.interactor?.actionChangeColor()
 //        dataCityFiltered = filterDuplicateDataFetched(c: searchWeatherCoredata.readsCity(predicate: predicateValue))
     }

@@ -80,7 +80,6 @@ class WeatherInteractor: WeatherInteractorProtocol, WeatherInteractorDataStorePr
     }
     
     
-    
     // MARK: - File Private
     /** import data form json. */
     fileprivate func importDataCity() {
@@ -114,3 +113,4 @@ extension WeatherInteractor : AuthorizationDelegate {
         self.presenter?.presentAskLocationAutorization(code: code)
     }
 }
+

@@ -83,7 +83,7 @@ class ConvertorWorker {
             //                return "🌦"
             case let x where x >= 500 && x <= 531:
                 if (idIcon == "09d" || idIcon == "13d" || idIcon == "10d") {
-                    return ("rainy",ConvertorWorker.ColorCondition.rainy.rawValue)
+                    return ("rainyd",ConvertorWorker.ColorCondition.rainy.rawValue)
                 } else {
                     return ("rainyn",ConvertorWorker.ColorCondition.rainyn.rawValue)
                 }
@@ -95,7 +95,8 @@ class ConvertorWorker {
                 return ("snow",ConvertorWorker.ColorCondition.snowy.rawValue)
             //                return "🌨"
             case let x where x >= 701 && x <= 771:
-                return ("mist",ConvertorWorker.ColorCondition.misty.rawValue)
+                // name of picture
+                return ("misty",ConvertorWorker.ColorCondition.misty.rawValue)
             //                return "🌫"
             case let x where x == 781 || x == 900:
                 return ("storm",ConvertorWorker.ColorCondition.storm.rawValue)
