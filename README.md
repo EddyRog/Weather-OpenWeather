@@ -19,7 +19,7 @@ OpenWeather is a minimalist and clean weather application.
 
 ![OpenWeather](https://www.eddyrogier.com/static/media/OpenWeather-s0.1da01c4e.jpg)
 ![OpenWeather](https://www.eddyrogier.com/static/media/OpenWeather-s1.6f50540e.jpg)
-[![Watch the video](https://project.getcode.fr/bmi/video.png)](https://project.getcode.fr/Weather-OpenWeather/Weather-OpenWeather-v0.mp4)
+[![Watch the video](https://cdn.shopify.com/s/files/1/2018/8867/files/play-button.png)](https://project.getcode.fr/Weather-OpenWeather/Weather-OpenWeather-v0.mp4)
 
 #### Purpose
 
